@@ -6,7 +6,7 @@
   <link href="http://blog.sodarain.top/atom.xml" rel="self"/>
   
   <link href="http://blog.sodarain.top/"/>
-  <updated>2020-08-10T06:02:52.388Z</updated>
+  <updated>2020-08-10T12:50:05.004Z</updated>
   <id>http://blog.sodarain.top/</id>
   
   <author>
@@ -15,6 +15,25 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>爬取武生院教务处通知</title>
+    <link href="http://blog.sodarain.top/2020/08/10/%E7%88%AC%E5%8F%96%E6%95%99%E5%8A%A1%E5%A4%84%E9%80%9A%E7%9F%A5/"/>
+    <id>http://blog.sodarain.top/2020/08/10/%E7%88%AC%E5%8F%96%E6%95%99%E5%8A%A1%E5%A4%84%E9%80%9A%E7%9F%A5/</id>
+    <published>2020-08-10T12:50:16.726Z</published>
+    <updated>2020-08-10T12:50:05.004Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;记录一下之前因为某些特殊原因而要去爬取武生院网站通知的代码，防止后面有别的需要而忘记使用方法。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="爬虫" scheme="http://blog.sodarain.top/categories/%E7%88%AC%E8%99%AB/"/>
+    
+    
+    <category term="爬虫" scheme="http://blog.sodarain.top/tags/%E7%88%AC%E8%99%AB/"/>
+    
+  </entry>
   
   <entry>
     <title>Hello World</title>
