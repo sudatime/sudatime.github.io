@@ -6,7 +6,7 @@
   <link href="http://blog.sodarain.top/atom.xml" rel="self"/>
   
   <link href="http://blog.sodarain.top/"/>
-  <updated>2020-08-10T13:30:34.364Z</updated>
+  <updated>2020-08-10T13:32:02.565Z</updated>
   <id>http://blog.sodarain.top/</id>
   
   <author>
@@ -21,17 +21,17 @@
     <link href="http://blog.sodarain.top/2020/08/10/posts/wsy-crawler.html/"/>
     <id>http://blog.sodarain.top/2020/08/10/posts/wsy-crawler.html/</id>
     <published>2020-08-10T13:30:15.084Z</published>
-    <updated>2020-08-10T13:30:34.364Z</updated>
+    <updated>2020-08-10T13:32:02.565Z</updated>
     
     
     <summary type="html">&lt;p&gt;记录一下之前因为某些特殊原因而要去爬取武生院网站通知的代码，防止后面有别的需要而忘记使用方法。&lt;/p&gt;</summary>
     
     
     
-    <category term="爬虫" scheme="http://blog.sodarain.top/categories/%E7%88%AC%E8%99%AB/"/>
+    <category term="crawler" scheme="http://blog.sodarain.top/categories/crawler/"/>
     
     
-    <category term="爬虫" scheme="http://blog.sodarain.top/tags/%E7%88%AC%E8%99%AB/"/>
+    <category term="crawler" scheme="http://blog.sodarain.top/tags/crawler/"/>
     
   </entry>
   
