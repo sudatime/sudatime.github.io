@@ -2,7 +2,7 @@
 <search>
   <entry>
     <title>Hello World</title>
-    <url>/2020/08/10/hello-world/</url>
+    <url>/2020/08/10/posts/4a17b156.html/</url>
     <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
 <a id="more"></a>
 
@@ -25,7 +25,7 @@
   </entry>
   <entry>
     <title>爬取武生院教务处通知</title>
-    <url>/2020/08/10/%E7%88%AC%E5%8F%96%E6%95%99%E5%8A%A1%E5%A4%84%E9%80%9A%E7%9F%A5/</url>
+    <url>/2020/08/10/posts/WsyCrawler.html/</url>
     <content><![CDATA[<p>记录一下之前因为某些特殊原因而要去爬取武生院网站通知的代码，防止后面有别的需要而忘记使用方法。</p>
 <a id="more"></a>
 

@@ -6,7 +6,7 @@
   <link href="http://blog.sodarain.top/atom.xml" rel="self"/>
   
   <link href="http://blog.sodarain.top/"/>
-  <updated>2020-08-10T12:50:05.004Z</updated>
+  <updated>2020-08-10T13:20:42.704Z</updated>
   <id>http://blog.sodarain.top/</id>
   
   <author>
@@ -18,10 +18,10 @@
   
   <entry>
     <title>爬取武生院教务处通知</title>
-    <link href="http://blog.sodarain.top/2020/08/10/%E7%88%AC%E5%8F%96%E6%95%99%E5%8A%A1%E5%A4%84%E9%80%9A%E7%9F%A5/"/>
-    <id>http://blog.sodarain.top/2020/08/10/%E7%88%AC%E5%8F%96%E6%95%99%E5%8A%A1%E5%A4%84%E9%80%9A%E7%9F%A5/</id>
-    <published>2020-08-10T12:50:16.726Z</published>
-    <updated>2020-08-10T12:50:05.004Z</updated>
+    <link href="http://blog.sodarain.top/2020/08/10/posts/WsyCrawler.html/"/>
+    <id>http://blog.sodarain.top/2020/08/10/posts/WsyCrawler.html/</id>
+    <published>2020-08-10T13:14:27.606Z</published>
+    <updated>2020-08-10T13:20:42.704Z</updated>
     
     
     <summary type="html">&lt;p&gt;记录一下之前因为某些特殊原因而要去爬取武生院网站通知的代码，防止后面有别的需要而忘记使用方法。&lt;/p&gt;</summary>
@@ -37,10 +37,10 @@
   
   <entry>
     <title>Hello World</title>
-    <link href="http://blog.sodarain.top/2020/08/10/hello-world/"/>
-    <id>http://blog.sodarain.top/2020/08/10/hello-world/</id>
+    <link href="http://blog.sodarain.top/2020/08/10/posts/4a17b156.html/"/>
+    <id>http://blog.sodarain.top/2020/08/10/posts/4a17b156.html/</id>
     <published>2020-08-10T06:19:36.545Z</published>
-    <updated>2020-08-10T06:02:52.388Z</updated>
+    <updated>2020-08-10T13:03:56.345Z</updated>
     
     
     <summary type="html">&lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.io/docs/&quot;&gt;documentation&lt;/a&gt; for more info. If you get any problems when using Hexo, you can find the answer in &lt;a href=&quot;https://hexo.io/docs/troubleshooting.html&quot;&gt;troubleshooting&lt;/a&gt; or you can ask me on &lt;a href=&quot;https://github.com/hexojs/hexo/issues&quot;&gt;GitHub&lt;/a&gt;.&lt;/p&gt;</summary>
