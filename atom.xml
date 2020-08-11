@@ -3,11 +3,11 @@
   <title>SODA</title>
   
   <subtitle>你可长点心吧！点心？什么点心？</subtitle>
-  <link href="http://blog.sodarain.top/atom.xml" rel="self"/>
+  <link href="https://blog.sodarain.top/atom.xml" rel="self"/>
   
-  <link href="http://blog.sodarain.top/"/>
-  <updated>2020-08-10T13:55:08.053Z</updated>
-  <id>http://blog.sodarain.top/</id>
+  <link href="https://blog.sodarain.top/"/>
+  <updated>2020-08-11T08:50:06.653Z</updated>
+  <id>https://blog.sodarain.top/</id>
   
   <author>
     <name>sudatime</name>
@@ -17,9 +17,28 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>nginx实现负载均衡</title>
+    <link href="https://blog.sodarain.top/2020/08/11/posts/nginxConfig.html/"/>
+    <id>https://blog.sodarain.top/2020/08/11/posts/nginxConfig.html/</id>
+    <published>2020-08-11T08:38:12.000Z</published>
+    <updated>2020-08-11T08:50:06.653Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;Nginx可以配置代理多台服务器，当一台服务器宕机之后，仍能保持系统可用。记录一下nginx负载均衡的实现，配置文件如下：&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="nginx" scheme="https://blog.sodarain.top/categories/nginx/"/>
+    
+    
+    <category term="nginx" scheme="https://blog.sodarain.top/tags/nginx/"/>
+    
+  </entry>
+  
+  <entry>
     <title>爬取武生院教务处通知</title>
-    <link href="http://blog.sodarain.top/2020/08/10/posts/wsy-crawler.html/"/>
-    <id>http://blog.sodarain.top/2020/08/10/posts/wsy-crawler.html/</id>
+    <link href="https://blog.sodarain.top/2020/08/10/posts/wsy-crawler.html/"/>
+    <id>https://blog.sodarain.top/2020/08/10/posts/wsy-crawler.html/</id>
     <published>2020-08-10T13:57:00.181Z</published>
     <updated>2020-08-10T13:55:08.053Z</updated>
     
@@ -28,10 +47,10 @@
     
     
     
-    <category term="crawler" scheme="http://blog.sodarain.top/categories/crawler/"/>
+    <category term="crawler" scheme="https://blog.sodarain.top/categories/crawler/"/>
     
     
-    <category term="crawler" scheme="http://blog.sodarain.top/tags/crawler/"/>
+    <category term="crawler" scheme="https://blog.sodarain.top/tags/crawler/"/>
     
   </entry>
   
