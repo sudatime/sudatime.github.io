@@ -6,7 +6,7 @@
   <link href="https://blog.sodarain.top/atom.xml" rel="self"/>
   
   <link href="https://blog.sodarain.top/"/>
-  <updated>2020-08-11T08:50:06.653Z</updated>
+  <updated>2020-08-12T00:27:47.732Z</updated>
   <id>https://blog.sodarain.top/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://blog.sodarain.top/2020/08/11/posts/nginxConfig.html/"/>
     <id>https://blog.sodarain.top/2020/08/11/posts/nginxConfig.html/</id>
     <published>2020-08-11T08:38:12.000Z</published>
-    <updated>2020-08-11T08:50:06.653Z</updated>
+    <updated>2020-08-12T00:27:47.732Z</updated>
     
     
     <summary type="html">&lt;p&gt;Nginx可以配置代理多台服务器，当一台服务器宕机之后，仍能保持系统可用。记录一下nginx负载均衡的实现，配置文件如下：&lt;/p&gt;</summary>

@@ -49,7 +49,9 @@
 <p>max_fails ：允许请求失败的次数默认为1.当超过最大次数时，返回proxy_next_upstream 模块定义的错误.</p>
 <p>fail_timeout : max_fails次失败后，暂停的时间。</p>
 <p>backup： 其它所有的非backup机器down或者忙的时候，请求backup机器。所以这台机器压力会最轻。</p>
-<p>upstream bakend{ #定义负载均衡设备的Ip及设备状态<br>   ip_hash;<br>   server 10.0.0.11:9090 down;<br>   server 10.0.0.11:8080 weight=2;<br>   server 10.0.0.11:6060;<br>   server 10.0.0.11:7070 backup;<br>}</p>
+<p>upstream bakend{ #定义负载均衡设备的Ip及设备状态 </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"> ip_hash; </span><br><span class="line">   server 10.0.0.11:9090 down; </span><br><span class="line">   server 10.0.0.11:8080 weight&#x3D;2; </span><br><span class="line">   server 10.0.0.11:6060; </span><br><span class="line">   server 10.0.0.11:7070 backup; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 ]]></content>
       <categories>
         <category>nginx</category>
