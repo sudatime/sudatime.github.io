@@ -239,6 +239,15 @@
             </span>
 
           
+            <span id="/2020/08/11/posts/nginxConfig.html/" class="post-meta-item leancloud_visitors" data-flag-title="nginx实现负载均衡" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  
 
         </div>
       </header>
@@ -316,7 +325,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-08-12 11:49:15" itemprop="dateModified" datetime="2020-08-12T11:49:15+08:00">2020-08-12</time>
+                <time title="修改时间：2020-08-12 15:25:27" itemprop="dateModified" datetime="2020-08-12T15:25:27+08:00">2020-08-12</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -329,6 +338,15 @@
             </span>
 
           
+            <span id="/2020/08/10/posts/wsy-crawler.html/" class="post-meta-item leancloud_visitors" data-flag-title="爬取武生院教务处通知" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  
 
         </div>
       </header>
@@ -597,6 +615,35 @@ Sometimes your whole life boils down to one insane move.
   
 
   
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('cdn.jsdelivr.net/npm/valine@1/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : true,
+      appId      : 'dzwWlD2eeykpcghn8PaEo3A6-gzGzoHsz',
+      appKey     : '9WI5KOSjSw3SbAEaOJhd1GD7',
+      placeholder: "(。・∀・)ノ🍻)",
+      avatar     : 'mp',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : ,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
 
  
 </body>

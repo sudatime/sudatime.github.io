@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://blog.sodarain.top/2020/08/10/posts/wsy-crawler.html/</loc>
+    
+    <lastmod>2020-08-12</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://blog.sodarain.top/tags/index.html</loc>
     
     <lastmod>2020-08-12</lastmod>
@@ -10,13 +17,6 @@
   
   <url>
     <loc>https://blog.sodarain.top/categories/index.html</loc>
-    
-    <lastmod>2020-08-12</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://blog.sodarain.top/2020/08/10/posts/wsy-crawler.html/</loc>
     
     <lastmod>2020-08-12</lastmod>
     
