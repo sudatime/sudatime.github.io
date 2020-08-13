@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://blog.sodarain.top/2020/08/13/posts/4a17b156.html/</loc>
+    
+    <lastmod>2020-08-13</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://blog.sodarain.top/2020/08/13/posts/test.html/</loc>
+    
+    <lastmod>2020-08-13</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://blog.sodarain.top/2020/08/13/posts/802f7ce0.html/</loc>
     
     <lastmod>2020-08-13</lastmod>
@@ -74,6 +88,13 @@
   </url>
   
   <url>
+    <loc>https://blog.sodarain.top/tags/test/</loc>
+    <lastmod>2020-08-13</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://blog.sodarain.top/tags/valine/</loc>
     <lastmod>2020-08-13</lastmod>
     <changefreq>daily</changefreq>
@@ -90,7 +111,21 @@
 
   
   <url>
+    <loc>https://blog.sodarain.top/categories/%E5%88%9D%E5%A7%8B%E5%8C%96/</loc>
+    <lastmod>2020-08-13</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://blog.sodarain.top/categories/nginx/</loc>
+    <lastmod>2020-08-13</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.sodarain.top/categories/test/</loc>
     <lastmod>2020-08-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
