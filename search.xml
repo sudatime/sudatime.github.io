@@ -62,7 +62,7 @@
   <entry>
     <title>valine改为本地加载</title>
     <url>/2020/08/13/posts/802f7ce0.html/</url>
-    <content><![CDATA[<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>主题next7.8 </p>
+    <content><![CDATA[<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>主题next7.8  valine 1.4.14</p>
 <h2 id="找到模板源文件"><a href="#找到模板源文件" class="headerlink" title="找到模板源文件"></a>找到模板源文件</h2><p>通过以下路径找到</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">\themes\next\layout\_third-party\comments\valine.swig</span><br></pre></td></tr></table></figure>
 
@@ -79,6 +79,7 @@
 <p>应该这样写 ↓</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;script type&#x3D;&quot;text&#x2F;javascript&quot; src&#x3D;&quot;&#x2F;js&#x2F;Valine.min.js&quot;&gt;&lt;&#x2F;script&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">    var GUEST &#x3D; [&#39;nick&#39;, &#39;mail&#39;, &#39;link&#39;];</span><br><span class="line">    var guest &#x3D; &#39;&#123;&#123; theme.valine.guest_info &#125;&#125;&#39;;</span><br><span class="line">    guest &#x3D; guest.split(&#39;,&#39;).filter(item &#x3D;&gt; &#123;</span><br><span class="line">      return GUEST.includes(item);</span><br><span class="line">    &#125;);</span><br><span class="line">    new Valine(&#123;</span><br><span class="line">      el         : &#39;#valine-comments&#39;,</span><br><span class="line">      verify     : &#123;&#123; theme.valine.verify &#125;&#125;,</span><br><span class="line">      notify     : &#123;&#123; theme.valine.notify &#125;&#125;,</span><br><span class="line">      appId      : &#39;&#123;&#123; theme.valine.appid &#125;&#125;&#39;,</span><br><span class="line">      appKey     : &#39;&#123;&#123; theme.valine.appkey &#125;&#125;&#39;,</span><br><span class="line">      placeholder: &#123;&#123; theme.valine.placeholder | json &#125;&#125;,</span><br><span class="line">      avatar     : &#39;&#123;&#123; theme.valine.avatar &#125;&#125;&#39;,</span><br><span class="line">      meta       : guest,</span><br><span class="line">      pageSize   : &#39;&#123;&#123; theme.valine.pageSize &#125;&#125;&#39; || 10,</span><br><span class="line">      visitor    : &#123;&#123; theme.valine.visitor &#125;&#125;,</span><br><span class="line">      lang       : &#39;&#123;&#123; theme.valine.language &#125;&#125;&#39; || &#39;zh-cn&#39;,</span><br><span class="line">      path       : location.pathname,</span><br><span class="line">      recordIP   : &#123;&#123; theme.valine.recordIP &#125;&#125;,</span><br><span class="line">      serverURLs : &#39;&#123;&#123; theme.valine.serverURLs &#125;&#125;&#39;</span><br><span class="line">    &#125;);</span><br><span class="line">&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
 
+<h2 id="Valine-min-js获取方式"><a href="#Valine-min-js获取方式" class="headerlink" title="Valine.min.js获取方式"></a>Valine.min.js获取方式</h2><p>访问 <a href="https://unpkg.com/valine/dist/Valine.min.js">这里</a> 复制全部代码，新建一个Valine.min.js，放进去 保存 放在 <code>主题\source\js</code>里面</p>
 ]]></content>
       <categories>
         <category>valine</category>
