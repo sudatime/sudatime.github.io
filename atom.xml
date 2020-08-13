@@ -6,7 +6,7 @@
   <link href="https://blog.sodarain.top/atom.xml" rel="self"/>
   
   <link href="https://blog.sodarain.top/"/>
-  <updated>2020-08-13T06:15:07.901Z</updated>
+  <updated>2020-08-13T02:17:51.437Z</updated>
   <id>https://blog.sodarain.top/</id>
   
   <author>
@@ -15,31 +15,6 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title>test</title>
-    <link href="https://blog.sodarain.top/2020/08/13/posts/test.html/"/>
-    <id>https://blog.sodarain.top/2020/08/13/posts/test.html/</id>
-    <published>2020-08-13T05:57:09.000Z</published>
-    <updated>2020-08-13T06:15:07.901Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h2 id=&quot;two&quot;&gt;&lt;a href=&quot;#two&quot; class=&quot;headerlink&quot; title=&quot;two&quot;&gt;&lt;/a&gt;two&lt;/h2&gt;&lt;h3 id=&quot;three&quot;&gt;&lt;a href=&quot;#three&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="test" scheme="https://blog.sodarain.top/categories/test/"/>
-    
-    
-    <category term="test" scheme="https://blog.sodarain.top/tags/test/"/>
-    
-  </entry>
   
   <entry>
     <title>valine改为本地加载</title>
@@ -78,23 +53,6 @@
     
     
     <category term="nginx" scheme="https://blog.sodarain.top/tags/nginx/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Hello World</title>
-    <link href="https://blog.sodarain.top/2020/08/10/posts/4a17b156.html/"/>
-    <id>https://blog.sodarain.top/2020/08/10/posts/4a17b156.html/</id>
-    <published>2020-08-10T14:03:43.537Z</published>
-    <updated>2020-08-10T14:03:43.537Z</updated>
-    
-    
-    <summary type="html">&lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.io/docs/&quot;&gt;documentation&lt;/a&gt; for more info. If you get any problems when using Hexo, you can find the answer in &lt;a href=&quot;https://hexo.io/docs/troubleshooting.html&quot;&gt;troubleshooting&lt;/a&gt; or you can ask me on &lt;a href=&quot;https://github.com/hexojs/hexo/issues&quot;&gt;GitHub&lt;/a&gt;.&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="初始化" scheme="https://blog.sodarain.top/categories/%E5%88%9D%E5%A7%8B%E5%8C%96/"/>
-    
     
   </entry>
   
