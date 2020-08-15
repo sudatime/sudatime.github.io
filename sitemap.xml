@@ -2,28 +2,28 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://blog.sodarain.top/2020/08/15/posts/80ff7aac.html/</loc>
+    <loc>https://blog.sodarain.top/essay/80ff7aac.html/</loc>
     
     <lastmod>2020-08-15</lastmod>
     
   </url>
   
   <url>
-    <loc>https://blog.sodarain.top/2020/08/15/posts/wsy-crawler.html/</loc>
+    <loc>https://blog.sodarain.top/essay/wsy-crawler.html/</loc>
     
     <lastmod>2020-08-15</lastmod>
     
   </url>
   
   <url>
-    <loc>https://blog.sodarain.top/2020/08/11/posts/nginx-config.html/</loc>
+    <loc>https://blog.sodarain.top/essay/nginx-config.html/</loc>
     
     <lastmod>2020-08-15</lastmod>
     
   </url>
   
   <url>
-    <loc>https://blog.sodarain.top/2020/08/13/posts/802f7ce0.html/</loc>
+    <loc>https://blog.sodarain.top/essay/802f7ce0.html/</loc>
     
     <lastmod>2020-08-15</lastmod>
     
@@ -74,14 +74,14 @@
 
   
   <url>
-    <loc>https://blog.sodarain.top/tags/next/</loc>
+    <loc>https://blog.sodarain.top/tags/nginx/</loc>
     <lastmod>2020-08-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://blog.sodarain.top/tags/nginx/</loc>
+    <loc>https://blog.sodarain.top/tags/next/</loc>
     <lastmod>2020-08-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -104,14 +104,14 @@
 
   
   <url>
-    <loc>https://blog.sodarain.top/categories/next/</loc>
+    <loc>https://blog.sodarain.top/categories/%E5%90%8E%E7%AB%AF/</loc>
     <lastmod>2020-08-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://blog.sodarain.top/categories/%E5%90%8E%E7%AB%AF/</loc>
+    <loc>https://blog.sodarain.top/categories/next/</loc>
     <lastmod>2020-08-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -125,14 +125,14 @@
   </url>
   
   <url>
-    <loc>https://blog.sodarain.top/categories/next/bug/</loc>
+    <loc>https://blog.sodarain.top/categories/%E5%90%8E%E7%AB%AF/nginx/</loc>
     <lastmod>2020-08-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://blog.sodarain.top/categories/%E5%90%8E%E7%AB%AF/nginx/</loc>
+    <loc>https://blog.sodarain.top/categories/next/bug/</loc>
     <lastmod>2020-08-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
