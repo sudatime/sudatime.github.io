@@ -1,128 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>nginx实现负载均衡</title>
-    <url>/2020/08/11/posts/nginx-config.html/</url>
-    <content><![CDATA[<p>Nginx可以配置代理多台服务器，当一台服务器宕机之后，仍能保持系统可用。记录一下nginx负载均衡的实现，配置文件如下：</p>
+    <title>中文标题测试</title>
+    <url>/2020/08/15/posts/zh_title.html/</url>
+    <content><![CDATA[<p>中文标题测试页面</p>
 <a id="more"></a>
 
-<ol>
-<li>在http节点下，添加upstream节点。</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">upstream abc &#123; </span><br><span class="line">   server localhost:7080; </span><br><span class="line">   server localhost:8980; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ol start="2">
-<li>将server节点下的location节点中的proxy_pass配置为：http:// + upstream名称，即</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">location &#x2F; &#123; </span><br><span class="line">    root  html; </span><br><span class="line">    &#x2F;&#x2F;http:&#x2F;&#x2F; + upstream名称</span><br><span class="line">    proxy_pass http:&#x2F;&#x2F;abc; </span><br><span class="line">    index  index.html index.htm; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>upstream按照轮询（默认）方式进行负载，每个请求按时间顺序逐一分配到不同的后端服务器，如果后端服务器down掉，能自动剔除。虽然这种方式简便、成本低廉。但缺点是：可靠性低和负载分配不均衡。适用于图片服务器集群和纯静态页面服务器集群。除此之外，upstream还有其它的分配策略，分别如下：</p>
-<ol>
-<li>weight（权重）</li>
-</ol>
-<p>指定轮询几率，weight和访问比率成正比，用于后端服务器性能不均的情况。如下所示，10.0.0.88的访问比率要比10.0.0.77的访问比率高一倍。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">upstream linuxidc&#123; </span><br><span class="line">      server 10.0.0.77 weight&#x3D;5; </span><br><span class="line">      server 10.0.0.88 weight&#x3D;10; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ol start="2">
-<li>ip_hash（访问ip）</li>
-</ol>
-<p>每个请求按访问ip的hash结果分配，这样每个访客固定访问一个后端服务器，可以解决session的问题。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">upstream favresin&#123; </span><br><span class="line">      ip_hash; </span><br><span class="line">      server 10.0.0.10:8080; </span><br><span class="line">      server 10.0.0.11:8080; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ol start="3">
-<li><p>fair（第三方）</p>
-<p>按后端服务器的响应时间来分配请求，响应时间短的优先分配。与weight分配策略类似。</p>
-</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"> upstream abc&#123;   </span><br><span class="line">   server 10.0.0.10:8080; </span><br><span class="line">   server 10.0.0.11:8080; </span><br><span class="line">   fair; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ol start="4">
-<li>url_hash（第三方）</li>
-</ol>
-<p>按访问url的hash结果来分配请求，使每个url定向到同一个后端服务器，后端服务器为缓存时比较有效。</p>
-<p>注意：在upstream中加入hash语句，server语句中不能写入weight等其他的参数，hash_method是使用的hash算法。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"> upstream abc&#123; </span><br><span class="line">   server 10.0.0.10:7777; </span><br><span class="line">   server 10.0.0.11:8888; </span><br><span class="line">   hash $request_uri; </span><br><span class="line">   hash_method crc32; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>upstream还可以为每个设备设置状态值，这些状态值的含义分别如下：</p>
-<p>down 表示单前的server暂时不参与负载.</p>
-<p>weight 默认为1.weight越大，负载的权重就越大。</p>
-<p>max_fails ：允许请求失败的次数默认为1.当超过最大次数时，返回proxy_next_upstream 模块定义的错误.</p>
-<p>fail_timeout : max_fails次失败后，暂停的时间。</p>
-<p>backup： 其它所有的非backup机器down或者忙的时候，请求backup机器。所以这台机器压力会最轻。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">upstream bakend&#123; #定义负载均衡设备的Ip及设备状态 </span><br><span class="line"> ip_hash; </span><br><span class="line">   server 10.0.0.11:9090 down; </span><br><span class="line">   server 10.0.0.11:8080 weight&#x3D;2; </span><br><span class="line">   server 10.0.0.11:6060; </span><br><span class="line">   server 10.0.0.11:7070 backup; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-]]></content>
+<h1 id="这是一级标题"><a href="#这是一级标题" class="headerlink" title="这是一级标题"></a>这是一级标题</h1><h2 id="这是二级标题"><a href="#这是二级标题" class="headerlink" title="这是二级标题"></a>这是二级标题</h2><h3 id="这是三级标题"><a href="#这是三级标题" class="headerlink" title="这是三级标题"></a>这是三级标题</h3><h3 id="这是四级标题"><a href="#这是四级标题" class="headerlink" title="这是四级标题"></a>这是四级标题</h3><p>===========================================================</p>
+<h1 id="这是一级标题-1"><a href="#这是一级标题-1" class="headerlink" title="这是一级标题"></a>这是一级标题</h1><h2 id="这是二级标题-1"><a href="#这是二级标题-1" class="headerlink" title="这是二级标题"></a>这是二级标题</h2><h3 id="这是三级标题-1"><a href="#这是三级标题-1" class="headerlink" title="这是三级标题"></a>这是三级标题</h3><h4 id="这是四级标题-1"><a href="#这是四级标题-1" class="headerlink" title="这是四级标题"></a>这是四级标题</h4>]]></content>
       <categories>
-        <category>nginx</category>
+        <category>test</category>
       </categories>
-      <tags>
-        <tag>nginx</tag>
-      </tags>
   </entry>
   <entry>
-    <title>valine改为本地加载</title>
-    <url>/2020/08/13/posts/802f7ce0.html/</url>
-    <content><![CDATA[<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>主题next7.8  valine 1.4.14</p>
-<h2 id="找到模板源文件"><a href="#找到模板源文件" class="headerlink" title="找到模板源文件"></a>找到模板源文件</h2><p>通过以下路径找到</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">\themes\next\layout\_third-party\comments\valine.swig</span><br></pre></td></tr></table></figure>
-
+    <title>英文标题测试</title>
+    <url>/2020/08/15/posts/en_title.html/</url>
+    <content><![CDATA[<p>英文标题测试页面</p>
 <a id="more"></a>
 
-<p>打开代码</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;%- set valine_uri &#x3D; theme.vendors.valine or &#39;&#x2F;&#x2F;unpkg.com&#x2F;valine&#x2F;dist&#x2F;Valine.min.js&#39; %&#125;</span><br></pre></td></tr></table></figure>
-
-<p>从第一行代码可以看出，它是通过网络加载，然后用<code>NexT.utils</code>来进行获取参数  <del>我们可以不用管，直接删掉</del></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">NexT.utils.getScript(&#39;&#123;&#123; valine_uri &#125;&#125;&#39;, () &#x3D;&gt; &#123;</span><br><span class="line">    var GUEST &#x3D; [&#39;nick&#39;, &#39;mail&#39;, &#39;link&#39;];</span><br><span class="line">    var guest &#x3D; &#39;&#123;&#123; theme.valine.guest_info &#125;&#125;&#39;;</span><br><span class="line">    guest &#x3D; guest.split(&#39;,&#39;).filter(item &#x3D;&gt; &#123;</span><br><span class="line">      return GUEST.includes(item);</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
-
-<p><del>只留下主体new Valine 代码</del></p>
-<p><code>这样操作会导致读取不到guest</code></p>
-<p>应该这样写 ↓</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;script type&#x3D;&quot;text&#x2F;javascript&quot; src&#x3D;&quot;&#x2F;js&#x2F;Valine.min.js&quot;&gt;&lt;&#x2F;script&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">    var GUEST &#x3D; [&#39;nick&#39;, &#39;mail&#39;, &#39;link&#39;];</span><br><span class="line">    var guest &#x3D; &#39;&#123;&#123; theme.valine.guest_info &#125;&#125;&#39;;</span><br><span class="line">    guest &#x3D; guest.split(&#39;,&#39;).filter(item &#x3D;&gt; &#123;</span><br><span class="line">      return GUEST.includes(item);</span><br><span class="line">    &#125;);</span><br><span class="line">    new Valine(&#123;</span><br><span class="line">      el         : &#39;#valine-comments&#39;,</span><br><span class="line">      verify     : &#123;&#123; theme.valine.verify &#125;&#125;,</span><br><span class="line">      notify     : &#123;&#123; theme.valine.notify &#125;&#125;,</span><br><span class="line">      appId      : &#39;&#123;&#123; theme.valine.appid &#125;&#125;&#39;,</span><br><span class="line">      appKey     : &#39;&#123;&#123; theme.valine.appkey &#125;&#125;&#39;,</span><br><span class="line">      placeholder: &#123;&#123; theme.valine.placeholder | json &#125;&#125;,</span><br><span class="line">      avatar     : &#39;&#123;&#123; theme.valine.avatar &#125;&#125;&#39;,</span><br><span class="line">      meta       : guest,</span><br><span class="line">      pageSize   : &#39;&#123;&#123; theme.valine.pageSize &#125;&#125;&#39; || 10,</span><br><span class="line">      visitor    : &#123;&#123; theme.valine.visitor &#125;&#125;,</span><br><span class="line">      lang       : &#39;&#123;&#123; theme.valine.language &#125;&#125;&#39; || &#39;zh-cn&#39;,</span><br><span class="line">      path       : location.pathname,</span><br><span class="line">      recordIP   : &#123;&#123; theme.valine.recordIP &#125;&#125;,</span><br><span class="line">      serverURLs : &#39;&#123;&#123; theme.valine.serverURLs &#125;&#125;&#39;</span><br><span class="line">    &#125;);</span><br><span class="line">&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
-
-<h2 id="Valine-min-js获取方式"><a href="#Valine-min-js获取方式" class="headerlink" title="Valine.min.js获取方式"></a>Valine.min.js获取方式</h2><p>访问 <a href="https://unpkg.com/valine/dist/Valine.min.js">这里</a> 复制全部代码，新建一个Valine.min.js，放进去 保存 放在 <code>主题\source\js</code>里面</p>
-]]></content>
+<h1 id="This-is-the-first-level-title"><a href="#This-is-the-first-level-title" class="headerlink" title="This is the first level title"></a>This is the first level title</h1><h2 id="This-is-a-secondary-title"><a href="#This-is-a-secondary-title" class="headerlink" title="This is a secondary title"></a>This is a secondary title</h2><h3 id="This-is-a-three-level-title"><a href="#This-is-a-three-level-title" class="headerlink" title="This is a three-level title"></a>This is a three-level title</h3><h4 id="This-is-the-fourth-level-title"><a href="#This-is-the-fourth-level-title" class="headerlink" title="This is the fourth level title"></a>This is the fourth level title</h4><p>===========================================================</p>
+<h1 id="This-is-the-first-level-title-1"><a href="#This-is-the-first-level-title-1" class="headerlink" title="This is the first level title"></a>This is the first level title</h1><h2 id="This-is-a-secondary-title-1"><a href="#This-is-a-secondary-title-1" class="headerlink" title="This is a secondary title"></a>This is a secondary title</h2><h3 id="This-is-a-three-level-title-1"><a href="#This-is-a-three-level-title-1" class="headerlink" title="This is a three-level title"></a>This is a three-level title</h3><h4 id="This-is-the-fourth-level-title-1"><a href="#This-is-the-fourth-level-title-1" class="headerlink" title="This is the fourth level title"></a>This is the fourth level title</h4>]]></content>
       <categories>
-        <category>valine</category>
+        <category>test</category>
       </categories>
-      <tags>
-        <tag>valine</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>爬取武生院教务处通知</title>
-    <url>/2020/08/10/posts/wsy-crawler.html/</url>
-    <content><![CDATA[<p>记录一下之前因为某些特殊原因而要去爬取武生院网站通知的代码，防止后面有别的需要而忘记使用方法。</p>
-<a id="more"></a>
-
-<h2 id="Jsoup介绍"><a href="#Jsoup介绍" class="headerlink" title="Jsoup介绍"></a>Jsoup介绍</h2><p>jsoup 是一款Java 的HTML解析器，可直接解析某个URL地址、HTML文本内容。它提供了一套非常省力的API，可通过DOM，CSS以及类似于jQuery的操作方法来取出和操作数据。 –来源百度百科</p>
-<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>采用Springboot 2.3.0搭建环境</p>
-<p>依赖如下：</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!--起步依赖--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--此为核心包 jsoup爬虫--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.jsoup<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jsoup<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.11.3<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="核心代码"><a href="#核心代码" class="headerlink" title="核心代码"></a>核心代码</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">getNotice</span><span class="params">(Integer tbodyIndex, Integer trNum)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    <span class="comment">//获取document对象</span></span><br><span class="line">    Document document = Jsoup.connect(URL).get();</span><br><span class="line">    <span class="comment">//获取第7个tbody的内容</span></span><br><span class="line">    Elements tbody = document.select(<span class="string">&quot;tbody&quot;</span>).eq(tbodyIndex);</span><br><span class="line">    <span class="comment">//System.out.println(tbody.toString());</span></span><br><span class="line">    List&lt;Article&gt; articles = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; trNum; i++) &#123;</span><br><span class="line">        Elements tr = tbody.select(<span class="string">&quot;tr&quot;</span>).eq(i);</span><br><span class="line">        Elements td1 = tr.select(<span class="string">&quot;td&quot;</span>).eq(<span class="number">0</span>);</span><br><span class="line">        Elements td2 = tr.select(<span class="string">&quot;td&quot;</span>).eq(<span class="number">2</span>);</span><br><span class="line">        String href = URL + td1.select(<span class="string">&quot;a&quot;</span>).attr(<span class="string">&quot;href&quot;</span>);</span><br><span class="line">        <span class="keyword">int</span> index = href.indexOf(<span class="string">&quot;id&quot;</span>);</span><br><span class="line">        <span class="comment">//截取id的数字字段</span></span><br><span class="line">        String id = href.substring(index + <span class="number">3</span>, index + <span class="number">7</span>);</span><br><span class="line">        String body = td1.select(<span class="string">&quot;a&quot;</span>).text();</span><br><span class="line">        String date = td2.text();</span><br><span class="line">        Article article = <span class="keyword">new</span> Article(Integer.parseInt(id), body, href, DateUtils.parseString2Date(date));</span><br><span class="line">        articles.add(article);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> sendMessage(articles);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Document document = Jsoup.connect(URL).get();</span><br></pre></td></tr></table></figure>
-
-<p>这行代码能够访问指定的URL路径来获取返回的静态页面</p>
-<p>通过分析得到的html可以得知我们想要的<strong>新闻通知</strong>区域在第7个tbody中</p>
-<p>打印输出的tbody，可以发现数据都存放在tr标签里面，分了三个td小标签</p>
-<p>我们只取我们想要的数据：</p>
-<ol>
-<li>第一个td里面是文章链接，不带域名的。</li>
-<li>第二个td里面是文章后面的gif图片，没啥用</li>
-<li>第三个td里面是日期</li>
-</ol>
-<p>所以我们可以使用</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Elements td1 = tr.select(<span class="string">&quot;td&quot;</span>).eq(<span class="number">0</span>);</span><br><span class="line">Elements td2 = tr.select(<span class="string">&quot;td&quot;</span>).eq(<span class="number">2</span>);</span><br></pre></td></tr></table></figure>
-
-<p>来获取链接和日期 使用Article对象来进行封装。得到文章对象之后，要做什么处理就方便了。</p>
-<h3 id="意外收获"><a href="#意外收获" class="headerlink" title="意外收获"></a>意外收获</h3><p>写完之后想继续爬取其他模块的，意外的发现其他模块结构类似，只是tbody和tr值不同，所以封装成一个方法。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//新闻通知</span></span><br><span class="line"><span class="keyword">boolean</span> news = getNotice(<span class="number">6</span>, <span class="number">9</span>);</span><br><span class="line"><span class="comment">//教务管理</span></span><br><span class="line"><span class="keyword">boolean</span> manage = getNotice(<span class="number">11</span>, <span class="number">6</span>);</span><br><span class="line"><span class="comment">//教学研究</span></span><br><span class="line"><span class="keyword">boolean</span> research = getNotice(<span class="number">13</span>, <span class="number">6</span>);</span><br><span class="line"><span class="comment">//学籍管理</span></span><br><span class="line"><span class="keyword">boolean</span> schoolRoll = getNotice(<span class="number">15</span>, <span class="number">6</span>);</span><br><span class="line"><span class="comment">//实践教学</span></span><br><span class="line"><span class="keyword">boolean</span> practice = getNotice(<span class="number">21</span>, <span class="number">6</span>);</span><br><span class="line"><span class="comment">//质量管理</span></span><br><span class="line"><span class="keyword">boolean</span> quality = getNotice(<span class="number">23</span>, <span class="number">6</span>);</span><br><span class="line"><span class="comment">//下载专区</span></span><br><span class="line"><span class="keyword">boolean</span> download = getNotice(<span class="number">25</span>, <span class="number">6</span>);</span><br><span class="line"><span class="comment">//工作例会</span></span><br><span class="line"><span class="keyword">boolean</span> work = getNotice(<span class="number">29</span>, <span class="number">6</span>);</span><br><span class="line"><span class="comment">//考务管理</span></span><br><span class="line"><span class="keyword">boolean</span> exam = getNotice(<span class="number">31</span>, <span class="number">6</span>);</span><br><span class="line"><span class="comment">//学习动态</span></span><br><span class="line"><span class="keyword">boolean</span> study = getNotice(<span class="number">33</span>, <span class="number">6</span>);</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>crawler</category>
-      </categories>
-      <tags>
-        <tag>crawler</tag>
-      </tags>
   </entry>
 </search>

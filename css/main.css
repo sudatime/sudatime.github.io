@@ -953,11 +953,11 @@ pre .javascript .function {
 }
 .main-inner {
   margin: 0 auto;
-  width: calc(100% - 20px);
+  width: 700px;
 }
 @media (min-width: 1200px) {
   .main-inner {
-    width: 1160px;
+    width: 1100px;
   }
 }
 @media (min-width: 1600px) {
@@ -975,11 +975,11 @@ pre .javascript .function {
 }
 .header-inner {
   margin: 0 auto;
-  width: calc(100% - 20px);
+  width: 700px;
 }
 @media (min-width: 1200px) {
   .header-inner {
-    width: 1160px;
+    width: 1100px;
   }
 }
 @media (min-width: 1600px) {
@@ -1197,7 +1197,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #2bff21;
+  background: #01df69;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -1405,11 +1405,11 @@ pre .javascript .function {
   box-sizing: border-box;
   margin: 0 auto;
   text-align: center;
-  width: calc(100% - 20px);
+  width: 700px;
 }
 @media (min-width: 1200px) {
   .footer-inner {
-    width: 1160px;
+    width: 1100px;
   }
 }
 @media (min-width: 1600px) {
@@ -2269,11 +2269,11 @@ ul.breadcrumb li + li:last-child {
 .header {
   margin: 0 auto;
   position: relative;
-  width: calc(100% - 20px);
+  width: 700px;
 }
 @media (min-width: 1200px) {
   .header {
-    width: 1160px;
+    width: 1100px;
   }
 }
 @media (min-width: 1600px) {
@@ -2488,7 +2488,6 @@ ul.breadcrumb li + li:last-child {
   box-sizing: border-box;
   color: var(--text-color);
   width: 240px;
-  opacity: 0;
 }
 .sidebar-inner.affix {
   position: fixed;
@@ -2716,7 +2715,7 @@ ul.breadcrumb li + li:last-child {
   float: left;
 }
 .back-to-top:hover {
-  color: #f6b764;
+  color: #eee;
   background-color: rgba(0,0,0,0.75);
 }
 .highlight figcaption a {

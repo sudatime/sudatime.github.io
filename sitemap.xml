@@ -2,9 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://blog.sodarain.top/2020/08/13/posts/802f7ce0.html/</loc>
+    <loc>https://blog.sodarain.top/2020/08/15/posts/en_title.html/</loc>
     
-    <lastmod>2020-08-13</lastmod>
+    <lastmod>2020-08-15</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://blog.sodarain.top/2020/08/15/posts/zh_title.html/</loc>
+    
+    <lastmod>2020-08-15</lastmod>
     
   </url>
   
@@ -30,20 +37,6 @@
   </url>
   
   <url>
-    <loc>https://blog.sodarain.top/2020/08/11/posts/nginx-config.html/</loc>
-    
-    <lastmod>2020-08-12</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://blog.sodarain.top/2020/08/10/posts/wsy-crawler.html/</loc>
-    
-    <lastmod>2020-08-12</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://blog.sodarain.top/404.html</loc>
     
     <lastmod>2020-08-10</lastmod>
@@ -60,52 +53,17 @@
 
   <url>
     <loc>https://blog.sodarain.top/</loc>
-    <lastmod>2020-08-13</lastmod>
+    <lastmod>2020-08-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
 
   
-  <url>
-    <loc>https://blog.sodarain.top/tags/nginx/</loc>
-    <lastmod>2020-08-13</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.sodarain.top/tags/valine/</loc>
-    <lastmod>2020-08-13</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.sodarain.top/tags/crawler/</loc>
-    <lastmod>2020-08-13</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
 
   
   <url>
-    <loc>https://blog.sodarain.top/categories/nginx/</loc>
-    <lastmod>2020-08-13</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.sodarain.top/categories/valine/</loc>
-    <lastmod>2020-08-13</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.sodarain.top/categories/crawler/</loc>
-    <lastmod>2020-08-13</lastmod>
+    <loc>https://blog.sodarain.top/categories/test/</loc>
+    <lastmod>2020-08-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
