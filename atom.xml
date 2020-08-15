@@ -6,7 +6,7 @@
   <link href="https://blog.sodarain.top/atom.xml" rel="self"/>
   
   <link href="https://blog.sodarain.top/"/>
-  <updated>2020-08-15T02:23:47.934Z</updated>
+  <updated>2020-08-15T07:52:52.708Z</updated>
   <id>https://blog.sodarain.top/</id>
   
   <author>
@@ -17,36 +17,89 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>中文标题测试</title>
-    <link href="https://blog.sodarain.top/2020/08/15/posts/zh_title.html/"/>
-    <id>https://blog.sodarain.top/2020/08/15/posts/zh_title.html/</id>
-    <published>2020-08-15T02:13:01.000Z</published>
-    <updated>2020-08-15T02:23:47.934Z</updated>
+    <title>next主题下中文标题跳转失效</title>
+    <link href="https://blog.sodarain.top/2020/08/15/posts/80ff7aac.html/"/>
+    <id>https://blog.sodarain.top/2020/08/15/posts/80ff7aac.html/</id>
+    <published>2020-08-15T07:18:59.000Z</published>
+    <updated>2020-08-15T07:52:52.708Z</updated>
     
     
-    <summary type="html">&lt;p&gt;中文标题测试页面&lt;/p&gt;</summary>
+    <summary type="html">&lt;p&gt;next 7.8版本发布于2020年4月1日，很久没更新 &lt;/p&gt;
+&lt;p&gt;该bug导致中文标题无法跳转，但是英文标题可以&lt;/p&gt;</summary>
     
     
     
-    <category term="test" scheme="https://blog.sodarain.top/categories/test/"/>
+    <category term="next" scheme="https://blog.sodarain.top/categories/next/"/>
     
+    <category term="bug" scheme="https://blog.sodarain.top/categories/next/bug/"/>
+    
+    
+    <category term="next" scheme="https://blog.sodarain.top/tags/next/"/>
     
   </entry>
   
   <entry>
-    <title>英文标题测试</title>
-    <link href="https://blog.sodarain.top/2020/08/15/posts/en_title.html/"/>
-    <id>https://blog.sodarain.top/2020/08/15/posts/en_title.html/</id>
-    <published>2020-08-15T02:13:01.000Z</published>
-    <updated>2020-08-15T02:24:05.279Z</updated>
+    <title>爬取武生院教务处通知</title>
+    <link href="https://blog.sodarain.top/2020/08/15/posts/wsy-crawler.html/"/>
+    <id>https://blog.sodarain.top/2020/08/15/posts/wsy-crawler.html/</id>
+    <published>2020-08-15T07:15:20.576Z</published>
+    <updated>2020-08-15T02:09:06.944Z</updated>
     
     
-    <summary type="html">&lt;p&gt;英文标题测试页面&lt;/p&gt;</summary>
+    <summary type="html">&lt;p&gt;记录一下之前因为某些特殊原因而要去爬取武生院网站通知的代码，防止后面有别的需要而忘记使用方法。&lt;/p&gt;</summary>
     
     
     
-    <category term="test" scheme="https://blog.sodarain.top/categories/test/"/>
+    <category term="crawler" scheme="https://blog.sodarain.top/categories/crawler/"/>
     
+    <category term="wsy" scheme="https://blog.sodarain.top/categories/crawler/wsy/"/>
+    
+    
+    <category term="crawler" scheme="https://blog.sodarain.top/tags/crawler/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>valine改为本地加载</title>
+    <link href="https://blog.sodarain.top/2020/08/13/posts/802f7ce0.html/"/>
+    <id>https://blog.sodarain.top/2020/08/13/posts/802f7ce0.html/</id>
+    <published>2020-08-13T01:52:27.000Z</published>
+    <updated>2020-08-15T01:07:53.097Z</updated>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;环境&quot;&gt;&lt;a href=&quot;#环境&quot; class=&quot;headerlink&quot; title=&quot;环境&quot;&gt;&lt;/a&gt;环境&lt;/h2&gt;&lt;p&gt;主题next7.8  valine 1.4.14&lt;/p&gt;
+&lt;h2 id=&quot;找到模板源文件&quot;&gt;&lt;a href=&quot;#找到模板源文件&quot; class=&quot;headerlink&quot; title=&quot;找到模板源文件&quot;&gt;&lt;/a&gt;找到模板源文件&lt;/h2&gt;&lt;p&gt;通过以下路径找到&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;\themes\next\layout\_third-party\comments\valine.swig&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;</summary>
+    
+    
+    
+    <category term="next" scheme="https://blog.sodarain.top/categories/next/"/>
+    
+    <category term="valine" scheme="https://blog.sodarain.top/categories/next/valine/"/>
+    
+    
+    <category term="valine" scheme="https://blog.sodarain.top/tags/valine/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>nginx实现负载均衡</title>
+    <link href="https://blog.sodarain.top/2020/08/11/posts/nginx-config.html/"/>
+    <id>https://blog.sodarain.top/2020/08/11/posts/nginx-config.html/</id>
+    <published>2020-08-11T08:38:12.000Z</published>
+    <updated>2020-08-15T02:07:48.543Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;Nginx可以配置代理多台服务器，当一台服务器宕机之后，仍能保持系统可用。记录一下nginx负载均衡的实现，配置文件如下：&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="后端" scheme="https://blog.sodarain.top/categories/%E5%90%8E%E7%AB%AF/"/>
+    
+    <category term="nginx" scheme="https://blog.sodarain.top/categories/%E5%90%8E%E7%AB%AF/nginx/"/>
+    
+    
+    <category term="nginx" scheme="https://blog.sodarain.top/tags/nginx/"/>
     
   </entry>
   

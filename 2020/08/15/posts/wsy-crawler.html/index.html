@@ -21,28 +21,33 @@
     var CONFIG = {"hostname":"blog.sodarain.top","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true,"b2t":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Rainbow">
-<meta property="og:url" content="https://blog.sodarain.top/index.html">
+  <meta name="description" content="记录一下之前因为某些特殊原因而要去爬取武生院网站通知的代码，防止后面有别的需要而忘记使用方法。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="爬取武生院教务处通知">
+<meta property="og:url" content="https://blog.sodarain.top/2020/08/15/posts/wsy-crawler.html/index.html">
 <meta property="og:site_name" content="Rainbow">
+<meta property="og:description" content="记录一下之前因为某些特殊原因而要去爬取武生院网站通知的代码，防止后面有别的需要而忘记使用方法。">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-08-15T07:15:20.576Z">
+<meta property="article:modified_time" content="2020-08-15T02:09:06.944Z">
 <meta property="article:author" content="sudatime">
+<meta property="article:tag" content="crawler">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://blog.sodarain.top/">
+<link rel="canonical" href="https://blog.sodarain.top/2020/08/15/posts/wsy-crawler.html/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome : true,
-    isPost : false,
+    isHome : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>Rainbow</title>
+  <title>爬取武生院教务处通知 | Rainbow</title>
   
 
 
@@ -185,119 +190,10 @@
         <div class="content-wrap">
           
 
-          <div class="content index posts-expand">
+          <div class="content post posts-expand">
             
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://blog.sodarain.top/2020/08/15/posts/80ff7aac.html/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="sudatime">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Rainbow">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/08/15/posts/80ff7aac.html/" class="post-title-link" itemprop="url">next主题下中文标题跳转失效</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-08-15 15:18:59" itemprop="dateCreated datePublished" datetime="2020-08-15T15:18:59+08:00">2020-08-15</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/next/" itemprop="url" rel="index"><span itemprop="name">next</span></a>
-                </span>
-                  <!--，-->
-                  >
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/next/bug/" itemprop="url" rel="index"><span itemprop="name">bug</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/2020/08/15/posts/80ff7aac.html/" class="post-meta-item leancloud_visitors" data-flag-title="next主题下中文标题跳转失效" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">评论数：</span>
-    
-    <a title="valine" href="/2020/08/15/posts/80ff7aac.html/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2020/08/15/posts/80ff7aac.html/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
 
     
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>next 7.8版本发布于2020年4月1日，很久没更新 </p>
-<p>该bug导致中文标题无法跳转，但是英文标题可以</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/08/15/posts/80ff7aac.html/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-	
-	
-	
-	<div>
-	
-	</div>
-
-
-
-  </article>
-  
-  
-  
-
-      
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
@@ -313,10 +209,9 @@
       <meta itemprop="name" content="Rainbow">
     </span>
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/08/15/posts/wsy-crawler.html/" class="post-title-link" itemprop="url">爬取武生院教务处通知</a>
-        </h2>
+        <h1 class="post-title" itemprop="name headline">
+          爬取武生院教务处通知
+        </h1>
 
         <div class="post-meta">
             <span class="post-meta-item">
@@ -374,28 +269,89 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>记录一下之前因为某些特殊原因而要去爬取武生院网站通知的代码，防止后面有别的需要而忘记使用方法。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/08/15/posts/wsy-crawler.html/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
+        <p>记录一下之前因为某些特殊原因而要去爬取武生院网站通知的代码，防止后面有别的需要而忘记使用方法。</p>
+<a id="more"></a>
+
+<h2 id="Jsoup介绍"><a href="#Jsoup介绍" class="headerlink" title="Jsoup介绍"></a>Jsoup介绍</h2><p>jsoup 是一款Java 的HTML解析器，可直接解析某个URL地址、HTML文本内容。它提供了一套非常省力的API，可通过DOM，CSS以及类似于jQuery的操作方法来取出和操作数据。 –来源百度百科</p>
+<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>采用Springboot 2.3.0搭建环境</p>
+<p>依赖如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--起步依赖--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--此为核心包 jsoup爬虫--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.jsoup<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jsoup<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.11.3<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="核心代码"><a href="#核心代码" class="headerlink" title="核心代码"></a>核心代码</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">getNotice</span><span class="params">(Integer tbodyIndex, Integer trNum)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    <span class="comment">//获取document对象</span></span><br><span class="line">    Document document = Jsoup.connect(URL).get();</span><br><span class="line">    <span class="comment">//获取第7个tbody的内容</span></span><br><span class="line">    Elements tbody = document.select(<span class="string">&quot;tbody&quot;</span>).eq(tbodyIndex);</span><br><span class="line">    <span class="comment">//System.out.println(tbody.toString());</span></span><br><span class="line">    List&lt;Article&gt; articles = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; trNum; i++) &#123;</span><br><span class="line">        Elements tr = tbody.select(<span class="string">&quot;tr&quot;</span>).eq(i);</span><br><span class="line">        Elements td1 = tr.select(<span class="string">&quot;td&quot;</span>).eq(<span class="number">0</span>);</span><br><span class="line">        Elements td2 = tr.select(<span class="string">&quot;td&quot;</span>).eq(<span class="number">2</span>);</span><br><span class="line">        String href = URL + td1.select(<span class="string">&quot;a&quot;</span>).attr(<span class="string">&quot;href&quot;</span>);</span><br><span class="line">        <span class="keyword">int</span> index = href.indexOf(<span class="string">&quot;id&quot;</span>);</span><br><span class="line">        <span class="comment">//截取id的数字字段</span></span><br><span class="line">        String id = href.substring(index + <span class="number">3</span>, index + <span class="number">7</span>);</span><br><span class="line">        String body = td1.select(<span class="string">&quot;a&quot;</span>).text();</span><br><span class="line">        String date = td2.text();</span><br><span class="line">        Article article = <span class="keyword">new</span> Article(Integer.parseInt(id), body, href, DateUtils.parseString2Date(date));</span><br><span class="line">        articles.add(article);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> sendMessage(articles);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Document document = Jsoup.connect(URL).get();</span><br></pre></td></tr></table></figure>
+
+<p>这行代码能够访问指定的URL路径来获取返回的静态页面</p>
+<p>通过分析得到的html可以得知我们想要的<strong>新闻通知</strong>区域在第7个tbody中</p>
+<p>打印输出的tbody，可以发现数据都存放在tr标签里面，分了三个td小标签</p>
+<p>我们只取我们想要的数据：</p>
+<ol>
+<li>第一个td里面是文章链接，不带域名的。</li>
+<li>第二个td里面是文章后面的gif图片，没啥用</li>
+<li>第三个td里面是日期</li>
+</ol>
+<p>所以我们可以使用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Elements td1 = tr.select(<span class="string">&quot;td&quot;</span>).eq(<span class="number">0</span>);</span><br><span class="line">Elements td2 = tr.select(<span class="string">&quot;td&quot;</span>).eq(<span class="number">2</span>);</span><br></pre></td></tr></table></figure>
+
+<p>来获取链接和日期 使用Article对象来进行封装。得到文章对象之后，要做什么处理就方便了。</p>
+<h3 id="意外收获"><a href="#意外收获" class="headerlink" title="意外收获"></a>意外收获</h3><p>写完之后想继续爬取其他模块的，意外的发现其他模块结构类似，只是tbody和tr值不同，所以封装成一个方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//新闻通知</span></span><br><span class="line"><span class="keyword">boolean</span> news = getNotice(<span class="number">6</span>, <span class="number">9</span>);</span><br><span class="line"><span class="comment">//教务管理</span></span><br><span class="line"><span class="keyword">boolean</span> manage = getNotice(<span class="number">11</span>, <span class="number">6</span>);</span><br><span class="line"><span class="comment">//教学研究</span></span><br><span class="line"><span class="keyword">boolean</span> research = getNotice(<span class="number">13</span>, <span class="number">6</span>);</span><br><span class="line"><span class="comment">//学籍管理</span></span><br><span class="line"><span class="keyword">boolean</span> schoolRoll = getNotice(<span class="number">15</span>, <span class="number">6</span>);</span><br><span class="line"><span class="comment">//实践教学</span></span><br><span class="line"><span class="keyword">boolean</span> practice = getNotice(<span class="number">21</span>, <span class="number">6</span>);</span><br><span class="line"><span class="comment">//质量管理</span></span><br><span class="line"><span class="keyword">boolean</span> quality = getNotice(<span class="number">23</span>, <span class="number">6</span>);</span><br><span class="line"><span class="comment">//下载专区</span></span><br><span class="line"><span class="keyword">boolean</span> download = getNotice(<span class="number">25</span>, <span class="number">6</span>);</span><br><span class="line"><span class="comment">//工作例会</span></span><br><span class="line"><span class="keyword">boolean</span> work = getNotice(<span class="number">29</span>, <span class="number">6</span>);</span><br><span class="line"><span class="comment">//考务管理</span></span><br><span class="line"><span class="keyword">boolean</span> exam = getNotice(<span class="number">31</span>, <span class="number">6</span>);</span><br><span class="line"><span class="comment">//学习动态</span></span><br><span class="line"><span class="keyword">boolean</span> study = getNotice(<span class="number">33</span>, <span class="number">6</span>);</span><br></pre></td></tr></table></figure>
     </div>
 
     
     
     
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>sudatime
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://blog.sodarain.top/2020/08/15/posts/wsy-crawler.html/" title="爬取武生院教务处通知">https://blog.sodarain.top/2020/08/15/posts/wsy-crawler.html/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
       <footer class="post-footer">
-        <div class="post-eof"></div>
+          
+          <div class="post-tags">
+              <a href="/tags/crawler/" rel="tag"><i class="fa fa-tag"></i> crawler</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/08/13/posts/802f7ce0.html/" rel="prev" title="valine改为本地加载">
+      <i class="fa fa-chevron-left"></i> valine改为本地加载
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/08/15/posts/80ff7aac.html/" rel="next" title="next主题下中文标题跳转失效">
+      next主题下中文标题跳转失效 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
       </footer>
+    
 	
 	
 	
 	<div>
+	
+		<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+
 	
 	</div>
 
@@ -404,235 +360,13 @@
   </article>
   
   
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://blog.sodarain.top/2020/08/13/posts/802f7ce0.html/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="sudatime">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Rainbow">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/08/13/posts/802f7ce0.html/" class="post-title-link" itemprop="url">valine改为本地加载</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-08-13 09:52:27" itemprop="dateCreated datePublished" datetime="2020-08-13T09:52:27+08:00">2020-08-13</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/next/" itemprop="url" rel="index"><span itemprop="name">next</span></a>
-                </span>
-                  <!--，-->
-                  >
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/next/valine/" itemprop="url" rel="index"><span itemprop="name">valine</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/2020/08/13/posts/802f7ce0.html/" class="post-meta-item leancloud_visitors" data-flag-title="valine改为本地加载" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">评论数：</span>
-    
-    <a title="valine" href="/2020/08/13/posts/802f7ce0.html/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2020/08/13/posts/802f7ce0.html/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>主题next7.8  valine 1.4.14</p>
-<h2 id="找到模板源文件"><a href="#找到模板源文件" class="headerlink" title="找到模板源文件"></a>找到模板源文件</h2><p>通过以下路径找到</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\themes\next\layout\_third-party\comments\valine.swig</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/08/13/posts/802f7ce0.html/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-	
-	
-	
-	<div>
-	
-	</div>
-
-
-
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://blog.sodarain.top/2020/08/11/posts/nginx-config.html/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="sudatime">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Rainbow">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/08/11/posts/nginx-config.html/" class="post-title-link" itemprop="url">nginx实现负载均衡</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-08-11 16:38:12" itemprop="dateCreated datePublished" datetime="2020-08-11T16:38:12+08:00">2020-08-11</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%90%8E%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">后端</span></a>
-                </span>
-                  <!--，-->
-                  >
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%90%8E%E7%AB%AF/nginx/" itemprop="url" rel="index"><span itemprop="name">nginx</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/2020/08/11/posts/nginx-config.html/" class="post-meta-item leancloud_visitors" data-flag-title="nginx实现负载均衡" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">评论数：</span>
-    
-    <a title="valine" href="/2020/08/11/posts/nginx-config.html/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2020/08/11/posts/nginx-config.html/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Nginx可以配置代理多台服务器，当一台服务器宕机之后，仍能保持系统可用。记录一下nginx负载均衡的实现，配置文件如下：</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/08/11/posts/nginx-config.html/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-	
-	
-	
-	<div>
-	
-	</div>
-
-
-
-  </article>
-  
-  
-  
-
-
   
 
 
 
           </div>
           
+    <div class="comments" id="valine-comments"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -679,6 +413,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Jsoup%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.</span> <span class="nav-text">Jsoup介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83"><span class="nav-number">2.</span> <span class="nav-text">环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E4%BB%A3%E7%A0%81"><span class="nav-number">3.</span> <span class="nav-text">核心代码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF"><span class="nav-number">3.1.</span> <span class="nav-text">思路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%84%8F%E5%A4%96%E6%94%B6%E8%8E%B7"><span class="nav-number">3.2.</span> <span class="nav-text">意外收获</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
