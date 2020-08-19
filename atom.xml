@@ -6,7 +6,7 @@
   <link href="https://blog.sodarain.top/atom.xml" rel="self"/>
   
   <link href="https://blog.sodarain.top/"/>
-  <updated>2020-08-15T07:52:52.708Z</updated>
+  <updated>2020-08-19T02:51:20.285Z</updated>
   <id>https://blog.sodarain.top/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>vue与button的冲突</title>
+    <link href="https://blog.sodarain.top/essay/vue-button.html/"/>
+    <id>https://blog.sodarain.top/essay/vue-button.html/</id>
+    <published>2020-08-19T02:41:40.000Z</published>
+    <updated>2020-08-19T02:51:20.285Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;环境：&quot;&gt;&lt;a href=&quot;#环境：&quot; class=&quot;headerlink&quot; title=&quot;环境：&quot;&gt;&lt;/a&gt;环境：&lt;/h2&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td</summary>
+        
+      
+    
+    
+    
+    <category term="vue" scheme="https://blog.sodarain.top/categories/vue/"/>
+    
+    
+    <category term="vue" scheme="https://blog.sodarain.top/tags/vue/"/>
+    
+  </entry>
   
   <entry>
     <title>next主题下中文标题跳转失效</title>
