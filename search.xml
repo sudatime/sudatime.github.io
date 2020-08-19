@@ -140,6 +140,56 @@
       </tags>
   </entry>
   <entry>
+    <title>单点登录实现</title>
+    <url>//essay/9fd432c.html/</url>
+    <content><![CDATA[<p><strong>单点登录</strong>（Single Sign On），简称为<strong>SSO</strong>，是比较流行的<strong>企业业务整合</strong>的解决方案之一。</p>
+<a id="more"></a>
+
+<h2 id="实现方案"><a href="#实现方案" class="headerlink" title="实现方案"></a>实现方案</h2><p>Oauth2：可以生成一个令牌的，经过<strong>用户验证</strong>（客户端、真实用户）生成令牌。</p>
+<h3 id="cookie"><a href="#cookie" class="headerlink" title="cookie"></a>cookie</h3><p>用户访问被保护的资源时要经过网关，网关会从里面得到cookie，再从cookie中取出JTI值，可用JTI值作为键值，从redis里面获取token值，验证token。</p>
+<p><img src="/essay/9fd432c.html/1.png"></p>
+<h3 id="完整流程："><a href="#完整流程：" class="headerlink" title="完整流程："></a>完整流程：</h3><ol>
+<li><p>用户访问资源的时候，网关取得请求的URL，来判断是否放行。</p>
+</li>
+<li><p>若用户访问的资源是被保护的，则网关不放行，并从中获取cookie值，如果里面不存在cookie，则跳转去登录页面。</p>
+</li>
+<li><p>当用户登录的时候，会进入登录服务里面，由于登录服务并没有校验密码的功能，我们需要借助于Oauth2服务。</p>
+</li>
+<li><p>Oauth2拿到用户名密码之后，会查询数据库来判断用户名密码是否正确，当密码正确时，会发放一个令牌给登录用户。</p>
+</li>
+<li><p>当登录服务拿到令牌之后，会把token以JTI值为键存入redis，并将JTI值存入cookie中。</p>
+</li>
+<li><p>再次回到网关，网关会重复第2步，若仍然不存在，则继续进入登录服务。若cookie存在，并成功取到token，当校验通过，则可以访问被保护的资源了</p>
+</li>
+</ol>
+<p><img src="/essay/9fd432c.html/2.png"></p>
+<h3 id="实现代码："><a href="#实现代码：" class="headerlink" title="实现代码："></a>实现代码：</h3><ul>
+<li>获取请求的URL</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">ServerHttpRequest request = exchange.getRequest();</span><br><span class="line">String path = request.getURI().getPath();</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>转发：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//跳转登录页面 - 303</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> Mono&lt;Void&gt; <span class="title">toLoginPage</span><span class="params">(String loginUrl, ServerWebExchange exchange)</span> </span>&#123;</span><br><span class="line">    ServerHttpResponse response = exchange.getResponse();</span><br><span class="line">    response.setStatusCode(HttpStatus.SEE_OTHER);</span><br><span class="line">    response.getHeaders().set(<span class="string">&quot;Location&quot;</span>,loginUrl);</span><br><span class="line">    <span class="keyword">return</span> response.setComplete();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>取cookie</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">HttpCookie httpCookie = request.getCookies().getFirst(<span class="string">&quot;uid&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>给request请求添加header</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">request.mutate().header(<span class="string">&quot;Authorization&quot;</span>,<span class="string">&quot;Bearer &quot;</span>+jwt);</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>后端</category>
+      </categories>
+      <tags>
+        <tag>sso</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>爬取武生院教务处通知</title>
     <url>//essay/wsy-crawler.html/</url>
     <content><![CDATA[<p>记录一下之前因为某些特殊原因而要去爬取武生院网站通知的代码，防止后面有别的需要而忘记使用方法。</p>

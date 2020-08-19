@@ -21,15 +21,23 @@
     var CONFIG = {"hostname":"blog.sodarain.top","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true,"b2t":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Rainbow">
-<meta property="og:url" content="https://blog.sodarain.top/categories/next/index.html">
+  <meta name="description" content="单点登录（Single Sign On），简称为SSO，是比较流行的企业业务整合的解决方案之一。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="单点登录实现">
+<meta property="og:url" content="https://blog.sodarain.top/essay/9fd432c.html/index.html">
 <meta property="og:site_name" content="Rainbow">
+<meta property="og:description" content="单点登录（Single Sign On），简称为SSO，是比较流行的企业业务整合的解决方案之一。">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blog.sodarain.top/essay/9fd432c.html/1.png">
+<meta property="og:image" content="https://blog.sodarain.top/essay/9fd432c.html/2.png">
+<meta property="article:published_time" content="2020-08-19T06:08:21.000Z">
+<meta property="article:modified_time" content="2020-08-19T06:34:02.755Z">
 <meta property="article:author" content="sudatime">
+<meta property="article:tag" content="sso">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.sodarain.top/essay/9fd432c.html/1.png">
 
-<link rel="canonical" href="https://blog.sodarain.top/categories/next/">
+<link rel="canonical" href="https://blog.sodarain.top/essay/9fd432c.html/">
 
 
 <script id="page-configurations">
@@ -37,12 +45,12 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>分类: next | Rainbow</title>
+  <title>单点登录实现 | Rainbow</title>
   
 
 
@@ -185,77 +193,188 @@
         <div class="content-wrap">
           
 
-          <div class="content category">
+          <div class="content post posts-expand">
             
 
+    
   
   
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.sodarain.top/essay/9fd432c.html/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="sudatime">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Rainbow">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          单点登录实现
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-08-19 14:08:21" itemprop="dateCreated datePublished" datetime="2020-08-19T14:08:21+08:00">2020-08-19</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%90%8E%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">后端</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/essay/9fd432c.html/" class="post-meta-item leancloud_visitors" data-flag-title="单点登录实现" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
   
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        <h2 class="collection-header">next
-          <small>分类</small>
-        </h2>
-      </div>
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">评论数：</span>
+    
+    <a title="valine" href="/essay/9fd432c.html/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/essay/9fd432c.html/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <span class="collection-header">2020</span>
+        <p><strong>单点登录</strong>（Single Sign On），简称为<strong>SSO</strong>，是比较流行的<strong>企业业务整合</strong>的解决方案之一。</p>
+<a id="more"></a>
+
+<h2 id="实现方案"><a href="#实现方案" class="headerlink" title="实现方案"></a>实现方案</h2><p>Oauth2：可以生成一个令牌的，经过<strong>用户验证</strong>（客户端、真实用户）生成令牌。</p>
+<h3 id="cookie"><a href="#cookie" class="headerlink" title="cookie"></a>cookie</h3><p>用户访问被保护的资源时要经过网关，网关会从里面得到cookie，再从cookie中取出JTI值，可用JTI值作为键值，从redis里面获取token值，验证token。</p>
+<p><img src="/essay/9fd432c.html/1.png"></p>
+<h3 id="完整流程："><a href="#完整流程：" class="headerlink" title="完整流程："></a>完整流程：</h3><ol>
+<li><p>用户访问资源的时候，网关取得请求的URL，来判断是否放行。</p>
+</li>
+<li><p>若用户访问的资源是被保护的，则网关不放行，并从中获取cookie值，如果里面不存在cookie，则跳转去登录页面。</p>
+</li>
+<li><p>当用户登录的时候，会进入登录服务里面，由于登录服务并没有校验密码的功能，我们需要借助于Oauth2服务。</p>
+</li>
+<li><p>Oauth2拿到用户名密码之后，会查询数据库来判断用户名密码是否正确，当密码正确时，会发放一个令牌给登录用户。</p>
+</li>
+<li><p>当登录服务拿到令牌之后，会把token以JTI值为键存入redis，并将JTI值存入cookie中。</p>
+</li>
+<li><p>再次回到网关，网关会重复第2步，若仍然不存在，则继续进入登录服务。若cookie存在，并成功取到token，当校验通过，则可以访问被保护的资源了</p>
+</li>
+</ol>
+<p><img src="/essay/9fd432c.html/2.png"></p>
+<h3 id="实现代码："><a href="#实现代码：" class="headerlink" title="实现代码："></a>实现代码：</h3><ul>
+<li>获取请求的URL</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ServerHttpRequest request = exchange.getRequest();</span><br><span class="line">String path = request.getURI().getPath();</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>转发：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//跳转登录页面 - 303</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> Mono&lt;Void&gt; <span class="title">toLoginPage</span><span class="params">(String loginUrl, ServerWebExchange exchange)</span> </span>&#123;</span><br><span class="line">    ServerHttpResponse response = exchange.getResponse();</span><br><span class="line">    response.setStatusCode(HttpStatus.SEE_OTHER);</span><br><span class="line">    response.getHeaders().set(<span class="string">&quot;Location&quot;</span>,loginUrl);</span><br><span class="line">    <span class="keyword">return</span> response.setComplete();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>取cookie</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HttpCookie httpCookie = request.getCookies().getFirst(<span class="string">&quot;uid&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>给request请求添加header</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">request.mutate().header(<span class="string">&quot;Authorization&quot;</span>,<span class="string">&quot;Bearer &quot;</span>+jwt);</span><br></pre></td></tr></table></figure>
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+    
+    
+    
+        
 
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-08-15T15:18:59+08:00"
-              content="2020-08-15">
-          08-15
-        </time>
-      </div>
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>sudatime
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://blog.sodarain.top/essay/9fd432c.html/" title="单点登录实现">https://blog.sodarain.top/essay/9fd432c.html/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
 
-      <div class="post-title">
-          <a class="post-title-link" href="/essay/80ff7aac.html/" itemprop="url">
-            <span itemprop="name">next主题下中文标题跳转失效</span>
-          </a>
-      </div>
 
-    </header>
-  </article>
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/sso/" rel="tag"><i class="fa fa-tag"></i> sso</a>
+          </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+        
 
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-08-13T09:52:27+08:00"
-              content="2020-08-13">
-          08-13
-        </time>
-      </div>
 
-      <div class="post-title">
-          <a class="post-title-link" href="/essay/802f7ce0.html/" itemprop="url">
-            <span itemprop="name">valine改为本地加载</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/essay/vue-button.html/" rel="prev" title="vue与button的冲突">
+      <i class="fa fa-chevron-left"></i> vue与button的冲突
+    </a></div>
+      <div class="post-nav-item"></div>
     </div>
-  </div>
-  
-  
-  
+      </footer>
+    
+	
+	
+	
+	<div>
+	
+		<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
 
+	
+	</div>
+
+
+
+  </article>
+  
+  
   
 
 
 
           </div>
           
+    <div class="comments" id="valine-comments"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -302,6 +421,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%A1%88"><span class="nav-number">1.</span> <span class="nav-text">实现方案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#cookie"><span class="nav-number">1.1.</span> <span class="nav-text">cookie</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%8C%E6%95%B4%E6%B5%81%E7%A8%8B%EF%BC%9A"><span class="nav-number">1.2.</span> <span class="nav-text">完整流程：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E4%BB%A3%E7%A0%81%EF%BC%9A"><span class="nav-number">1.3.</span> <span class="nav-text">实现代码：</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
