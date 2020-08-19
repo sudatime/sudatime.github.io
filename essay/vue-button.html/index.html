@@ -21,15 +21,15 @@
     var CONFIG = {"hostname":"blog.sodarain.top","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true,"b2t":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="环境：1vue.js v2.5.16  问题描述：1&lt;button&gt;&lt;&#x2F;button&gt;   这个标签未设置type属性时，在form表单中会默认为submit属性，也就是表单提交事件。 当vue指定@click事件在这个button上时，就会出现两次请求的触发。 出现同步请求的现象（也就是页面刷新一次） 解决方法方案一：使用高版本vue.js 实测vue.js : 2.6.">
+  <meta name="description" content="环境：1vue.js v2.5.16  问题描述：1&lt;button&gt;&lt;&#x2F;button&gt;   这个标签未设置type属性时，在form表单中会默认为submit属性，也就是表单提交事件。 当vue指定@click事件在这个button上时，就会出现两次请求的触发。 出现同步请求的现象（也就是页面刷新一次）">
 <meta property="og:type" content="article">
 <meta property="og:title" content="vue与button的冲突">
 <meta property="og:url" content="https://blog.sodarain.top/essay/vue-button.html/index.html">
 <meta property="og:site_name" content="Rainbow">
-<meta property="og:description" content="环境：1vue.js v2.5.16  问题描述：1&lt;button&gt;&lt;&#x2F;button&gt;   这个标签未设置type属性时，在form表单中会默认为submit属性，也就是表单提交事件。 当vue指定@click事件在这个button上时，就会出现两次请求的触发。 出现同步请求的现象（也就是页面刷新一次） 解决方法方案一：使用高版本vue.js 实测vue.js : 2.6.">
+<meta property="og:description" content="环境：1vue.js v2.5.16  问题描述：1&lt;button&gt;&lt;&#x2F;button&gt;   这个标签未设置type属性时，在form表单中会默认为submit属性，也就是表单提交事件。 当vue指定@click事件在这个button上时，就会出现两次请求的触发。 出现同步请求的现象（也就是页面刷新一次）">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-08-19T02:41:40.000Z">
-<meta property="article:modified_time" content="2020-08-19T02:51:20.285Z">
+<meta property="article:modified_time" content="2020-08-19T02:54:05.245Z">
 <meta property="article:author" content="sudatime">
 <meta property="article:tag" content="vue">
 <meta name="twitter:card" content="summary">
@@ -271,6 +271,8 @@
 <p> 这个标签未设置type属性时，在form表单中会默认为submit属性，也就是表单提交事件。</p>
 <p>当vue指定@click事件在这个button上时，就会出现两次请求的触发。</p>
 <p>出现同步请求的现象（也就是页面刷新一次）</p>
+<a id="more"></a>
+
 <h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><h3 id="方案一："><a href="#方案一：" class="headerlink" title="方案一："></a>方案一：</h3><p>使用高版本vue.js</p>
 <p>实测vue.js : 2.6.11可解决问题，但是仍然有同步请求现象</p>
 <h3 id="方案二："><a href="#方案二：" class="headerlink" title="方案二："></a>方案二：</h3><p>给form内的button加上type属性，这个最为方便快捷</p>
