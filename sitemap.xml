@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://blog.sodarain.top/essay/mybatisplus-config.html/</loc>
+    
+    <lastmod>2020-09-06</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://blog.sodarain.top/essay/9fd432c.html/</loc>
     
     <lastmod>2020-08-19</lastmod>
@@ -88,7 +95,21 @@
 
   
   <url>
+    <loc>https://blog.sodarain.top/tags/mybatis/</loc>
+    <lastmod>2020-09-06</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://blog.sodarain.top/tags/next/</loc>
+    <lastmod>2020-09-06</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.sodarain.top/tags/vue/</loc>
     <lastmod>2020-09-06</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -103,13 +124,6 @@
   
   <url>
     <loc>https://blog.sodarain.top/tags/nginx/</loc>
-    <lastmod>2020-09-06</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.sodarain.top/tags/vue/</loc>
     <lastmod>2020-09-06</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -132,13 +146,6 @@
 
   
   <url>
-    <loc>https://blog.sodarain.top/categories/next/</loc>
-    <lastmod>2020-09-06</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://blog.sodarain.top/categories/%E5%90%8E%E7%AB%AF/</loc>
     <lastmod>2020-09-06</lastmod>
     <changefreq>daily</changefreq>
@@ -146,7 +153,28 @@
   </url>
   
   <url>
+    <loc>https://blog.sodarain.top/categories/next/</loc>
+    <lastmod>2020-09-06</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://blog.sodarain.top/categories/vue/</loc>
+    <lastmod>2020-09-06</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.sodarain.top/categories/%E5%90%8E%E7%AB%AF/mybatis/</loc>
+    <lastmod>2020-09-06</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.sodarain.top/categories/%E5%90%8E%E7%AB%AF/nginx/</loc>
     <lastmod>2020-09-06</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -168,13 +196,6 @@
   
   <url>
     <loc>https://blog.sodarain.top/categories/next/valine/</loc>
-    <lastmod>2020-09-06</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.sodarain.top/categories/%E5%90%8E%E7%AB%AF/nginx/</loc>
     <lastmod>2020-09-06</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
