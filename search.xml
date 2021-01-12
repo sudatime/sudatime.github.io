@@ -1,26 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>mybatisplus配置文件</title>
-    <url>/essay/mybatisplus-config.html</url>
-    <content><![CDATA[<p>mybatisplus3.0.5配置文件</p>
-<a id="more"></a>
-
-<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>mybatisplus 3.0.5</p>
-<h2 id="依赖"><a href="#依赖" class="headerlink" title="依赖"></a>依赖</h2><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.baomidou<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mybatis-plus-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.0.5<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.baomidou<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mybatis-plus<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.0.5<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-
-<h2 id="yml配置文件"><a href="#yml配置文件" class="headerlink" title="yml配置文件"></a>yml配置文件</h2><figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Mybatis-Plus 配置</span></span><br><span class="line"><span class="attr">mybatis-plus:</span></span><br><span class="line">  <span class="comment">#  mapper-locations: classpath:/mapper/*Mapper.xml</span></span><br><span class="line">  <span class="comment">#实体扫描，多个package用逗号或者分号分隔</span></span><br><span class="line">  <span class="attr">typeAliasesPackage:</span> <span class="string">com.mybatis.demo.domain</span></span><br><span class="line">  <span class="attr">global-config:</span></span><br><span class="line">    <span class="attr">db-config:</span></span><br><span class="line">      <span class="attr">id-type:</span> <span class="string">none</span></span><br><span class="line">      <span class="attr">table-underline:</span> <span class="literal">false</span></span><br><span class="line">    <span class="attr">refresh:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">configuration:</span></span><br><span class="line">    <span class="attr">map-underscore-to-camel-case:</span> <span class="literal">true</span></span><br><span class="line">    <span class="attr">cache-enabled:</span> <span class="literal">true</span> <span class="comment">#配置的缓存的全局开关</span></span><br><span class="line">    <span class="attr">lazyLoadingEnabled:</span> <span class="literal">true</span> <span class="comment">#延时加载的开关</span></span><br><span class="line">    <span class="attr">multipleResultSetsEnabled:</span> <span class="literal">true</span> <span class="comment">#开启延时加载，否则按需加载属性</span></span><br><span class="line">    <span class="attr">log-impl:</span> <span class="string">org.apache.ibatis.logging.stdout.StdOutImpl</span> <span class="comment">#打印sql语句,调试用</span></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>后端</category>
-        <category>mybatis</category>
-      </categories>
-      <tags>
-        <tag>mybatis</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Netty</title>
     <url>/essay/1c6ba3e2.html</url>
     <content><![CDATA[<p>Netty是一个异步事件驱动的网络应用框架，用于快速开发可维护的高性能服务器和客户端。</p>
@@ -130,6 +110,26 @@
 ]]></content>
       <tags>
         <tag>netty</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>mybatisplus配置文件</title>
+    <url>/essay/mybatisplus-config.html</url>
+    <content><![CDATA[<p>mybatisplus3.0.5配置文件</p>
+<a id="more"></a>
+
+<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>mybatisplus 3.0.5</p>
+<h2 id="依赖"><a href="#依赖" class="headerlink" title="依赖"></a>依赖</h2><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.baomidou<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mybatis-plus-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.0.5<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.baomidou<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mybatis-plus<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.0.5<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="yml配置文件"><a href="#yml配置文件" class="headerlink" title="yml配置文件"></a>yml配置文件</h2><figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Mybatis-Plus 配置</span></span><br><span class="line"><span class="attr">mybatis-plus:</span></span><br><span class="line">  <span class="comment">#  mapper-locations: classpath:/mapper/*Mapper.xml</span></span><br><span class="line">  <span class="comment">#实体扫描，多个package用逗号或者分号分隔</span></span><br><span class="line">  <span class="attr">typeAliasesPackage:</span> <span class="string">com.mybatis.demo.domain</span></span><br><span class="line">  <span class="attr">global-config:</span></span><br><span class="line">    <span class="attr">db-config:</span></span><br><span class="line">      <span class="attr">id-type:</span> <span class="string">none</span></span><br><span class="line">      <span class="attr">table-underline:</span> <span class="literal">false</span></span><br><span class="line">    <span class="attr">refresh:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">configuration:</span></span><br><span class="line">    <span class="attr">map-underscore-to-camel-case:</span> <span class="literal">true</span></span><br><span class="line">    <span class="attr">cache-enabled:</span> <span class="literal">true</span> <span class="comment">#配置的缓存的全局开关</span></span><br><span class="line">    <span class="attr">lazyLoadingEnabled:</span> <span class="literal">true</span> <span class="comment">#延时加载的开关</span></span><br><span class="line">    <span class="attr">multipleResultSetsEnabled:</span> <span class="literal">true</span> <span class="comment">#开启延时加载，否则按需加载属性</span></span><br><span class="line">    <span class="attr">log-impl:</span> <span class="string">org.apache.ibatis.logging.stdout.StdOutImpl</span> <span class="comment">#打印sql语句,调试用</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>后端</category>
+        <category>mybatis</category>
+      </categories>
+      <tags>
+        <tag>mybatis</tag>
       </tags>
   </entry>
   <entry>
