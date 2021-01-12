@@ -133,32 +133,6 @@
       </tags>
   </entry>
   <entry>
-    <title>valine改为本地加载</title>
-    <url>/essay/802f7ce0.html</url>
-    <content><![CDATA[<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>主题next7.8  valine 1.4.14</p>
-<h2 id="找到模板源文件"><a href="#找到模板源文件" class="headerlink" title="找到模板源文件"></a>找到模板源文件</h2><p>通过以下路径找到</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">\themes\next\layout\_third-party\comments\valine.swig</span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-
-<p>打开代码</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;%- set valine_uri &#x3D; theme.vendors.valine or &#39;&#x2F;&#x2F;unpkg.com&#x2F;valine&#x2F;dist&#x2F;Valine.min.js&#39; %&#125;</span><br></pre></td></tr></table></figure>
-<p>从第一行代码可以看出，它是通过网络加载，然后用<code>NexT.utils</code>来进行获取参数  <del>我们可以不用管，直接删掉</del></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">NexT.utils.getScript(&#39;&#123;&#123; valine_uri &#125;&#125;&#39;, () &#x3D;&gt; &#123;</span><br><span class="line">    var GUEST &#x3D; [&#39;nick&#39;, &#39;mail&#39;, &#39;link&#39;];</span><br><span class="line">    var guest &#x3D; &#39;&#123;&#123; theme.valine.guest_info &#125;&#125;&#39;;</span><br><span class="line">    guest &#x3D; guest.split(&#39;,&#39;).filter(item &#x3D;&gt; &#123;</span><br><span class="line">      return GUEST.includes(item);</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
-<p><del>只留下主体new Valine 代码</del></p>
-<p><code>这样操作会导致读取不到guest</code></p>
-<p>应该这样写 ↓</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;script type&#x3D;&quot;text&#x2F;javascript&quot; src&#x3D;&quot;&#x2F;js&#x2F;Valine.min.js&quot;&gt;&lt;&#x2F;script&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">	var GUEST &#x3D; [&#39;nick&#39;, &#39;mail&#39;, &#39;link&#39;];</span><br><span class="line">	var guest &#x3D; &#39;&#123;&#123; theme.valine.guest_info &#125;&#125;&#39;;</span><br><span class="line">    guest &#x3D; guest.split(&#39;,&#39;).filter(item &#x3D;&gt; &#123;</span><br><span class="line">      return GUEST.includes(item);</span><br><span class="line">    &#125;);</span><br><span class="line">    new Valine(&#123;</span><br><span class="line">      el         : &#39;#valine-comments&#39;,</span><br><span class="line">      verify     : &#123;&#123; theme.valine.verify &#125;&#125;,</span><br><span class="line">      notify     : &#123;&#123; theme.valine.notify &#125;&#125;,</span><br><span class="line">      appId      : &#39;&#123;&#123; theme.valine.appid &#125;&#125;&#39;,</span><br><span class="line">      appKey     : &#39;&#123;&#123; theme.valine.appkey &#125;&#125;&#39;,</span><br><span class="line">      placeholder: &#123;&#123; theme.valine.placeholder | json &#125;&#125;,</span><br><span class="line">      avatar     : &#39;&#123;&#123; theme.valine.avatar &#125;&#125;&#39;,</span><br><span class="line">      meta       : guest,</span><br><span class="line">      pageSize   : &#39;&#123;&#123; theme.valine.pageSize &#125;&#125;&#39; || 10,</span><br><span class="line">      visitor    : &#123;&#123; theme.valine.visitor &#125;&#125;,</span><br><span class="line">      lang       : &#39;&#123;&#123; theme.valine.language &#125;&#125;&#39; || &#39;zh-cn&#39;,</span><br><span class="line">      path       : location.pathname,</span><br><span class="line">      recordIP   : &#123;&#123; theme.valine.recordIP &#125;&#125;,</span><br><span class="line">      serverURLs : &#39;&#123;&#123; theme.valine.serverURLs &#125;&#125;&#39;</span><br><span class="line">    &#125;);</span><br><span class="line">&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
-<h2 id="Valine-min-js获取方式"><a href="#Valine-min-js获取方式" class="headerlink" title="Valine.min.js获取方式"></a>Valine.min.js获取方式</h2><p>访问 <a href="https://unpkg.com/valine/dist/Valine.min.js">这里</a> 复制全部代码，新建一个Valine.min.js，放进去 保存 放在 <code>主题\source\js</code>里面</p>
-]]></content>
-      <categories>
-        <category>next</category>
-        <category>valine</category>
-      </categories>
-      <tags>
-        <tag>valine</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>next主题下中文标题跳转失效</title>
     <url>/essay/80ff7aac.html</url>
     <content><![CDATA[<p>next 7.8版本发布于2020年4月1日，很久没更新 </p>
@@ -182,6 +156,85 @@
       </categories>
       <tags>
         <tag>next</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>nginx实现负载均衡</title>
+    <url>/essay/nginx-config.html</url>
+    <content><![CDATA[<p>Nginx可以配置代理多台服务器，当一台服务器宕机之后，仍能保持系统可用。记录一下nginx负载均衡的实现，配置文件如下：</p>
+<a id="more"></a>
+
+<ol>
+<li>在http节点下，添加upstream节点。</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">upstream abc &#123; </span><br><span class="line">   server localhost:7080; </span><br><span class="line">   server localhost:8980; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>将server节点下的location节点中的proxy_pass配置为：http:// + upstream名称，即</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">location &#x2F; &#123; </span><br><span class="line">    root  html; </span><br><span class="line">    &#x2F;&#x2F;http:&#x2F;&#x2F; + upstream名称</span><br><span class="line">    proxy_pass http:&#x2F;&#x2F;abc; </span><br><span class="line">    index  index.html index.htm; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>upstream按照轮询（默认）方式进行负载，每个请求按时间顺序逐一分配到不同的后端服务器，如果后端服务器down掉，能自动剔除。虽然这种方式简便、成本低廉。但缺点是：可靠性低和负载分配不均衡。适用于图片服务器集群和纯静态页面服务器集群。除此之外，upstream还有其它的分配策略，分别如下：</p>
+<ol>
+<li>weight（权重）</li>
+</ol>
+<p>指定轮询几率，weight和访问比率成正比，用于后端服务器性能不均的情况。如下所示，10.0.0.88的访问比率要比10.0.0.77的访问比率高一倍。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">upstream linuxidc&#123; </span><br><span class="line">      server 10.0.0.77 weight&#x3D;5; </span><br><span class="line">      server 10.0.0.88 weight&#x3D;10; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>ip_hash（访问ip）</li>
+</ol>
+<p>每个请求按访问ip的hash结果分配，这样每个访客固定访问一个后端服务器，可以解决session的问题。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">upstream favresin&#123; </span><br><span class="line">      ip_hash; </span><br><span class="line">      server 10.0.0.10:8080; </span><br><span class="line">      server 10.0.0.11:8080; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li><p>fair（第三方）</p>
+<p>按后端服务器的响应时间来分配请求，响应时间短的优先分配。与weight分配策略类似。</p>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"> upstream abc&#123;   </span><br><span class="line">   server 10.0.0.10:8080; </span><br><span class="line">   server 10.0.0.11:8080; </span><br><span class="line">   fair; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>url_hash（第三方）</li>
+</ol>
+<p>按访问url的hash结果来分配请求，使每个url定向到同一个后端服务器，后端服务器为缓存时比较有效。</p>
+<p>注意：在upstream中加入hash语句，server语句中不能写入weight等其他的参数，hash_method是使用的hash算法。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"> upstream abc&#123; </span><br><span class="line">   server 10.0.0.10:7777; </span><br><span class="line">   server 10.0.0.11:8888; </span><br><span class="line">   hash $request_uri; </span><br><span class="line">   hash_method crc32; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>upstream还可以为每个设备设置状态值，这些状态值的含义分别如下：</p>
+<p>down 表示单前的server暂时不参与负载.</p>
+<p>weight 默认为1.weight越大，负载的权重就越大。</p>
+<p>max_fails ：允许请求失败的次数默认为1.当超过最大次数时，返回proxy_next_upstream 模块定义的错误.</p>
+<p>fail_timeout : max_fails次失败后，暂停的时间。</p>
+<p>backup： 其它所有的非backup机器down或者忙的时候，请求backup机器。所以这台机器压力会最轻。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">upstream bakend&#123; #定义负载均衡设备的Ip及设备状态 </span><br><span class="line"> ip_hash; </span><br><span class="line">   server 10.0.0.11:9090 down; </span><br><span class="line">   server 10.0.0.11:8080 weight&#x3D;2; </span><br><span class="line">   server 10.0.0.11:6060; </span><br><span class="line">   server 10.0.0.11:7070 backup; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>后端</category>
+        <category>nginx</category>
+      </categories>
+      <tags>
+        <tag>nginx</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>valine改为本地加载</title>
+    <url>/essay/802f7ce0.html</url>
+    <content><![CDATA[<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>主题next7.8  valine 1.4.14</p>
+<h2 id="找到模板源文件"><a href="#找到模板源文件" class="headerlink" title="找到模板源文件"></a>找到模板源文件</h2><p>通过以下路径找到</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">\themes\next\layout\_third-party\comments\valine.swig</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+
+<p>打开代码</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;%- set valine_uri &#x3D; theme.vendors.valine or &#39;&#x2F;&#x2F;unpkg.com&#x2F;valine&#x2F;dist&#x2F;Valine.min.js&#39; %&#125;</span><br></pre></td></tr></table></figure>
+<p>从第一行代码可以看出，它是通过网络加载，然后用<code>NexT.utils</code>来进行获取参数  <del>我们可以不用管，直接删掉</del></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">NexT.utils.getScript(&#39;&#123;&#123; valine_uri &#125;&#125;&#39;, () &#x3D;&gt; &#123;</span><br><span class="line">    var GUEST &#x3D; [&#39;nick&#39;, &#39;mail&#39;, &#39;link&#39;];</span><br><span class="line">    var guest &#x3D; &#39;&#123;&#123; theme.valine.guest_info &#125;&#125;&#39;;</span><br><span class="line">    guest &#x3D; guest.split(&#39;,&#39;).filter(item &#x3D;&gt; &#123;</span><br><span class="line">      return GUEST.includes(item);</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
+<p><del>只留下主体new Valine 代码</del></p>
+<p><code>这样操作会导致读取不到guest</code></p>
+<p>应该这样写 ↓</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;script type&#x3D;&quot;text&#x2F;javascript&quot; src&#x3D;&quot;&#x2F;js&#x2F;Valine.min.js&quot;&gt;&lt;&#x2F;script&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">	var GUEST &#x3D; [&#39;nick&#39;, &#39;mail&#39;, &#39;link&#39;];</span><br><span class="line">	var guest &#x3D; &#39;&#123;&#123; theme.valine.guest_info &#125;&#125;&#39;;</span><br><span class="line">    guest &#x3D; guest.split(&#39;,&#39;).filter(item &#x3D;&gt; &#123;</span><br><span class="line">      return GUEST.includes(item);</span><br><span class="line">    &#125;);</span><br><span class="line">    new Valine(&#123;</span><br><span class="line">      el         : &#39;#valine-comments&#39;,</span><br><span class="line">      verify     : &#123;&#123; theme.valine.verify &#125;&#125;,</span><br><span class="line">      notify     : &#123;&#123; theme.valine.notify &#125;&#125;,</span><br><span class="line">      appId      : &#39;&#123;&#123; theme.valine.appid &#125;&#125;&#39;,</span><br><span class="line">      appKey     : &#39;&#123;&#123; theme.valine.appkey &#125;&#125;&#39;,</span><br><span class="line">      placeholder: &#123;&#123; theme.valine.placeholder | json &#125;&#125;,</span><br><span class="line">      avatar     : &#39;&#123;&#123; theme.valine.avatar &#125;&#125;&#39;,</span><br><span class="line">      meta       : guest,</span><br><span class="line">      pageSize   : &#39;&#123;&#123; theme.valine.pageSize &#125;&#125;&#39; || 10,</span><br><span class="line">      visitor    : &#123;&#123; theme.valine.visitor &#125;&#125;,</span><br><span class="line">      lang       : &#39;&#123;&#123; theme.valine.language &#125;&#125;&#39; || &#39;zh-cn&#39;,</span><br><span class="line">      path       : location.pathname,</span><br><span class="line">      recordIP   : &#123;&#123; theme.valine.recordIP &#125;&#125;,</span><br><span class="line">      serverURLs : &#39;&#123;&#123; theme.valine.serverURLs &#125;&#125;&#39;</span><br><span class="line">    &#125;);</span><br><span class="line">&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="Valine-min-js获取方式"><a href="#Valine-min-js获取方式" class="headerlink" title="Valine.min.js获取方式"></a>Valine.min.js获取方式</h2><p>访问 <a href="https://unpkg.com/valine/dist/Valine.min.js">这里</a> 复制全部代码，新建一个Valine.min.js，放进去 保存 放在 <code>主题\source\js</code>里面</p>
+]]></content>
+      <categories>
+        <category>next</category>
+        <category>valine</category>
+      </categories>
+      <tags>
+        <tag>valine</tag>
       </tags>
   </entry>
   <entry>
@@ -250,59 +303,6 @@
       </categories>
       <tags>
         <tag>sso</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>nginx实现负载均衡</title>
-    <url>/essay/nginx-config.html</url>
-    <content><![CDATA[<p>Nginx可以配置代理多台服务器，当一台服务器宕机之后，仍能保持系统可用。记录一下nginx负载均衡的实现，配置文件如下：</p>
-<a id="more"></a>
-
-<ol>
-<li>在http节点下，添加upstream节点。</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">upstream abc &#123; </span><br><span class="line">   server localhost:7080; </span><br><span class="line">   server localhost:8980; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>将server节点下的location节点中的proxy_pass配置为：http:// + upstream名称，即</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">location &#x2F; &#123; </span><br><span class="line">    root  html; </span><br><span class="line">    &#x2F;&#x2F;http:&#x2F;&#x2F; + upstream名称</span><br><span class="line">    proxy_pass http:&#x2F;&#x2F;abc; </span><br><span class="line">    index  index.html index.htm; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>upstream按照轮询（默认）方式进行负载，每个请求按时间顺序逐一分配到不同的后端服务器，如果后端服务器down掉，能自动剔除。虽然这种方式简便、成本低廉。但缺点是：可靠性低和负载分配不均衡。适用于图片服务器集群和纯静态页面服务器集群。除此之外，upstream还有其它的分配策略，分别如下：</p>
-<ol>
-<li>weight（权重）</li>
-</ol>
-<p>指定轮询几率，weight和访问比率成正比，用于后端服务器性能不均的情况。如下所示，10.0.0.88的访问比率要比10.0.0.77的访问比率高一倍。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">upstream linuxidc&#123; </span><br><span class="line">      server 10.0.0.77 weight&#x3D;5; </span><br><span class="line">      server 10.0.0.88 weight&#x3D;10; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>ip_hash（访问ip）</li>
-</ol>
-<p>每个请求按访问ip的hash结果分配，这样每个访客固定访问一个后端服务器，可以解决session的问题。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">upstream favresin&#123; </span><br><span class="line">      ip_hash; </span><br><span class="line">      server 10.0.0.10:8080; </span><br><span class="line">      server 10.0.0.11:8080; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ol start="3">
-<li><p>fair（第三方）</p>
-<p>按后端服务器的响应时间来分配请求，响应时间短的优先分配。与weight分配策略类似。</p>
-</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"> upstream abc&#123;   </span><br><span class="line">   server 10.0.0.10:8080; </span><br><span class="line">   server 10.0.0.11:8080; </span><br><span class="line">   fair; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ol start="4">
-<li>url_hash（第三方）</li>
-</ol>
-<p>按访问url的hash结果来分配请求，使每个url定向到同一个后端服务器，后端服务器为缓存时比较有效。</p>
-<p>注意：在upstream中加入hash语句，server语句中不能写入weight等其他的参数，hash_method是使用的hash算法。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"> upstream abc&#123; </span><br><span class="line">   server 10.0.0.10:7777; </span><br><span class="line">   server 10.0.0.11:8888; </span><br><span class="line">   hash $request_uri; </span><br><span class="line">   hash_method crc32; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>upstream还可以为每个设备设置状态值，这些状态值的含义分别如下：</p>
-<p>down 表示单前的server暂时不参与负载.</p>
-<p>weight 默认为1.weight越大，负载的权重就越大。</p>
-<p>max_fails ：允许请求失败的次数默认为1.当超过最大次数时，返回proxy_next_upstream 模块定义的错误.</p>
-<p>fail_timeout : max_fails次失败后，暂停的时间。</p>
-<p>backup： 其它所有的非backup机器down或者忙的时候，请求backup机器。所以这台机器压力会最轻。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">upstream bakend&#123; #定义负载均衡设备的Ip及设备状态 </span><br><span class="line"> ip_hash; </span><br><span class="line">   server 10.0.0.11:9090 down; </span><br><span class="line">   server 10.0.0.11:8080 weight&#x3D;2; </span><br><span class="line">   server 10.0.0.11:6060; </span><br><span class="line">   server 10.0.0.11:7070 backup; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>后端</category>
-        <category>nginx</category>
-      </categories>
-      <tags>
-        <tag>nginx</tag>
       </tags>
   </entry>
 </search>
