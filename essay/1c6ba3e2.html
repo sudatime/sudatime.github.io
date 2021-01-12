@@ -33,7 +33,7 @@
 <meta property="og:image" content="https://blog.sodarain.top/essay/1c6ba3e2/netty事件驱动.png">
 <meta property="og:image" content="https://blog.sodarain.top/essay/1c6ba3e2/netty功能特性图.png">
 <meta property="article:published_time" content="2021-01-12T10:51:25.000Z">
-<meta property="article:modified_time" content="2021-01-12T11:30:39.410Z">
+<meta property="article:modified_time" content="2021-01-12T11:59:30.171Z">
 <meta property="article:author" content="sudatime">
 <meta property="article:tag" content="netty">
 <meta name="twitter:card" content="summary">
@@ -241,7 +241,7 @@
         <p>Netty是一个异步事件驱动的网络应用框架，用于快速开发可维护的高性能服务器和客户端。</p>
 <a id="more"></a>
 
-<h1 id="1-IO编程"><a href="#1-IO编程" class="headerlink" title="1.IO编程"></a>1.IO编程</h1><h2 id="1-1-传统IO编程"><a href="#1-1-传统IO编程" class="headerlink" title="1.1 传统IO编程"></a>1.1 传统IO编程</h2><p>每个客户端连接过来后，服务端都会启动一个线程去处理该客户端的请求。阻塞I/O的通信模型示意图如下：</p>
+<h1 id="IO编程"><a href="#IO编程" class="headerlink" title="IO编程"></a>IO编程</h1><h2 id="传统IO编程"><a href="#传统IO编程" class="headerlink" title="传统IO编程"></a>传统IO编程</h2><p>每个客户端连接过来后，服务端都会启动一个线程去处理该客户端的请求。阻塞I/O的通信模型示意图如下：</p>
 <img src="/essay/1c6ba3e2/传统io.png" style="zoom:80%;">
 
 <p>在传统的IO模型中，每个连接创建成功之后都需要一个线程来维护，每个线程包含一个while死循环。<br>如果在用户数量较少的情况下运行是没有问题的，但是对于用户数量比较多的业务来说，服务端可能需要支撑成千上万的连接，IO模型可能就不太合适了。</p>
@@ -251,11 +251,11 @@
 <li>因为是阻塞式通信，线程爆炸之后操作系统频繁进行线程切换，应用性能急剧下降。</li>
 <li>IO编程中数据读写是以字节流为单位，效率不高。</li>
 </ul>
-<h2 id="1-2-NIO"><a href="#1-2-NIO" class="headerlink" title="1.2 NIO"></a>1.2 NIO</h2><p>NIO，也叫做new-IO或者non-blocking-IO，可理解为非阻塞IO。NIO编程模型中，新来一个连接不再创建一个新的线程，而是可以把这条连接直接绑定到某个固定的线程，然后这条连接所有的读写都由这个线程来负责</p>
+<h2 id="NIO"><a href="#NIO" class="headerlink" title="NIO"></a>NIO</h2><p>NIO，也叫做new-IO或者non-blocking-IO，可理解为非阻塞IO。NIO编程模型中，新来一个连接不再创建一个新的线程，而是可以把这条连接直接绑定到某个固定的线程，然后这条连接所有的读写都由这个线程来负责</p>
 <img src="/essay/1c6ba3e2/nio.png" style="zoom:80%;">
 
 <p>在NIO模型中，可以把这么多的while死循环变成一个死循环，这个死循环由一个线程控制。这就是NIO模型中选择器（Selector）的作用，一条连接来了之后，现在不创建一个while死循环去监听是否有数据可读了，而是直接把这条连接注册到选择器上，通过检查这个选择器，就可以批量监测出有数据可读的连接，进而读取数据。</p>
-<h3 id="1-2-1-NIO三大组件"><a href="#1-2-1-NIO三大组件" class="headerlink" title="1.2.1 NIO三大组件"></a>1.2.1 NIO三大组件</h3><ul>
+<h3 id="NIO三大组件"><a href="#NIO三大组件" class="headerlink" title="NIO三大组件"></a>NIO三大组件</h3><ul>
 <li><p>通道（Channel）<br>是传统IO中的Stream(流)的升级版。Stream是单向的、读写分离（inputstream和outputstream），Channel是双向的，既可以进行读操作，又可以进行写操作。</p>
 </li>
 <li><p>缓冲（Buffer）</p>
@@ -264,12 +264,12 @@
 <li><p>选择器（Selector）<br>选择器可以实现一个单独的线程来监控多个注册在她上面的信道（Channel），通过一定的选择机制，实现多路复用的效果。</p>
 </li>
 </ul>
-<h3 id="1-2-2-NIO相对于IO的优势"><a href="#1-2-2-NIO相对于IO的优势" class="headerlink" title="1.2.2 NIO相对于IO的优势"></a>1.2.2 NIO相对于IO的优势</h3><ol>
+<h3 id="NIO相对于IO的优势"><a href="#NIO相对于IO的优势" class="headerlink" title="NIO相对于IO的优势"></a>NIO相对于IO的优势</h3><ol>
 <li>IO是面向流的，每次都是从操作系统底层一个字节一个字节地读取数据，并且数据只能从一端读取到另一端，不能前后移动流中的数据。NIO则是面向缓冲区的，每次可以从这个缓冲区里面读取一块的数据，并且可以在需要时在缓冲区中前后移动。</li>
 <li>IO是阻塞的，这意味着，当一个线程读取数据或写数据时，该线程被阻塞，直到有一些数据被读取，或数据完全写入，在此期间该线程不能干其他任何事情。而NIO是非阻塞的，不需要一直等待操作完成才能干其他事情，而是在等待的过程中可以同时去做别的事情，所以能最大限度地使用服务器的资源。</li>
 <li>NIO引入了IO多路复用器selector。selector是一个提供channel注册服务的线程，可以同时对接多个Channel，并在线程池中为channel适配、选择合适的线程来处理channel。由于NIO模型中线程数量大大降低，线程切换效率因此也大幅度提高。</li>
 </ol>
-<h1 id="2-Netty"><a href="#2-Netty" class="headerlink" title="2.Netty"></a>2.Netty</h1><h2 id="2-1-netty不使用原生NIO原因"><a href="#2-1-netty不使用原生NIO原因" class="headerlink" title="2.1 netty不使用原生NIO原因"></a>2.1 netty不使用原生NIO原因</h2><p>下面是使用Netty不使用JDK原生NIO的一些原因：</p>
+<h1 id="Netty"><a href="#Netty" class="headerlink" title="Netty"></a>Netty</h1><h2 id="netty不使用原生NIO原因"><a href="#netty不使用原生NIO原因" class="headerlink" title="netty不使用原生NIO原因"></a>netty不使用原生NIO原因</h2><p>下面是使用Netty不使用JDK原生NIO的一些原因：</p>
 <ul>
 <li>使用JDK自带的NIO需要了解太多的概念，编程复杂</li>
 <li>Netty底层IO模型随意切换，而这一切只需要做微小的改动，就可以直接从NIO模型变身为IO模型</li>
@@ -280,7 +280,7 @@
 <li>Netty社区活跃，遇到问题随时邮件列表或者issue</li>
 <li>Netty已经历各大rpc框架，消息中间件，分布式通信中间件线上的广泛验证，健壮性无比强大</li>
 </ul>
-<h2 id="2-2-代码展示"><a href="#2-2-代码展示" class="headerlink" title="2.2 代码展示"></a>2.2 代码展示</h2><ul>
+<h2 id="代码展示"><a href="#代码展示" class="headerlink" title="代码展示"></a>代码展示</h2><ul>
 <li>maven依赖</li>
 </ul>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.netty<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>netty-all<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">version</span>&gt;</span>4.1.42.Final<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
@@ -292,7 +292,7 @@
 <li>客户端：</li>
 </ul>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NettyClient</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">        Bootstrap bootstrap = <span class="keyword">new</span> Bootstrap();</span><br><span class="line">        NioEventLoopGroup group = <span class="keyword">new</span> NioEventLoopGroup();</span><br><span class="line"></span><br><span class="line">        bootstrap.group(group)</span><br><span class="line">                .channel(NioSocketChannel.class)</span><br><span class="line">                .handler(<span class="keyword">new</span> ChannelInitializer&lt;Channel&gt;() &#123;</span><br><span class="line">                    <span class="meta">@Override</span></span><br><span class="line">                    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">initChannel</span><span class="params">(Channel ch)</span> </span>&#123;</span><br><span class="line">                        ch.pipeline().addLast(<span class="keyword">new</span> StringEncoder());</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;);</span><br><span class="line"></span><br><span class="line">        Channel channel = bootstrap.connect(<span class="string">&quot;127.0.0.1&quot;</span>, <span class="number">8000</span>).channel();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">            channel.writeAndFlush(<span class="string">&quot;测试数据&quot;</span>);</span><br><span class="line">            Thread.sleep(<span class="number">2000</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="2-3-Netty的事件驱动"><a href="#2-3-Netty的事件驱动" class="headerlink" title="2.3 Netty的事件驱动"></a>2.3 Netty的事件驱动</h2><p>Netty使用事件驱动的方式作为底层架构，包括：</p>
+<h2 id="Netty的事件驱动"><a href="#Netty的事件驱动" class="headerlink" title="Netty的事件驱动"></a>Netty的事件驱动</h2><p>Netty使用事件驱动的方式作为底层架构，包括：</p>
 <ul>
 <li>事件队列（event queue）：接收事件的入口。</li>
 <li>分发器（event mediator）：将不同的事件分发到不同的业务逻辑单元。</li>
@@ -301,7 +301,7 @@
 </ul>
 <img src="/essay/1c6ba3e2/netty事件驱动.png" style="zoom:75%;">
 
-<h2 id="2-4-核心组件"><a href="#2-4-核心组件" class="headerlink" title="2.4 核心组件"></a>2.4 核心组件</h2><p>Netty 的功能特性图：</p>
+<h2 id="核心组件"><a href="#核心组件" class="headerlink" title="核心组件"></a>核心组件</h2><p>Netty 的功能特性图：</p>
 <img src="/essay/1c6ba3e2/netty功能特性图.png" style="zoom:75%;">
 
 <p>Netty 功能特性：</p>
@@ -456,7 +456,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-IO%E7%BC%96%E7%A8%8B"><span class="nav-number">1.</span> <span class="nav-text">1.IO编程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-%E4%BC%A0%E7%BB%9FIO%E7%BC%96%E7%A8%8B"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 传统IO编程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-NIO"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 NIO</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-1-NIO%E4%B8%89%E5%A4%A7%E7%BB%84%E4%BB%B6"><span class="nav-number">1.2.1.</span> <span class="nav-text">1.2.1 NIO三大组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-2-NIO%E7%9B%B8%E5%AF%B9%E4%BA%8EIO%E7%9A%84%E4%BC%98%E5%8A%BF"><span class="nav-number">1.2.2.</span> <span class="nav-text">1.2.2 NIO相对于IO的优势</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-Netty"><span class="nav-number">2.</span> <span class="nav-text">2.Netty</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-netty%E4%B8%8D%E4%BD%BF%E7%94%A8%E5%8E%9F%E7%94%9FNIO%E5%8E%9F%E5%9B%A0"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 netty不使用原生NIO原因</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-%E4%BB%A3%E7%A0%81%E5%B1%95%E7%A4%BA"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 代码展示</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-Netty%E7%9A%84%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 Netty的事件驱动</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-4-%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6"><span class="nav-number">2.4.</span> <span class="nav-text">2.4 核心组件</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#IO%E7%BC%96%E7%A8%8B"><span class="nav-number">1.</span> <span class="nav-text">IO编程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%A0%E7%BB%9FIO%E7%BC%96%E7%A8%8B"><span class="nav-number">1.1.</span> <span class="nav-text">传统IO编程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NIO"><span class="nav-number">1.2.</span> <span class="nav-text">NIO</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#NIO%E4%B8%89%E5%A4%A7%E7%BB%84%E4%BB%B6"><span class="nav-number">1.2.1.</span> <span class="nav-text">NIO三大组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NIO%E7%9B%B8%E5%AF%B9%E4%BA%8EIO%E7%9A%84%E4%BC%98%E5%8A%BF"><span class="nav-number">1.2.2.</span> <span class="nav-text">NIO相对于IO的优势</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Netty"><span class="nav-number">2.</span> <span class="nav-text">Netty</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#netty%E4%B8%8D%E4%BD%BF%E7%94%A8%E5%8E%9F%E7%94%9FNIO%E5%8E%9F%E5%9B%A0"><span class="nav-number">2.1.</span> <span class="nav-text">netty不使用原生NIO原因</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E5%B1%95%E7%A4%BA"><span class="nav-number">2.2.</span> <span class="nav-text">代码展示</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Netty%E7%9A%84%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8"><span class="nav-number">2.3.</span> <span class="nav-text">Netty的事件驱动</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6"><span class="nav-number">2.4.</span> <span class="nav-text">核心组件</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
