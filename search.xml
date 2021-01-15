@@ -128,6 +128,9 @@
 <li>ChannelFuture：与jdk中线程的Future接口类似，即实现并行处理的效果。可<br>以在操作执行成功或失败时自动触发监听器中的事件处理方法。</li>
 </ul>
 ]]></content>
+      <categories>
+        <category>后端</category>
+      </categories>
       <tags>
         <tag>netty</tag>
       </tags>
