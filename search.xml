@@ -215,6 +215,27 @@
       </tags>
   </entry>
   <entry>
+    <title>vue与button的冲突</title>
+    <url>/essay/vue-button.html</url>
+    <content><![CDATA[<h2 id="环境："><a href="#环境：" class="headerlink" title="环境："></a>环境：</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">vue.js v2.5.16</span><br></pre></td></tr></table></figure>
+<h2 id="问题描述："><a href="#问题描述：" class="headerlink" title="问题描述："></a>问题描述：</h2><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span>&gt;</span><span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p> 这个标签未设置type属性时，在form表单中会默认为submit属性，也就是表单提交事件。</p>
+<p>当vue指定@click事件在这个button上时，就会出现两次请求的触发。</p>
+<p>出现同步请求的现象（也就是页面刷新一次）</p>
+<a id="more"></a>
+
+<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><h3 id="方案一："><a href="#方案一：" class="headerlink" title="方案一："></a>方案一：</h3><p>使用高版本vue.js</p>
+<p>实测vue.js : 2.6.11可解决问题，但是仍然有同步请求现象</p>
+<h3 id="方案二："><a href="#方案二：" class="headerlink" title="方案二："></a>方案二：</h3><p>给form内的button加上type属性，这个最为方便快捷</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">type</span>=<span class="string">&quot;button&quot;</span> @<span class="attr">click</span>=<span class="string">&quot;pageNum=1;findPage()&quot;</span> <span class="attr">class</span>=<span class="string">&quot;btn btn-default&quot;</span>&gt;</span>查询<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>vue</category>
+      </categories>
+      <tags>
+        <tag>vue</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>valine改为本地加载</title>
     <url>/essay/802f7ce0.html</url>
     <content><![CDATA[<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>主题next7.8  valine 1.4.14</p>
@@ -238,27 +259,6 @@
       </categories>
       <tags>
         <tag>valine</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>vue与button的冲突</title>
-    <url>/essay/vue-button.html</url>
-    <content><![CDATA[<h2 id="环境："><a href="#环境：" class="headerlink" title="环境："></a>环境：</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">vue.js v2.5.16</span><br></pre></td></tr></table></figure>
-<h2 id="问题描述："><a href="#问题描述：" class="headerlink" title="问题描述："></a>问题描述：</h2><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span>&gt;</span><span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p> 这个标签未设置type属性时，在form表单中会默认为submit属性，也就是表单提交事件。</p>
-<p>当vue指定@click事件在这个button上时，就会出现两次请求的触发。</p>
-<p>出现同步请求的现象（也就是页面刷新一次）</p>
-<a id="more"></a>
-
-<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><h3 id="方案一："><a href="#方案一：" class="headerlink" title="方案一："></a>方案一：</h3><p>使用高版本vue.js</p>
-<p>实测vue.js : 2.6.11可解决问题，但是仍然有同步请求现象</p>
-<h3 id="方案二："><a href="#方案二：" class="headerlink" title="方案二："></a>方案二：</h3><p>给form内的button加上type属性，这个最为方便快捷</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">type</span>=<span class="string">&quot;button&quot;</span> @<span class="attr">click</span>=<span class="string">&quot;pageNum=1;findPage()&quot;</span> <span class="attr">class</span>=<span class="string">&quot;btn btn-default&quot;</span>&gt;</span>查询<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>vue</category>
-      </categories>
-      <tags>
-        <tag>vue</tag>
       </tags>
   </entry>
   <entry>
@@ -311,7 +311,10 @@
   <entry>
     <title>mysql性能优化</title>
     <url>/essay/d9f1b207.html</url>
-    <content><![CDATA[<h1 id="MySQL性能优化"><a href="#MySQL性能优化" class="headerlink" title="MySQL性能优化"></a>MySQL性能优化</h1><h2 id="优化介绍"><a href="#优化介绍" class="headerlink" title="优化介绍"></a>优化介绍</h2><h3 id="优化要考虑的问题"><a href="#优化要考虑的问题" class="headerlink" title="优化要考虑的问题"></a>优化要考虑的问题</h3><h4 id="优化可能带来的问题"><a href="#优化可能带来的问题" class="headerlink" title="优化可能带来的问题"></a>优化可能带来的问题</h4><ul>
+    <content><![CDATA[<h1 id="MySQL性能优化"><a href="#MySQL性能优化" class="headerlink" title="MySQL性能优化"></a>MySQL性能优化</h1><p>优化有风险，涉足需谨慎！</p>
+<a id="more"></a>
+
+<h2 id="优化介绍"><a href="#优化介绍" class="headerlink" title="优化介绍"></a>优化介绍</h2><h3 id="优化要考虑的问题"><a href="#优化要考虑的问题" class="headerlink" title="优化要考虑的问题"></a>优化要考虑的问题</h3><h4 id="优化可能带来的问题"><a href="#优化可能带来的问题" class="headerlink" title="优化可能带来的问题"></a>优化可能带来的问题</h4><ul>
 <li>优化不总是对一个单纯的环境进行，还很可能是一个复杂的已投产的系统！</li>
 <li>优化手段有很大的风险，一定要意识到和预见到！</li>
 <li>任何的技术可以解决一个问题，但必然存在带来一个问题的风险！</li>
