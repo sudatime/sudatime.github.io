@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title></title>
-    <url>/essay/0.html</url>
+    <title>Elasticsearch的安装</title>
+    <url>/essay/install-elasticsearch.html</url>
     <content><![CDATA[<h1 id="docker安装elasticsearch"><a href="#docker安装elasticsearch" class="headerlink" title="docker安装elasticsearch"></a>docker安装elasticsearch</h1><p>详细介绍了docker下安装elasticsearch、kibana以及ik分词器的步骤</p>
-<p>注意：要保持版本一致</p>
+<p>注意：要保持es、kibana、ik分词器版本一致</p>
+<a id="more"></a>
+
 <h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>centos7:</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"> cat /etc/os-release </span><br><span class="line">NAME=<span class="string">&quot;CentOS Linux&quot;</span></span><br><span class="line">VERSION=<span class="string">&quot;7 (Core)&quot;</span></span><br><span class="line">ID=<span class="string">&quot;centos&quot;</span></span><br><span class="line">ID_LIKE=<span class="string">&quot;rhel fedora&quot;</span></span><br><span class="line">VERSION_ID=<span class="string">&quot;7&quot;</span></span><br><span class="line">PRETTY_NAME=<span class="string">&quot;CentOS Linux 7 (Core)&quot;</span></span><br><span class="line">ANSI_COLOR=<span class="string">&quot;0;31&quot;</span></span><br><span class="line">CPE_NAME=<span class="string">&quot;cpe:/o:centos:centos:7&quot;</span></span><br><span class="line">HOME_URL=<span class="string">&quot;https://www.centos.org/&quot;</span></span><br><span class="line">BUG_REPORT_URL=<span class="string">&quot;https://bugs.centos.org/&quot;</span></span><br><span class="line"></span><br><span class="line">CENTOS_MANTISBT_PROJECT=<span class="string">&quot;CentOS-7&quot;</span></span><br><span class="line">CENTOS_MANTISBT_PROJECT_VERSION=<span class="string">&quot;7&quot;</span></span><br><span class="line">REDHAT_SUPPORT_PRODUCT=<span class="string">&quot;centos&quot;</span></span><br><span class="line">REDHAT_SUPPORT_PRODUCT_VERSION=<span class="string">&quot;7&quot;</span></span><br></pre></td></tr></table></figure>
 <p>docker版本:</p>
@@ -20,8 +22,13 @@
 <p>访问：127.0.0.1:5601 即可</p>
 <h3 id="安装IK分词器"><a href="#安装IK分词器" class="headerlink" title="安装IK分词器"></a>安装IK分词器</h3><p>github地址：<a href="https://github.com/medcl/elasticsearch-analysis-ik">https://github.com/medcl/elasticsearch-analysis-ik</a></p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># ik分词器为zip文件，需要解压</span></span><br><span class="line">yum install unzip </span><br><span class="line"><span class="comment"># 解压到指定路径</span></span><br><span class="line">unzip elasticsearch-analysis-ik-7.10.1.zip -d ./ik/</span><br><span class="line"><span class="comment"># 复制到容器内部</span></span><br><span class="line">docker cp ik/ es:/usr/share/elasticsearch/plugins/analysis-ik/</span><br><span class="line"><span class="comment"># 进入容器内部</span></span><br><span class="line">docker <span class="built_in">exec</span> -it es /bin/bash</span><br><span class="line"><span class="comment"># 进入刚刚复制到的文件路径</span></span><br><span class="line"><span class="built_in">cd</span> /usr/share/elasticsearch/plugins/analysis-ik</span><br><span class="line"><span class="comment"># 将该文件夹下的config文件全部复制到es的配置文件下</span></span><br><span class="line">cp /usr/share/elasticsearch/plugins/analysis-ik/config/* \ /usr/share/elasticsearch/config/</span><br><span class="line"><span class="comment">#退出容器</span></span><br><span class="line"><span class="built_in">exit</span></span><br><span class="line"><span class="comment">#重启es服务</span></span><br><span class="line">docker restart es</span><br></pre></td></tr></table></figure>
-<h3 id="验证一下："><a href="#验证一下：" class="headerlink" title="验证一下："></a>验证一下：</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">GET /_analyze</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;analyzer&quot;</span>: <span class="string">&quot;ik_max_word&quot;</span>,</span><br><span class="line">  <span class="string">&quot;text&quot;</span>: <span class="string">&quot;今天天气真好！&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 执行结果</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;tokens&quot;</span> : [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">&quot;token&quot;</span> : <span class="string">&quot;今天天气&quot;</span>,</span><br><span class="line">      <span class="string">&quot;start_offset&quot;</span> : 0,</span><br><span class="line">      <span class="string">&quot;end_offset&quot;</span> : 4,</span><br><span class="line">      <span class="string">&quot;type&quot;</span> : <span class="string">&quot;CN_WORD&quot;</span>,</span><br><span class="line">      <span class="string">&quot;position&quot;</span> : 0</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">&quot;token&quot;</span> : <span class="string">&quot;今天&quot;</span>,</span><br><span class="line">      <span class="string">&quot;start_offset&quot;</span> : 0,</span><br><span class="line">      <span class="string">&quot;end_offset&quot;</span> : 2,</span><br><span class="line">      <span class="string">&quot;type&quot;</span> : <span class="string">&quot;CN_WORD&quot;</span>,</span><br><span class="line">      <span class="string">&quot;position&quot;</span> : 1</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">&quot;token&quot;</span> : <span class="string">&quot;天天&quot;</span>,</span><br><span class="line">      <span class="string">&quot;start_offset&quot;</span> : 1,</span><br><span class="line">      <span class="string">&quot;end_offset&quot;</span> : 3,</span><br><span class="line">      <span class="string">&quot;type&quot;</span> : <span class="string">&quot;CN_WORD&quot;</span>,</span><br><span class="line">      <span class="string">&quot;position&quot;</span> : 2</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">&quot;token&quot;</span> : <span class="string">&quot;天气&quot;</span>,</span><br><span class="line">      <span class="string">&quot;start_offset&quot;</span> : 2,</span><br><span class="line">      <span class="string">&quot;end_offset&quot;</span> : 4,</span><br><span class="line">      <span class="string">&quot;type&quot;</span> : <span class="string">&quot;CN_WORD&quot;</span>,</span><br><span class="line">      <span class="string">&quot;position&quot;</span> : 3</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">&quot;token&quot;</span> : <span class="string">&quot;真好&quot;</span>,</span><br><span class="line">      <span class="string">&quot;start_offset&quot;</span> : 4,</span><br><span class="line">      <span class="string">&quot;end_offset&quot;</span> : 6,</span><br><span class="line">      <span class="string">&quot;type&quot;</span> : <span class="string">&quot;CN_WORD&quot;</span>,</span><br><span class="line">      <span class="string">&quot;position&quot;</span> : 4</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
+<h3 id="验证一下："><a href="#验证一下：" class="headerlink" title="验证一下："></a>验证一下：</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">GET /_analyze</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;analyzer&quot;</span>: <span class="string">&quot;ik_max_word&quot;</span>,</span><br><span class="line">  <span class="string">&quot;text&quot;</span>: <span class="string">&quot;今天天气真好！&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 执行结果</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;tokens&quot;</span> : [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">&quot;token&quot;</span> : <span class="string">&quot;今天天气&quot;</span>,</span><br><span class="line">      <span class="string">&quot;start_offset&quot;</span> : 0,</span><br><span class="line">      <span class="string">&quot;end_offset&quot;</span> : 4,</span><br><span class="line">      <span class="string">&quot;type&quot;</span> : <span class="string">&quot;CN_WORD&quot;</span>,</span><br><span class="line">      <span class="string">&quot;position&quot;</span> : 0</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">&quot;token&quot;</span> : <span class="string">&quot;今天&quot;</span>,</span><br><span class="line">      <span class="string">&quot;start_offset&quot;</span> : 0,</span><br><span class="line">      <span class="string">&quot;end_offset&quot;</span> : 2,</span><br><span class="line">      <span class="string">&quot;type&quot;</span> : <span class="string">&quot;CN_WORD&quot;</span>,</span><br><span class="line">      <span class="string">&quot;position&quot;</span> : 1</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">&quot;token&quot;</span> : <span class="string">&quot;天天&quot;</span>,</span><br><span class="line">      <span class="string">&quot;start_offset&quot;</span> : 1,</span><br><span class="line">      <span class="string">&quot;end_offset&quot;</span> : 3,</span><br><span class="line">      <span class="string">&quot;type&quot;</span> : <span class="string">&quot;CN_WORD&quot;</span>,</span><br><span class="line">      <span class="string">&quot;position&quot;</span> : 2</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">&quot;token&quot;</span> : <span class="string">&quot;天气&quot;</span>,</span><br><span class="line">      <span class="string">&quot;start_offset&quot;</span> : 2,</span><br><span class="line">      <span class="string">&quot;end_offset&quot;</span> : 4,</span><br><span class="line">      <span class="string">&quot;type&quot;</span> : <span class="string">&quot;CN_WORD&quot;</span>,</span><br><span class="line">      <span class="string">&quot;position&quot;</span> : 3</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">&quot;token&quot;</span> : <span class="string">&quot;真好&quot;</span>,</span><br><span class="line">      <span class="string">&quot;start_offset&quot;</span> : 4,</span><br><span class="line">      <span class="string">&quot;end_offset&quot;</span> : 6,</span><br><span class="line">      <span class="string">&quot;type&quot;</span> : <span class="string">&quot;CN_WORD&quot;</span>,</span><br><span class="line">      <span class="string">&quot;position&quot;</span> : 4</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>elasticsearch</category>
+      </categories>
+      <tags>
+        <tag>elasticsearch</tag>
+      </tags>
   </entry>
   <entry>
     <title>mybatisplus配置文件</title>
@@ -41,179 +48,6 @@
       </categories>
       <tags>
         <tag>mybatis</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>nginx实现负载均衡</title>
-    <url>/essay/nginx-config.html</url>
-    <content><![CDATA[<p>Nginx可以配置代理多台服务器，当一台服务器宕机之后，仍能保持系统可用。记录一下nginx负载均衡的实现，配置文件如下：</p>
-<a id="more"></a>
-
-<ol>
-<li>在http节点下，添加upstream节点。</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">upstream abc &#123; </span><br><span class="line">   server localhost:7080; </span><br><span class="line">   server localhost:8980; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>将server节点下的location节点中的proxy_pass配置为：http:// + upstream名称，即</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">location &#x2F; &#123; </span><br><span class="line">    root  html; </span><br><span class="line">    &#x2F;&#x2F;http:&#x2F;&#x2F; + upstream名称</span><br><span class="line">    proxy_pass http:&#x2F;&#x2F;abc; </span><br><span class="line">    index  index.html index.htm; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>upstream按照轮询（默认）方式进行负载，每个请求按时间顺序逐一分配到不同的后端服务器，如果后端服务器down掉，能自动剔除。虽然这种方式简便、成本低廉。但缺点是：可靠性低和负载分配不均衡。适用于图片服务器集群和纯静态页面服务器集群。除此之外，upstream还有其它的分配策略，分别如下：</p>
-<ol>
-<li>weight（权重）</li>
-</ol>
-<p>指定轮询几率，weight和访问比率成正比，用于后端服务器性能不均的情况。如下所示，10.0.0.88的访问比率要比10.0.0.77的访问比率高一倍。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">upstream linuxidc&#123; </span><br><span class="line">      server 10.0.0.77 weight&#x3D;5; </span><br><span class="line">      server 10.0.0.88 weight&#x3D;10; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>ip_hash（访问ip）</li>
-</ol>
-<p>每个请求按访问ip的hash结果分配，这样每个访客固定访问一个后端服务器，可以解决session的问题。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">upstream favresin&#123; </span><br><span class="line">      ip_hash; </span><br><span class="line">      server 10.0.0.10:8080; </span><br><span class="line">      server 10.0.0.11:8080; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ol start="3">
-<li><p>fair（第三方）</p>
-<p>按后端服务器的响应时间来分配请求，响应时间短的优先分配。与weight分配策略类似。</p>
-</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"> upstream abc&#123;   </span><br><span class="line">   server 10.0.0.10:8080; </span><br><span class="line">   server 10.0.0.11:8080; </span><br><span class="line">   fair; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ol start="4">
-<li>url_hash（第三方）</li>
-</ol>
-<p>按访问url的hash结果来分配请求，使每个url定向到同一个后端服务器，后端服务器为缓存时比较有效。</p>
-<p>注意：在upstream中加入hash语句，server语句中不能写入weight等其他的参数，hash_method是使用的hash算法。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"> upstream abc&#123; </span><br><span class="line">   server 10.0.0.10:7777; </span><br><span class="line">   server 10.0.0.11:8888; </span><br><span class="line">   hash $request_uri; </span><br><span class="line">   hash_method crc32; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>upstream还可以为每个设备设置状态值，这些状态值的含义分别如下：</p>
-<p>down 表示单前的server暂时不参与负载.</p>
-<p>weight 默认为1.weight越大，负载的权重就越大。</p>
-<p>max_fails ：允许请求失败的次数默认为1.当超过最大次数时，返回proxy_next_upstream 模块定义的错误.</p>
-<p>fail_timeout : max_fails次失败后，暂停的时间。</p>
-<p>backup： 其它所有的非backup机器down或者忙的时候，请求backup机器。所以这台机器压力会最轻。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">upstream bakend&#123; #定义负载均衡设备的Ip及设备状态 </span><br><span class="line"> ip_hash; </span><br><span class="line">   server 10.0.0.11:9090 down; </span><br><span class="line">   server 10.0.0.11:8080 weight&#x3D;2; </span><br><span class="line">   server 10.0.0.11:6060; </span><br><span class="line">   server 10.0.0.11:7070 backup; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>后端</category>
-        <category>nginx</category>
-      </categories>
-      <tags>
-        <tag>nginx</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>next主题下中文标题跳转失效</title>
-    <url>/essay/80ff7aac.html</url>
-    <content><![CDATA[<p>next 7.8版本发布于2020年4月1日，很久没更新 </p>
-<p>该bug导致中文标题无法跳转，但是英文标题可以</p>
-<a id="more"></a>
-
-<h2 id="环境："><a href="#环境：" class="headerlink" title="环境："></a>环境：</h2><p>hexo 5.0</p>
-<p>next 7.8</p>
-<h2 id="原因"><a href="#原因" class="headerlink" title="原因:"></a>原因:</h2><p><img src="/essay/80ff7aac/title_bug.png"></p>
-<p>由上图可知，utils中的一行代码出了问题，导致后面的一系列出了问题</p>
-<p>于是我先是去搜索了一下这个问题，但是并没有人写过相关内容</p>
-<p>最终 在官方代码最新的commit中，我看到了这样的一个提交。</p>
-<p><img src="/essay/80ff7aac/utils.png"></p>
-<p>但是即使将此次提交变动的代码修改之后也不可以，会出现另一个错误。</p>
-<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案:"></a>解决方案:</h2><p>将下面这个链接的整个代码全部复制，粘贴到<code>\themes\next\source\js\utils.js</code>中，问题完美解决</p>
-<p>访问官方的<a href="https://github.com/theme-next/hexo-theme-next/blob/master/source/js/utils.js">github仓库</a>获取最新的utils.js代码</p>
-]]></content>
-      <categories>
-        <category>next</category>
-        <category>bug</category>
-      </categories>
-      <tags>
-        <tag>next</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>valine改为本地加载</title>
-    <url>/essay/802f7ce0.html</url>
-    <content><![CDATA[<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>主题next7.8  valine 1.4.14</p>
-<h2 id="找到模板源文件"><a href="#找到模板源文件" class="headerlink" title="找到模板源文件"></a>找到模板源文件</h2><p>通过以下路径找到</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">\themes\next\layout\_third-party\comments\valine.swig</span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-
-<p>打开代码</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;%- set valine_uri &#x3D; theme.vendors.valine or &#39;&#x2F;&#x2F;unpkg.com&#x2F;valine&#x2F;dist&#x2F;Valine.min.js&#39; %&#125;</span><br></pre></td></tr></table></figure>
-<p>从第一行代码可以看出，它是通过网络加载，然后用<code>NexT.utils</code>来进行获取参数  <del>我们可以不用管，直接删掉</del></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">NexT.utils.getScript(&#39;&#123;&#123; valine_uri &#125;&#125;&#39;, () &#x3D;&gt; &#123;</span><br><span class="line">    var GUEST &#x3D; [&#39;nick&#39;, &#39;mail&#39;, &#39;link&#39;];</span><br><span class="line">    var guest &#x3D; &#39;&#123;&#123; theme.valine.guest_info &#125;&#125;&#39;;</span><br><span class="line">    guest &#x3D; guest.split(&#39;,&#39;).filter(item &#x3D;&gt; &#123;</span><br><span class="line">      return GUEST.includes(item);</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
-<p><del>只留下主体new Valine 代码</del></p>
-<p><code>这样操作会导致读取不到guest</code></p>
-<p>应该这样写 ↓</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;script type&#x3D;&quot;text&#x2F;javascript&quot; src&#x3D;&quot;&#x2F;js&#x2F;Valine.min.js&quot;&gt;&lt;&#x2F;script&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">	var GUEST &#x3D; [&#39;nick&#39;, &#39;mail&#39;, &#39;link&#39;];</span><br><span class="line">	var guest &#x3D; &#39;&#123;&#123; theme.valine.guest_info &#125;&#125;&#39;;</span><br><span class="line">    guest &#x3D; guest.split(&#39;,&#39;).filter(item &#x3D;&gt; &#123;</span><br><span class="line">      return GUEST.includes(item);</span><br><span class="line">    &#125;);</span><br><span class="line">    new Valine(&#123;</span><br><span class="line">      el         : &#39;#valine-comments&#39;,</span><br><span class="line">      verify     : &#123;&#123; theme.valine.verify &#125;&#125;,</span><br><span class="line">      notify     : &#123;&#123; theme.valine.notify &#125;&#125;,</span><br><span class="line">      appId      : &#39;&#123;&#123; theme.valine.appid &#125;&#125;&#39;,</span><br><span class="line">      appKey     : &#39;&#123;&#123; theme.valine.appkey &#125;&#125;&#39;,</span><br><span class="line">      placeholder: &#123;&#123; theme.valine.placeholder | json &#125;&#125;,</span><br><span class="line">      avatar     : &#39;&#123;&#123; theme.valine.avatar &#125;&#125;&#39;,</span><br><span class="line">      meta       : guest,</span><br><span class="line">      pageSize   : &#39;&#123;&#123; theme.valine.pageSize &#125;&#125;&#39; || 10,</span><br><span class="line">      visitor    : &#123;&#123; theme.valine.visitor &#125;&#125;,</span><br><span class="line">      lang       : &#39;&#123;&#123; theme.valine.language &#125;&#125;&#39; || &#39;zh-cn&#39;,</span><br><span class="line">      path       : location.pathname,</span><br><span class="line">      recordIP   : &#123;&#123; theme.valine.recordIP &#125;&#125;,</span><br><span class="line">      serverURLs : &#39;&#123;&#123; theme.valine.serverURLs &#125;&#125;&#39;</span><br><span class="line">    &#125;);</span><br><span class="line">&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
-<h2 id="Valine-min-js获取方式"><a href="#Valine-min-js获取方式" class="headerlink" title="Valine.min.js获取方式"></a>Valine.min.js获取方式</h2><p>访问 <a href="https://unpkg.com/valine/dist/Valine.min.js">这里</a> 复制全部代码，新建一个Valine.min.js，放进去 保存 放在 <code>主题\source\js</code>里面</p>
-]]></content>
-      <categories>
-        <category>next</category>
-        <category>valine</category>
-      </categories>
-      <tags>
-        <tag>valine</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>vue与button的冲突</title>
-    <url>/essay/vue-button.html</url>
-    <content><![CDATA[<h2 id="环境："><a href="#环境：" class="headerlink" title="环境："></a>环境：</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">vue.js v2.5.16</span><br></pre></td></tr></table></figure>
-<h2 id="问题描述："><a href="#问题描述：" class="headerlink" title="问题描述："></a>问题描述：</h2><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span>&gt;</span><span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p> 这个标签未设置type属性时，在form表单中会默认为submit属性，也就是表单提交事件。</p>
-<p>当vue指定@click事件在这个button上时，就会出现两次请求的触发。</p>
-<p>出现同步请求的现象（也就是页面刷新一次）</p>
-<a id="more"></a>
-
-<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><h3 id="方案一："><a href="#方案一：" class="headerlink" title="方案一："></a>方案一：</h3><p>使用高版本vue.js</p>
-<p>实测vue.js : 2.6.11可解决问题，但是仍然有同步请求现象</p>
-<h3 id="方案二："><a href="#方案二：" class="headerlink" title="方案二："></a>方案二：</h3><p>给form内的button加上type属性，这个最为方便快捷</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">type</span>=<span class="string">&quot;button&quot;</span> @<span class="attr">click</span>=<span class="string">&quot;pageNum=1;findPage()&quot;</span> <span class="attr">class</span>=<span class="string">&quot;btn btn-default&quot;</span>&gt;</span>查询<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>vue</category>
-      </categories>
-      <tags>
-        <tag>vue</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>单点登录实现</title>
-    <url>/essay/9fd432c.html</url>
-    <content><![CDATA[<p><strong>单点登录</strong>（Single Sign On），简称为<strong>SSO</strong>，是比较流行的<strong>企业业务整合</strong>的解决方案之一。</p>
-<a id="more"></a>
-
-<h2 id="实现方案"><a href="#实现方案" class="headerlink" title="实现方案"></a>实现方案</h2><p>Oauth2：可以生成一个令牌的，经过<strong>用户验证</strong>（客户端、真实用户）生成令牌。</p>
-<h3 id="cookie"><a href="#cookie" class="headerlink" title="cookie"></a>cookie</h3><p>用户访问被保护的资源时要经过网关，网关会从里面得到cookie，再从cookie中取出JTI值，可用JTI值作为键值，从redis里面获取token值，验证token。</p>
-<p><img src="/essay/9fd432c/1.png"></p>
-<h3 id="完整流程："><a href="#完整流程：" class="headerlink" title="完整流程："></a>完整流程：</h3><ol>
-<li><p>用户访问资源的时候，网关取得请求的URL，来判断是否放行。</p>
-</li>
-<li><p>若用户访问的资源是被保护的，则网关不放行，并从中获取cookie值，如果里面不存在cookie，则跳转去登录页面。</p>
-</li>
-<li><p>当用户登录的时候，会进入登录服务里面，由于登录服务并没有校验密码的功能，我们需要借助于Oauth2服务。</p>
-</li>
-<li><p>Oauth2拿到用户名密码之后，会查询数据库来判断用户名密码是否正确，当密码正确时，会发放一个令牌给登录用户。</p>
-</li>
-<li><p>当登录服务拿到令牌之后，会把token以JTI值为键存入redis，并将JTI值存入cookie中。</p>
-</li>
-<li><p>再次回到网关，网关会重复第2步，若仍然不存在，则继续进入登录服务。若cookie存在，并成功取到token，当校验通过，则可以访问被保护的资源了</p>
-</li>
-</ol>
-<p><img src="/essay/9fd432c/2.png"></p>
-<h3 id="实现代码："><a href="#实现代码：" class="headerlink" title="实现代码："></a>实现代码：</h3><ul>
-<li>获取请求的URL</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">ServerHttpRequest request = exchange.getRequest();</span><br><span class="line">String path = request.getURI().getPath();</span><br></pre></td></tr></table></figure>
-<ul>
-<li>转发：</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//跳转登录页面 - 303</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> Mono&lt;Void&gt; <span class="title">toLoginPage</span><span class="params">(String loginUrl, ServerWebExchange exchange)</span> </span>&#123;</span><br><span class="line">    ServerHttpResponse response = exchange.getResponse();</span><br><span class="line">    response.setStatusCode(HttpStatus.SEE_OTHER);</span><br><span class="line">    response.getHeaders().set(<span class="string">&quot;Location&quot;</span>,loginUrl);</span><br><span class="line">    <span class="keyword">return</span> response.setComplete();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>取cookie</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">HttpCookie httpCookie = request.getCookies().getFirst(<span class="string">&quot;uid&quot;</span>);</span><br></pre></td></tr></table></figure>
-<ul>
-<li>给request请求添加header</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">request.mutate().header(<span class="string">&quot;Authorization&quot;</span>,<span class="string">&quot;Bearer &quot;</span>+jwt);</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>后端</category>
-      </categories>
-      <tags>
-        <tag>sso</tag>
       </tags>
   </entry>
   <entry>
@@ -329,6 +163,179 @@
       </categories>
       <tags>
         <tag>netty</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>next主题下中文标题跳转失效</title>
+    <url>/essay/80ff7aac.html</url>
+    <content><![CDATA[<p>next 7.8版本发布于2020年4月1日，很久没更新 </p>
+<p>该bug导致中文标题无法跳转，但是英文标题可以</p>
+<a id="more"></a>
+
+<h2 id="环境："><a href="#环境：" class="headerlink" title="环境："></a>环境：</h2><p>hexo 5.0</p>
+<p>next 7.8</p>
+<h2 id="原因"><a href="#原因" class="headerlink" title="原因:"></a>原因:</h2><p><img src="/essay/80ff7aac/title_bug.png"></p>
+<p>由上图可知，utils中的一行代码出了问题，导致后面的一系列出了问题</p>
+<p>于是我先是去搜索了一下这个问题，但是并没有人写过相关内容</p>
+<p>最终 在官方代码最新的commit中，我看到了这样的一个提交。</p>
+<p><img src="/essay/80ff7aac/utils.png"></p>
+<p>但是即使将此次提交变动的代码修改之后也不可以，会出现另一个错误。</p>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案:"></a>解决方案:</h2><p>将下面这个链接的整个代码全部复制，粘贴到<code>\themes\next\source\js\utils.js</code>中，问题完美解决</p>
+<p>访问官方的<a href="https://github.com/theme-next/hexo-theme-next/blob/master/source/js/utils.js">github仓库</a>获取最新的utils.js代码</p>
+]]></content>
+      <categories>
+        <category>next</category>
+        <category>bug</category>
+      </categories>
+      <tags>
+        <tag>next</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>nginx实现负载均衡</title>
+    <url>/essay/nginx-config.html</url>
+    <content><![CDATA[<p>Nginx可以配置代理多台服务器，当一台服务器宕机之后，仍能保持系统可用。记录一下nginx负载均衡的实现，配置文件如下：</p>
+<a id="more"></a>
+
+<ol>
+<li>在http节点下，添加upstream节点。</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">upstream abc &#123; </span><br><span class="line">   server localhost:7080; </span><br><span class="line">   server localhost:8980; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>将server节点下的location节点中的proxy_pass配置为：http:// + upstream名称，即</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">location &#x2F; &#123; </span><br><span class="line">    root  html; </span><br><span class="line">    &#x2F;&#x2F;http:&#x2F;&#x2F; + upstream名称</span><br><span class="line">    proxy_pass http:&#x2F;&#x2F;abc; </span><br><span class="line">    index  index.html index.htm; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>upstream按照轮询（默认）方式进行负载，每个请求按时间顺序逐一分配到不同的后端服务器，如果后端服务器down掉，能自动剔除。虽然这种方式简便、成本低廉。但缺点是：可靠性低和负载分配不均衡。适用于图片服务器集群和纯静态页面服务器集群。除此之外，upstream还有其它的分配策略，分别如下：</p>
+<ol>
+<li>weight（权重）</li>
+</ol>
+<p>指定轮询几率，weight和访问比率成正比，用于后端服务器性能不均的情况。如下所示，10.0.0.88的访问比率要比10.0.0.77的访问比率高一倍。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">upstream linuxidc&#123; </span><br><span class="line">      server 10.0.0.77 weight&#x3D;5; </span><br><span class="line">      server 10.0.0.88 weight&#x3D;10; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>ip_hash（访问ip）</li>
+</ol>
+<p>每个请求按访问ip的hash结果分配，这样每个访客固定访问一个后端服务器，可以解决session的问题。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">upstream favresin&#123; </span><br><span class="line">      ip_hash; </span><br><span class="line">      server 10.0.0.10:8080; </span><br><span class="line">      server 10.0.0.11:8080; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li><p>fair（第三方）</p>
+<p>按后端服务器的响应时间来分配请求，响应时间短的优先分配。与weight分配策略类似。</p>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"> upstream abc&#123;   </span><br><span class="line">   server 10.0.0.10:8080; </span><br><span class="line">   server 10.0.0.11:8080; </span><br><span class="line">   fair; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>url_hash（第三方）</li>
+</ol>
+<p>按访问url的hash结果来分配请求，使每个url定向到同一个后端服务器，后端服务器为缓存时比较有效。</p>
+<p>注意：在upstream中加入hash语句，server语句中不能写入weight等其他的参数，hash_method是使用的hash算法。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"> upstream abc&#123; </span><br><span class="line">   server 10.0.0.10:7777; </span><br><span class="line">   server 10.0.0.11:8888; </span><br><span class="line">   hash $request_uri; </span><br><span class="line">   hash_method crc32; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>upstream还可以为每个设备设置状态值，这些状态值的含义分别如下：</p>
+<p>down 表示单前的server暂时不参与负载.</p>
+<p>weight 默认为1.weight越大，负载的权重就越大。</p>
+<p>max_fails ：允许请求失败的次数默认为1.当超过最大次数时，返回proxy_next_upstream 模块定义的错误.</p>
+<p>fail_timeout : max_fails次失败后，暂停的时间。</p>
+<p>backup： 其它所有的非backup机器down或者忙的时候，请求backup机器。所以这台机器压力会最轻。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">upstream bakend&#123; #定义负载均衡设备的Ip及设备状态 </span><br><span class="line"> ip_hash; </span><br><span class="line">   server 10.0.0.11:9090 down; </span><br><span class="line">   server 10.0.0.11:8080 weight&#x3D;2; </span><br><span class="line">   server 10.0.0.11:6060; </span><br><span class="line">   server 10.0.0.11:7070 backup; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>后端</category>
+        <category>nginx</category>
+      </categories>
+      <tags>
+        <tag>nginx</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>valine改为本地加载</title>
+    <url>/essay/802f7ce0.html</url>
+    <content><![CDATA[<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>主题next7.8  valine 1.4.14</p>
+<h2 id="找到模板源文件"><a href="#找到模板源文件" class="headerlink" title="找到模板源文件"></a>找到模板源文件</h2><p>通过以下路径找到</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">\themes\next\layout\_third-party\comments\valine.swig</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+
+<p>打开代码</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;%- set valine_uri &#x3D; theme.vendors.valine or &#39;&#x2F;&#x2F;unpkg.com&#x2F;valine&#x2F;dist&#x2F;Valine.min.js&#39; %&#125;</span><br></pre></td></tr></table></figure>
+<p>从第一行代码可以看出，它是通过网络加载，然后用<code>NexT.utils</code>来进行获取参数  <del>我们可以不用管，直接删掉</del></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">NexT.utils.getScript(&#39;&#123;&#123; valine_uri &#125;&#125;&#39;, () &#x3D;&gt; &#123;</span><br><span class="line">    var GUEST &#x3D; [&#39;nick&#39;, &#39;mail&#39;, &#39;link&#39;];</span><br><span class="line">    var guest &#x3D; &#39;&#123;&#123; theme.valine.guest_info &#125;&#125;&#39;;</span><br><span class="line">    guest &#x3D; guest.split(&#39;,&#39;).filter(item &#x3D;&gt; &#123;</span><br><span class="line">      return GUEST.includes(item);</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
+<p><del>只留下主体new Valine 代码</del></p>
+<p><code>这样操作会导致读取不到guest</code></p>
+<p>应该这样写 ↓</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;script type&#x3D;&quot;text&#x2F;javascript&quot; src&#x3D;&quot;&#x2F;js&#x2F;Valine.min.js&quot;&gt;&lt;&#x2F;script&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">	var GUEST &#x3D; [&#39;nick&#39;, &#39;mail&#39;, &#39;link&#39;];</span><br><span class="line">	var guest &#x3D; &#39;&#123;&#123; theme.valine.guest_info &#125;&#125;&#39;;</span><br><span class="line">    guest &#x3D; guest.split(&#39;,&#39;).filter(item &#x3D;&gt; &#123;</span><br><span class="line">      return GUEST.includes(item);</span><br><span class="line">    &#125;);</span><br><span class="line">    new Valine(&#123;</span><br><span class="line">      el         : &#39;#valine-comments&#39;,</span><br><span class="line">      verify     : &#123;&#123; theme.valine.verify &#125;&#125;,</span><br><span class="line">      notify     : &#123;&#123; theme.valine.notify &#125;&#125;,</span><br><span class="line">      appId      : &#39;&#123;&#123; theme.valine.appid &#125;&#125;&#39;,</span><br><span class="line">      appKey     : &#39;&#123;&#123; theme.valine.appkey &#125;&#125;&#39;,</span><br><span class="line">      placeholder: &#123;&#123; theme.valine.placeholder | json &#125;&#125;,</span><br><span class="line">      avatar     : &#39;&#123;&#123; theme.valine.avatar &#125;&#125;&#39;,</span><br><span class="line">      meta       : guest,</span><br><span class="line">      pageSize   : &#39;&#123;&#123; theme.valine.pageSize &#125;&#125;&#39; || 10,</span><br><span class="line">      visitor    : &#123;&#123; theme.valine.visitor &#125;&#125;,</span><br><span class="line">      lang       : &#39;&#123;&#123; theme.valine.language &#125;&#125;&#39; || &#39;zh-cn&#39;,</span><br><span class="line">      path       : location.pathname,</span><br><span class="line">      recordIP   : &#123;&#123; theme.valine.recordIP &#125;&#125;,</span><br><span class="line">      serverURLs : &#39;&#123;&#123; theme.valine.serverURLs &#125;&#125;&#39;</span><br><span class="line">    &#125;);</span><br><span class="line">&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="Valine-min-js获取方式"><a href="#Valine-min-js获取方式" class="headerlink" title="Valine.min.js获取方式"></a>Valine.min.js获取方式</h2><p>访问 <a href="https://unpkg.com/valine/dist/Valine.min.js">这里</a> 复制全部代码，新建一个Valine.min.js，放进去 保存 放在 <code>主题\source\js</code>里面</p>
+]]></content>
+      <categories>
+        <category>next</category>
+        <category>valine</category>
+      </categories>
+      <tags>
+        <tag>valine</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>vue与button的冲突</title>
+    <url>/essay/vue-button.html</url>
+    <content><![CDATA[<h2 id="环境："><a href="#环境：" class="headerlink" title="环境："></a>环境：</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">vue.js v2.5.16</span><br></pre></td></tr></table></figure>
+<h2 id="问题描述："><a href="#问题描述：" class="headerlink" title="问题描述："></a>问题描述：</h2><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span>&gt;</span><span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p> 这个标签未设置type属性时，在form表单中会默认为submit属性，也就是表单提交事件。</p>
+<p>当vue指定@click事件在这个button上时，就会出现两次请求的触发。</p>
+<p>出现同步请求的现象（也就是页面刷新一次）</p>
+<a id="more"></a>
+
+<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><h3 id="方案一："><a href="#方案一：" class="headerlink" title="方案一："></a>方案一：</h3><p>使用高版本vue.js</p>
+<p>实测vue.js : 2.6.11可解决问题，但是仍然有同步请求现象</p>
+<h3 id="方案二："><a href="#方案二：" class="headerlink" title="方案二："></a>方案二：</h3><p>给form内的button加上type属性，这个最为方便快捷</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">type</span>=<span class="string">&quot;button&quot;</span> @<span class="attr">click</span>=<span class="string">&quot;pageNum=1;findPage()&quot;</span> <span class="attr">class</span>=<span class="string">&quot;btn btn-default&quot;</span>&gt;</span>查询<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>vue</category>
+      </categories>
+      <tags>
+        <tag>vue</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>单点登录实现</title>
+    <url>/essay/9fd432c.html</url>
+    <content><![CDATA[<p><strong>单点登录</strong>（Single Sign On），简称为<strong>SSO</strong>，是比较流行的<strong>企业业务整合</strong>的解决方案之一。</p>
+<a id="more"></a>
+
+<h2 id="实现方案"><a href="#实现方案" class="headerlink" title="实现方案"></a>实现方案</h2><p>Oauth2：可以生成一个令牌的，经过<strong>用户验证</strong>（客户端、真实用户）生成令牌。</p>
+<h3 id="cookie"><a href="#cookie" class="headerlink" title="cookie"></a>cookie</h3><p>用户访问被保护的资源时要经过网关，网关会从里面得到cookie，再从cookie中取出JTI值，可用JTI值作为键值，从redis里面获取token值，验证token。</p>
+<p><img src="/essay/9fd432c/1.png"></p>
+<h3 id="完整流程："><a href="#完整流程：" class="headerlink" title="完整流程："></a>完整流程：</h3><ol>
+<li><p>用户访问资源的时候，网关取得请求的URL，来判断是否放行。</p>
+</li>
+<li><p>若用户访问的资源是被保护的，则网关不放行，并从中获取cookie值，如果里面不存在cookie，则跳转去登录页面。</p>
+</li>
+<li><p>当用户登录的时候，会进入登录服务里面，由于登录服务并没有校验密码的功能，我们需要借助于Oauth2服务。</p>
+</li>
+<li><p>Oauth2拿到用户名密码之后，会查询数据库来判断用户名密码是否正确，当密码正确时，会发放一个令牌给登录用户。</p>
+</li>
+<li><p>当登录服务拿到令牌之后，会把token以JTI值为键存入redis，并将JTI值存入cookie中。</p>
+</li>
+<li><p>再次回到网关，网关会重复第2步，若仍然不存在，则继续进入登录服务。若cookie存在，并成功取到token，当校验通过，则可以访问被保护的资源了</p>
+</li>
+</ol>
+<p><img src="/essay/9fd432c/2.png"></p>
+<h3 id="实现代码："><a href="#实现代码：" class="headerlink" title="实现代码："></a>实现代码：</h3><ul>
+<li>获取请求的URL</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">ServerHttpRequest request = exchange.getRequest();</span><br><span class="line">String path = request.getURI().getPath();</span><br></pre></td></tr></table></figure>
+<ul>
+<li>转发：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//跳转登录页面 - 303</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> Mono&lt;Void&gt; <span class="title">toLoginPage</span><span class="params">(String loginUrl, ServerWebExchange exchange)</span> </span>&#123;</span><br><span class="line">    ServerHttpResponse response = exchange.getResponse();</span><br><span class="line">    response.setStatusCode(HttpStatus.SEE_OTHER);</span><br><span class="line">    response.getHeaders().set(<span class="string">&quot;Location&quot;</span>,loginUrl);</span><br><span class="line">    <span class="keyword">return</span> response.setComplete();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>取cookie</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">HttpCookie httpCookie = request.getCookies().getFirst(<span class="string">&quot;uid&quot;</span>);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>给request请求添加header</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">request.mutate().header(<span class="string">&quot;Authorization&quot;</span>,<span class="string">&quot;Bearer &quot;</span>+jwt);</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>后端</category>
+      </categories>
+      <tags>
+        <tag>sso</tag>
       </tags>
   </entry>
   <entry>

@@ -190,7 +190,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://blog.sodarain.top/essay/0.html">
+    <link itemprop="mainEntityOfPage" href="https://blog.sodarain.top/essay/install-elasticsearch.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -204,7 +204,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/essay/0.html" class="post-title-link" itemprop="url">未命名</a>
+            <a href="/essay/install-elasticsearch.html" class="post-title-link" itemprop="url">Elasticsearch的安装</a>
         </h2>
 
         <div class="post-meta">
@@ -214,7 +214,16 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-02-10 02:20:40" itemprop="dateCreated datePublished" datetime="2021-02-10T02:20:40+08:00">2021-02-10</time>
+              <time title="创建时间：2021-02-10 02:57:50" itemprop="dateCreated datePublished" datetime="2021-02-10T02:57:50+08:00">2021-02-10</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/elasticsearch/" itemprop="url" rel="index"><span itemprop="name">elasticsearch</span></a>
+                </span>
             </span>
 
           
@@ -229,24 +238,15 @@
 
       
           <h1 id="docker安装elasticsearch"><a href="#docker安装elasticsearch" class="headerlink" title="docker安装elasticsearch"></a>docker安装elasticsearch</h1><p>详细介绍了docker下安装elasticsearch、kibana以及ik分词器的步骤</p>
-<p>注意：要保持版本一致</p>
-<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>centos7:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"> cat /etc/os-release </span><br><span class="line">NAME=<span class="string">&quot;CentOS Linux&quot;</span></span><br><span class="line">VERSION=<span class="string">&quot;7 (Core)&quot;</span></span><br><span class="line">ID=<span class="string">&quot;centos&quot;</span></span><br><span class="line">ID_LIKE=<span class="string">&quot;rhel fedora&quot;</span></span><br><span class="line">VERSION_ID=<span class="string">&quot;7&quot;</span></span><br><span class="line">PRETTY_NAME=<span class="string">&quot;CentOS Linux 7 (Core)&quot;</span></span><br><span class="line">ANSI_COLOR=<span class="string">&quot;0;31&quot;</span></span><br><span class="line">CPE_NAME=<span class="string">&quot;cpe:/o:centos:centos:7&quot;</span></span><br><span class="line">HOME_URL=<span class="string">&quot;https://www.centos.org/&quot;</span></span><br><span class="line">BUG_REPORT_URL=<span class="string">&quot;https://bugs.centos.org/&quot;</span></span><br><span class="line"></span><br><span class="line">CENTOS_MANTISBT_PROJECT=<span class="string">&quot;CentOS-7&quot;</span></span><br><span class="line">CENTOS_MANTISBT_PROJECT_VERSION=<span class="string">&quot;7&quot;</span></span><br><span class="line">REDHAT_SUPPORT_PRODUCT=<span class="string">&quot;centos&quot;</span></span><br><span class="line">REDHAT_SUPPORT_PRODUCT_VERSION=<span class="string">&quot;7&quot;</span></span><br></pre></td></tr></table></figure>
-<p>docker版本:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker -v</span><br><span class="line">Docker version 20.10.3, build 48d30b5</span><br></pre></td></tr></table></figure>
-<p>elasticsearch版本:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">elasticsearch   7.10.1</span><br></pre></td></tr></table></figure>
-<p>kibana版本:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kibana          7.10.1</span><br></pre></td></tr></table></figure>
-<h2 id="安装命令"><a href="#安装命令" class="headerlink" title="安装命令"></a>安装命令</h2><h3 id="elasticsearch安装"><a href="#elasticsearch安装" class="headerlink" title="elasticsearch安装"></a>elasticsearch安装</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 下载elasticsearch的image文件</span></span><br><span class="line">docker pull elasticsearch:7.10.1</span><br><span class="line"><span class="comment"># 运行es</span></span><br><span class="line">docker run -id --name=es -p 9200:9200 -p 9300:9300 -e <span class="string">&quot;discovery.type=single-node&quot;</span> elasticsearch:7.10.1</span><br></pre></td></tr></table></figure>
-<h3 id="kibana安装"><a href="#kibana安装" class="headerlink" title="kibana安装"></a>kibana安装</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 下载kibana的image文件</span></span><br><span class="line">docker pull kibana:7.10.1</span><br><span class="line"><span class="comment"># 运行kibana并让kibana连接到es容器</span></span><br><span class="line">docker run -itd --link es:elasticsearch -p 5601:5601 kibana:7.10.1</span><br></pre></td></tr></table></figure>
-
-
-<p>访问：127.0.0.1:5601 即可</p>
-<h3 id="安装IK分词器"><a href="#安装IK分词器" class="headerlink" title="安装IK分词器"></a>安装IK分词器</h3><p>github地址：<a target="_blank" rel="noopener" href="https://github.com/medcl/elasticsearch-analysis-ik">https://github.com/medcl/elasticsearch-analysis-ik</a></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># ik分词器为zip文件，需要解压</span></span><br><span class="line">yum install unzip </span><br><span class="line"><span class="comment"># 解压到指定路径</span></span><br><span class="line">unzip elasticsearch-analysis-ik-7.10.1.zip -d ./ik/</span><br><span class="line"><span class="comment"># 复制到容器内部</span></span><br><span class="line">docker cp ik/ es:/usr/share/elasticsearch/plugins/analysis-ik/</span><br><span class="line"><span class="comment"># 进入容器内部</span></span><br><span class="line">docker <span class="built_in">exec</span> -it es /bin/bash</span><br><span class="line"><span class="comment"># 进入刚刚复制到的文件路径</span></span><br><span class="line"><span class="built_in">cd</span> /usr/share/elasticsearch/plugins/analysis-ik</span><br><span class="line"><span class="comment"># 将该文件夹下的config文件全部复制到es的配置文件下</span></span><br><span class="line">cp /usr/share/elasticsearch/plugins/analysis-ik/config/* \ /usr/share/elasticsearch/config/</span><br><span class="line"><span class="comment">#退出容器</span></span><br><span class="line"><span class="built_in">exit</span></span><br><span class="line"><span class="comment">#重启es服务</span></span><br><span class="line">docker restart es</span><br></pre></td></tr></table></figure>
-<h3 id="验证一下："><a href="#验证一下：" class="headerlink" title="验证一下："></a>验证一下：</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">GET /_analyze</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;analyzer&quot;</span>: <span class="string">&quot;ik_max_word&quot;</span>,</span><br><span class="line">  <span class="string">&quot;text&quot;</span>: <span class="string">&quot;今天天气真好！&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 执行结果</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;tokens&quot;</span> : [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">&quot;token&quot;</span> : <span class="string">&quot;今天天气&quot;</span>,</span><br><span class="line">      <span class="string">&quot;start_offset&quot;</span> : 0,</span><br><span class="line">      <span class="string">&quot;end_offset&quot;</span> : 4,</span><br><span class="line">      <span class="string">&quot;type&quot;</span> : <span class="string">&quot;CN_WORD&quot;</span>,</span><br><span class="line">      <span class="string">&quot;position&quot;</span> : 0</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">&quot;token&quot;</span> : <span class="string">&quot;今天&quot;</span>,</span><br><span class="line">      <span class="string">&quot;start_offset&quot;</span> : 0,</span><br><span class="line">      <span class="string">&quot;end_offset&quot;</span> : 2,</span><br><span class="line">      <span class="string">&quot;type&quot;</span> : <span class="string">&quot;CN_WORD&quot;</span>,</span><br><span class="line">      <span class="string">&quot;position&quot;</span> : 1</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">&quot;token&quot;</span> : <span class="string">&quot;天天&quot;</span>,</span><br><span class="line">      <span class="string">&quot;start_offset&quot;</span> : 1,</span><br><span class="line">      <span class="string">&quot;end_offset&quot;</span> : 3,</span><br><span class="line">      <span class="string">&quot;type&quot;</span> : <span class="string">&quot;CN_WORD&quot;</span>,</span><br><span class="line">      <span class="string">&quot;position&quot;</span> : 2</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">&quot;token&quot;</span> : <span class="string">&quot;天气&quot;</span>,</span><br><span class="line">      <span class="string">&quot;start_offset&quot;</span> : 2,</span><br><span class="line">      <span class="string">&quot;end_offset&quot;</span> : 4,</span><br><span class="line">      <span class="string">&quot;type&quot;</span> : <span class="string">&quot;CN_WORD&quot;</span>,</span><br><span class="line">      <span class="string">&quot;position&quot;</span> : 3</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">&quot;token&quot;</span> : <span class="string">&quot;真好&quot;</span>,</span><br><span class="line">      <span class="string">&quot;start_offset&quot;</span> : 4,</span><br><span class="line">      <span class="string">&quot;end_offset&quot;</span> : 6,</span><br><span class="line">      <span class="string">&quot;type&quot;</span> : <span class="string">&quot;CN_WORD&quot;</span>,</span><br><span class="line">      <span class="string">&quot;position&quot;</span> : 4</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<p>注意：要保持es、kibana、ik分词器版本一致</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/essay/install-elasticsearch.html#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1036,13 +1036,13 @@
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
