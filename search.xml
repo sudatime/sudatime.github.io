@@ -1,6 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Elasticsearch的安装</title>
+    <url>/essay/install-elasticsearch.html</url>
+    <content><![CDATA[<h1 id="docker安装elasticsearch"><a href="#docker安装elasticsearch" class="headerlink" title="docker安装elasticsearch"></a>docker安装elasticsearch</h1><p>详细介绍了docker下安装elasticsearch、kibana以及ik分词器的步骤</p>
+<p>注意：要保持es、kibana、ik分词器版本一致</p>
+<a id="more"></a>
+
+<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>centos7:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cat /etc/os-release </span><br><span class="line"></span><br><span class="line">NAME=<span class="string">&quot;CentOS Linux&quot;</span></span><br><span class="line">VERSION=<span class="string">&quot;7 (Core)&quot;</span></span><br><span class="line">ID=<span class="string">&quot;centos&quot;</span></span><br><span class="line">ID_LIKE=<span class="string">&quot;rhel fedora&quot;</span></span><br><span class="line">VERSION_ID=<span class="string">&quot;7&quot;</span></span><br><span class="line">PRETTY_NAME=<span class="string">&quot;CentOS Linux 7 (Core)&quot;</span></span><br><span class="line">ANSI_COLOR=<span class="string">&quot;0;31&quot;</span></span><br><span class="line">CPE_NAME=<span class="string">&quot;cpe:/o:centos:centos:7&quot;</span></span><br><span class="line">HOME_URL=<span class="string">&quot;https://www.centos.org/&quot;</span></span><br><span class="line">BUG_REPORT_URL=<span class="string">&quot;https://bugs.centos.org/&quot;</span></span><br><span class="line"></span><br><span class="line">CENTOS_MANTISBT_PROJECT=<span class="string">&quot;CentOS-7&quot;</span></span><br><span class="line">CENTOS_MANTISBT_PROJECT_VERSION=<span class="string">&quot;7&quot;</span></span><br><span class="line">REDHAT_SUPPORT_PRODUCT=<span class="string">&quot;centos&quot;</span></span><br><span class="line">REDHAT_SUPPORT_PRODUCT_VERSION=<span class="string">&quot;7&quot;</span></span><br></pre></td></tr></table></figure>
+<p>docker版本:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker -v</span><br><span class="line">Docker version 20.10.3, build 48d30b5</span><br></pre></td></tr></table></figure>
+<p>elasticsearch版本:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">elasticsearch   7.10.1</span><br></pre></td></tr></table></figure>
+<p>kibana版本:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">kibana          7.10.1</span><br></pre></td></tr></table></figure>
+<h2 id="方式一："><a href="#方式一：" class="headerlink" title="方式一："></a>方式一：</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker network create elk</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="elasticsearch安装："><a href="#elasticsearch安装：" class="headerlink" title="elasticsearch安装："></a>elasticsearch安装：</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -itd --name=[elasticsearch的名字] --network elk -p 9200:9200 -p 9300:9300 -e <span class="string">&quot;discovery.type=single-node&quot;</span> -v /usr/<span class="built_in">local</span>/develop/elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml -v /usr/<span class="built_in">local</span>/develop/elasticsearch/data:/usr/share/elasticsearch/data -v /usr/<span class="built_in">local</span>/develop/elasticsearch/plugins:/usr/share/elasticsearch/plugins elasticsearch:7.10.1</span><br><span class="line"><span class="comment"># -v 绑定了本地目录和es的内部文件</span></span><br></pre></td></tr></table></figure>
+<h3 id="kibana安装"><a href="#kibana安装" class="headerlink" title="kibana安装"></a>kibana安装</h3><p>配置文件：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># ** THIS IS AN AUTO-GENERATED FILE **</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Default Kibana configuration for docker target</span></span><br><span class="line">server.name: kibana</span><br><span class="line">server.host: <span class="string">&quot;0&quot;</span></span><br><span class="line">elasticsearch.hosts: [ <span class="string">&quot;http://[elasticsearch的名字]:9200&quot;</span> ]</span><br><span class="line">monitoring.ui.container.elasticsearch.enabled: <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -d --name kibana --network elk -p 5601:5601 -v /usr/<span class="built_in">local</span>/develop/kibana/config/kibana.yml:/usr/share/kibana/config/kibana.yml kibana:7.10.1</span><br></pre></td></tr></table></figure>
+<h2 id="方式二（不推荐link）："><a href="#方式二（不推荐link）：" class="headerlink" title="方式二（不推荐link）："></a>方式二（不推荐link）：</h2><h3 id="elasticsearch安装"><a href="#elasticsearch安装" class="headerlink" title="elasticsearch安装"></a>elasticsearch安装</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 下载elasticsearch的image文件</span></span><br><span class="line">docker pull elasticsearch:7.10.1</span><br><span class="line"><span class="comment"># 运行es</span></span><br><span class="line">docker run -id --name=es -p 9200:9200 -p 9300:9300 -e <span class="string">&quot;discovery.type=single-node&quot;</span> elasticsearch:7.10.1</span><br></pre></td></tr></table></figure>
+<h3 id="kibana安装-1"><a href="#kibana安装-1" class="headerlink" title="kibana安装"></a>kibana安装</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 下载kibana的image文件</span></span><br><span class="line">docker pull kibana:7.10.1</span><br><span class="line"><span class="comment"># 运行kibana并让kibana连接到es容器</span></span><br><span class="line">docker run -itd --link es:elasticsearch -p 5601:5601 kibana:7.10.1</span><br></pre></td></tr></table></figure>
+
+
+<p>访问：127.0.0.1:5601 即可</p>
+<h3 id="安装IK分词器"><a href="#安装IK分词器" class="headerlink" title="安装IK分词器"></a>安装IK分词器</h3><p>github地址：<a href="https://github.com/medcl/elasticsearch-analysis-ik">https://github.com/medcl/elasticsearch-analysis-ik</a></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># ik分词器为zip文件，需要解压</span></span><br><span class="line">yum install unzip </span><br><span class="line"><span class="comment"># 解压到指定路径</span></span><br><span class="line">unzip elasticsearch-analysis-ik-7.10.1.zip -d ./ik/</span><br><span class="line"><span class="comment"># 复制到容器内部</span></span><br><span class="line">docker cp ik/ es:/usr/share/elasticsearch/plugins/analysis-ik/</span><br><span class="line"><span class="comment"># 进入容器内部</span></span><br><span class="line">docker <span class="built_in">exec</span> -it es /bin/bash</span><br><span class="line"><span class="comment"># 进入刚刚复制到的文件路径</span></span><br><span class="line"><span class="built_in">cd</span> /usr/share/elasticsearch/plugins/analysis-ik</span><br><span class="line"><span class="comment"># 将该文件夹下的config文件全部复制到es的配置文件下</span></span><br><span class="line">cp /usr/share/elasticsearch/plugins/analysis-ik/config/*  /usr/share/elasticsearch/config/</span><br><span class="line"><span class="comment"># 退出容器</span></span><br><span class="line"><span class="built_in">exit</span></span><br><span class="line"><span class="comment"># 重启es服务</span></span><br><span class="line">docker restart es</span><br></pre></td></tr></table></figure>
+<h3 id="验证一下："><a href="#验证一下：" class="headerlink" title="验证一下："></a>验证一下：</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">GET /_analyze</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;analyzer&quot;</span>: <span class="string">&quot;ik_max_word&quot;</span>,</span><br><span class="line">  <span class="string">&quot;text&quot;</span>: <span class="string">&quot;今天天气真好！&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 执行结果</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;tokens&quot;</span> : [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">&quot;token&quot;</span> : <span class="string">&quot;今天天气&quot;</span>,</span><br><span class="line">      <span class="string">&quot;start_offset&quot;</span> : 0,</span><br><span class="line">      <span class="string">&quot;end_offset&quot;</span> : 4,</span><br><span class="line">      <span class="string">&quot;type&quot;</span> : <span class="string">&quot;CN_WORD&quot;</span>,</span><br><span class="line">      <span class="string">&quot;position&quot;</span> : 0</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">&quot;token&quot;</span> : <span class="string">&quot;今天&quot;</span>,</span><br><span class="line">      <span class="string">&quot;start_offset&quot;</span> : 0,</span><br><span class="line">      <span class="string">&quot;end_offset&quot;</span> : 2,</span><br><span class="line">      <span class="string">&quot;type&quot;</span> : <span class="string">&quot;CN_WORD&quot;</span>,</span><br><span class="line">      <span class="string">&quot;position&quot;</span> : 1</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">&quot;token&quot;</span> : <span class="string">&quot;天天&quot;</span>,</span><br><span class="line">      <span class="string">&quot;start_offset&quot;</span> : 1,</span><br><span class="line">      <span class="string">&quot;end_offset&quot;</span> : 3,</span><br><span class="line">      <span class="string">&quot;type&quot;</span> : <span class="string">&quot;CN_WORD&quot;</span>,</span><br><span class="line">      <span class="string">&quot;position&quot;</span> : 2</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">&quot;token&quot;</span> : <span class="string">&quot;天气&quot;</span>,</span><br><span class="line">      <span class="string">&quot;start_offset&quot;</span> : 2,</span><br><span class="line">      <span class="string">&quot;end_offset&quot;</span> : 4,</span><br><span class="line">      <span class="string">&quot;type&quot;</span> : <span class="string">&quot;CN_WORD&quot;</span>,</span><br><span class="line">      <span class="string">&quot;position&quot;</span> : 3</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">&quot;token&quot;</span> : <span class="string">&quot;真好&quot;</span>,</span><br><span class="line">      <span class="string">&quot;start_offset&quot;</span> : 4,</span><br><span class="line">      <span class="string">&quot;end_offset&quot;</span> : 6,</span><br><span class="line">      <span class="string">&quot;type&quot;</span> : <span class="string">&quot;CN_WORD&quot;</span>,</span><br><span class="line">      <span class="string">&quot;position&quot;</span> : 4</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+<h2 id="备注"><a href="#备注" class="headerlink" title="备注"></a>备注</h2><p>方式一参考文档：<a href="http://codingdict.com/questions/59071">http://codingdict.com/questions/59071</a></p>
+<p>关于在容器内运行命令时的含义<code>localhost</code>或<code>127.0.0.1</code>含义存在一些误解。因为每个容器都有自己的网络，所以<code>localhost</code>它不是您真正的主机系统，而是容器本身。因此，当您运行kibana并将<code>ELASTICSEARCH_URL</code>变量指向<code>localhost:9200</code>kibana进程时，将在kibana容器中查找当然不是在其中运行的elasticsearch。</p>
+<p>您已经引入了一些在启动容器时引用的自定义网络。在同一网络中运行的所有容器都可以通过其<code>exposed</code>端口上的名称相互引用（请参阅Dockerfiles）。在为elasticsearch容器命名时<code>elasticsearch_2_4</code>，可以将elasticsearch<br>的http端点引用为<code>http://elasticsearch_2_4:9200</code>。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">docker run -d --network mynetwork -e ELASTICSEARCH_URL&#x3D;http:&#x2F;&#x2F;elasticsearch_2_4:9200 -p 5601:5601 kibana:4.6</span><br></pre></td></tr></table></figure>
+<p>只要您不需要直接访问elasticsearch实例，您甚至可以忽略将端口9200和9300映射到您的主机。</p>
+<p>除了建议自己启动所有容器之外，我还建议使用<code>docker- compose</code>来管理所有服务和参数。您还应该考虑将本地文件夹作为卷安装，以使数据持久化。这可能是您的撰写文件。<code>networks</code>如果需要外部网络，请添加，否则此设置只会为您创建一个网络。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">version: &quot;2&quot;</span><br><span class="line">services:</span><br><span class="line">  elasticsearch:</span><br><span class="line">    image: elasticsearch:2.4</span><br><span class="line">    ports:</span><br><span class="line">      - &quot;9200:9200&quot;</span><br><span class="line">    volumes:</span><br><span class="line">      - .&#x2F;esdata&#x2F;:&#x2F;usr&#x2F;share&#x2F;elasticsearch&#x2F;data&#x2F;</span><br><span class="line">  kibana:</span><br><span class="line">    image: kibana:4.6</span><br><span class="line">    ports:</span><br><span class="line">      - &quot;5601:5601&quot;</span><br><span class="line">    environment:</span><br><span class="line">      - ELASTICSEARCH_URL&#x3D;http:&#x2F;&#x2F;elasticsearch:9200</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>elasticsearch</category>
+      </categories>
+      <tags>
+        <tag>elasticsearch</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>intern详解</title>
     <url>/essay/792ee381.html</url>
     <content><![CDATA[<h1 id="深入解析String-intern"><a href="#深入解析String-intern" class="headerlink" title="深入解析String#intern"></a>深入解析String#intern</h1><p>在 JAVA 语言中有8中基本类型和一种比较特殊的类型<code>String</code>。这些类型为了使他们在运行过程中速度更快，更节省内存，都提供了一种常量池的概念。常量池就类似一个JAVA系统级别提供的缓存。</p>
@@ -100,54 +148,6 @@
       </categories>
       <tags>
         <tag>String</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Elasticsearch的安装</title>
-    <url>/essay/install-elasticsearch.html</url>
-    <content><![CDATA[<h1 id="docker安装elasticsearch"><a href="#docker安装elasticsearch" class="headerlink" title="docker安装elasticsearch"></a>docker安装elasticsearch</h1><p>详细介绍了docker下安装elasticsearch、kibana以及ik分词器的步骤</p>
-<p>注意：要保持es、kibana、ik分词器版本一致</p>
-<a id="more"></a>
-
-<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>centos7:</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cat /etc/os-release </span><br><span class="line"></span><br><span class="line">NAME=<span class="string">&quot;CentOS Linux&quot;</span></span><br><span class="line">VERSION=<span class="string">&quot;7 (Core)&quot;</span></span><br><span class="line">ID=<span class="string">&quot;centos&quot;</span></span><br><span class="line">ID_LIKE=<span class="string">&quot;rhel fedora&quot;</span></span><br><span class="line">VERSION_ID=<span class="string">&quot;7&quot;</span></span><br><span class="line">PRETTY_NAME=<span class="string">&quot;CentOS Linux 7 (Core)&quot;</span></span><br><span class="line">ANSI_COLOR=<span class="string">&quot;0;31&quot;</span></span><br><span class="line">CPE_NAME=<span class="string">&quot;cpe:/o:centos:centos:7&quot;</span></span><br><span class="line">HOME_URL=<span class="string">&quot;https://www.centos.org/&quot;</span></span><br><span class="line">BUG_REPORT_URL=<span class="string">&quot;https://bugs.centos.org/&quot;</span></span><br><span class="line"></span><br><span class="line">CENTOS_MANTISBT_PROJECT=<span class="string">&quot;CentOS-7&quot;</span></span><br><span class="line">CENTOS_MANTISBT_PROJECT_VERSION=<span class="string">&quot;7&quot;</span></span><br><span class="line">REDHAT_SUPPORT_PRODUCT=<span class="string">&quot;centos&quot;</span></span><br><span class="line">REDHAT_SUPPORT_PRODUCT_VERSION=<span class="string">&quot;7&quot;</span></span><br></pre></td></tr></table></figure>
-<p>docker版本:</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker -v</span><br><span class="line">Docker version 20.10.3, build 48d30b5</span><br></pre></td></tr></table></figure>
-<p>elasticsearch版本:</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">elasticsearch   7.10.1</span><br></pre></td></tr></table></figure>
-<p>kibana版本:</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">kibana          7.10.1</span><br></pre></td></tr></table></figure>
-<h2 id="方式一："><a href="#方式一：" class="headerlink" title="方式一："></a>方式一：</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker network create elk</span><br></pre></td></tr></table></figure>
-
-
-<h3 id="elasticsearch安装："><a href="#elasticsearch安装：" class="headerlink" title="elasticsearch安装："></a>elasticsearch安装：</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -itd --name=[elasticsearch的名字] --network elk -p 9200:9200 -p 9300:9300 -e <span class="string">&quot;discovery.type=single-node&quot;</span> -v /usr/<span class="built_in">local</span>/develop/elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml -v /usr/<span class="built_in">local</span>/develop/elasticsearch/data:/usr/share/elasticsearch/data -v /usr/<span class="built_in">local</span>/develop/elasticsearch/plugins:/usr/share/elasticsearch/plugins elasticsearch:7.10.1</span><br><span class="line"><span class="comment"># -v 绑定了本地目录和es的内部文件</span></span><br></pre></td></tr></table></figure>
-<h3 id="kibana安装"><a href="#kibana安装" class="headerlink" title="kibana安装"></a>kibana安装</h3><p>配置文件：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># ** THIS IS AN AUTO-GENERATED FILE **</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Default Kibana configuration for docker target</span></span><br><span class="line">server.name: kibana</span><br><span class="line">server.host: <span class="string">&quot;0&quot;</span></span><br><span class="line">elasticsearch.hosts: [ <span class="string">&quot;http://[elasticsearch的名字]:9200&quot;</span> ]</span><br><span class="line">monitoring.ui.container.elasticsearch.enabled: <span class="literal">true</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -d --name kibana --network elk -p 5601:5601 -v /usr/<span class="built_in">local</span>/develop/kibana/config/kibana.yml:/usr/share/kibana/config/kibana.yml kibana:7.10.1</span><br></pre></td></tr></table></figure>
-<h2 id="方式二（不推荐link）："><a href="#方式二（不推荐link）：" class="headerlink" title="方式二（不推荐link）："></a>方式二（不推荐link）：</h2><h3 id="elasticsearch安装"><a href="#elasticsearch安装" class="headerlink" title="elasticsearch安装"></a>elasticsearch安装</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 下载elasticsearch的image文件</span></span><br><span class="line">docker pull elasticsearch:7.10.1</span><br><span class="line"><span class="comment"># 运行es</span></span><br><span class="line">docker run -id --name=es -p 9200:9200 -p 9300:9300 -e <span class="string">&quot;discovery.type=single-node&quot;</span> elasticsearch:7.10.1</span><br></pre></td></tr></table></figure>
-<h3 id="kibana安装-1"><a href="#kibana安装-1" class="headerlink" title="kibana安装"></a>kibana安装</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 下载kibana的image文件</span></span><br><span class="line">docker pull kibana:7.10.1</span><br><span class="line"><span class="comment"># 运行kibana并让kibana连接到es容器</span></span><br><span class="line">docker run -itd --link es:elasticsearch -p 5601:5601 kibana:7.10.1</span><br></pre></td></tr></table></figure>
-
-
-<p>访问：127.0.0.1:5601 即可</p>
-<h3 id="安装IK分词器"><a href="#安装IK分词器" class="headerlink" title="安装IK分词器"></a>安装IK分词器</h3><p>github地址：<a href="https://github.com/medcl/elasticsearch-analysis-ik">https://github.com/medcl/elasticsearch-analysis-ik</a></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># ik分词器为zip文件，需要解压</span></span><br><span class="line">yum install unzip </span><br><span class="line"><span class="comment"># 解压到指定路径</span></span><br><span class="line">unzip elasticsearch-analysis-ik-7.10.1.zip -d ./ik/</span><br><span class="line"><span class="comment"># 复制到容器内部</span></span><br><span class="line">docker cp ik/ es:/usr/share/elasticsearch/plugins/analysis-ik/</span><br><span class="line"><span class="comment"># 进入容器内部</span></span><br><span class="line">docker <span class="built_in">exec</span> -it es /bin/bash</span><br><span class="line"><span class="comment"># 进入刚刚复制到的文件路径</span></span><br><span class="line"><span class="built_in">cd</span> /usr/share/elasticsearch/plugins/analysis-ik</span><br><span class="line"><span class="comment"># 将该文件夹下的config文件全部复制到es的配置文件下</span></span><br><span class="line">cp /usr/share/elasticsearch/plugins/analysis-ik/config/*  /usr/share/elasticsearch/config/</span><br><span class="line"><span class="comment"># 退出容器</span></span><br><span class="line"><span class="built_in">exit</span></span><br><span class="line"><span class="comment"># 重启es服务</span></span><br><span class="line">docker restart es</span><br></pre></td></tr></table></figure>
-<h3 id="验证一下："><a href="#验证一下：" class="headerlink" title="验证一下："></a>验证一下：</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">GET /_analyze</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;analyzer&quot;</span>: <span class="string">&quot;ik_max_word&quot;</span>,</span><br><span class="line">  <span class="string">&quot;text&quot;</span>: <span class="string">&quot;今天天气真好！&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 执行结果</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;tokens&quot;</span> : [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">&quot;token&quot;</span> : <span class="string">&quot;今天天气&quot;</span>,</span><br><span class="line">      <span class="string">&quot;start_offset&quot;</span> : 0,</span><br><span class="line">      <span class="string">&quot;end_offset&quot;</span> : 4,</span><br><span class="line">      <span class="string">&quot;type&quot;</span> : <span class="string">&quot;CN_WORD&quot;</span>,</span><br><span class="line">      <span class="string">&quot;position&quot;</span> : 0</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">&quot;token&quot;</span> : <span class="string">&quot;今天&quot;</span>,</span><br><span class="line">      <span class="string">&quot;start_offset&quot;</span> : 0,</span><br><span class="line">      <span class="string">&quot;end_offset&quot;</span> : 2,</span><br><span class="line">      <span class="string">&quot;type&quot;</span> : <span class="string">&quot;CN_WORD&quot;</span>,</span><br><span class="line">      <span class="string">&quot;position&quot;</span> : 1</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">&quot;token&quot;</span> : <span class="string">&quot;天天&quot;</span>,</span><br><span class="line">      <span class="string">&quot;start_offset&quot;</span> : 1,</span><br><span class="line">      <span class="string">&quot;end_offset&quot;</span> : 3,</span><br><span class="line">      <span class="string">&quot;type&quot;</span> : <span class="string">&quot;CN_WORD&quot;</span>,</span><br><span class="line">      <span class="string">&quot;position&quot;</span> : 2</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">&quot;token&quot;</span> : <span class="string">&quot;天气&quot;</span>,</span><br><span class="line">      <span class="string">&quot;start_offset&quot;</span> : 2,</span><br><span class="line">      <span class="string">&quot;end_offset&quot;</span> : 4,</span><br><span class="line">      <span class="string">&quot;type&quot;</span> : <span class="string">&quot;CN_WORD&quot;</span>,</span><br><span class="line">      <span class="string">&quot;position&quot;</span> : 3</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">&quot;token&quot;</span> : <span class="string">&quot;真好&quot;</span>,</span><br><span class="line">      <span class="string">&quot;start_offset&quot;</span> : 4,</span><br><span class="line">      <span class="string">&quot;end_offset&quot;</span> : 6,</span><br><span class="line">      <span class="string">&quot;type&quot;</span> : <span class="string">&quot;CN_WORD&quot;</span>,</span><br><span class="line">      <span class="string">&quot;position&quot;</span> : 4</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-<h2 id="备注"><a href="#备注" class="headerlink" title="备注"></a>备注</h2><p>方式一参考文档：<a href="http://codingdict.com/questions/59071">http://codingdict.com/questions/59071</a></p>
-<p>关于在容器内运行命令时的含义<code>localhost</code>或<code>127.0.0.1</code>含义存在一些误解。因为每个容器都有自己的网络，所以<code>localhost</code>它不是您真正的主机系统，而是容器本身。因此，当您运行kibana并将<code>ELASTICSEARCH_URL</code>变量指向<code>localhost:9200</code>kibana进程时，将在kibana容器中查找当然不是在其中运行的elasticsearch。</p>
-<p>您已经引入了一些在启动容器时引用的自定义网络。在同一网络中运行的所有容器都可以通过其<code>exposed</code>端口上的名称相互引用（请参阅Dockerfiles）。在为elasticsearch容器命名时<code>elasticsearch_2_4</code>，可以将elasticsearch<br>的http端点引用为<code>http://elasticsearch_2_4:9200</code>。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">docker run -d --network mynetwork -e ELASTICSEARCH_URL&#x3D;http:&#x2F;&#x2F;elasticsearch_2_4:9200 -p 5601:5601 kibana:4.6</span><br></pre></td></tr></table></figure>
-<p>只要您不需要直接访问elasticsearch实例，您甚至可以忽略将端口9200和9300映射到您的主机。</p>
-<p>除了建议自己启动所有容器之外，我还建议使用<code>docker- compose</code>来管理所有服务和参数。您还应该考虑将本地文件夹作为卷安装，以使数据持久化。这可能是您的撰写文件。<code>networks</code>如果需要外部网络，请添加，否则此设置只会为您创建一个网络。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">version: &quot;2&quot;</span><br><span class="line">services:</span><br><span class="line">  elasticsearch:</span><br><span class="line">    image: elasticsearch:2.4</span><br><span class="line">    ports:</span><br><span class="line">      - &quot;9200:9200&quot;</span><br><span class="line">    volumes:</span><br><span class="line">      - .&#x2F;esdata&#x2F;:&#x2F;usr&#x2F;share&#x2F;elasticsearch&#x2F;data&#x2F;</span><br><span class="line">  kibana:</span><br><span class="line">    image: kibana:4.6</span><br><span class="line">    ports:</span><br><span class="line">      - &quot;5601:5601&quot;</span><br><span class="line">    environment:</span><br><span class="line">      - ELASTICSEARCH_URL&#x3D;http:&#x2F;&#x2F;elasticsearch:9200</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>elasticsearch</category>
-      </categories>
-      <tags>
-        <tag>elasticsearch</tag>
       </tags>
   </entry>
   <entry>
@@ -286,6 +286,32 @@
       </tags>
   </entry>
   <entry>
+    <title>next主题下中文标题跳转失效</title>
+    <url>/essay/80ff7aac.html</url>
+    <content><![CDATA[<p>next 7.8版本发布于2020年4月1日，很久没更新 </p>
+<p>该bug导致中文标题无法跳转，但是英文标题可以</p>
+<a id="more"></a>
+
+<h2 id="环境："><a href="#环境：" class="headerlink" title="环境："></a>环境：</h2><p>hexo 5.0</p>
+<p>next 7.8</p>
+<h2 id="原因"><a href="#原因" class="headerlink" title="原因:"></a>原因:</h2><p><img src="/essay/80ff7aac/title_bug.png"></p>
+<p>由上图可知，utils中的一行代码出了问题，导致后面的一系列出了问题</p>
+<p>于是我先是去搜索了一下这个问题，但是并没有人写过相关内容</p>
+<p>最终 在官方代码最新的commit中，我看到了这样的一个提交。</p>
+<p><img src="/essay/80ff7aac/utils.png"></p>
+<p>但是即使将此次提交变动的代码修改之后也不可以，会出现另一个错误。</p>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案:"></a>解决方案:</h2><p>将下面这个链接的整个代码全部复制，粘贴到<code>\themes\next\source\js\utils.js</code>中，问题完美解决</p>
+<p>访问官方的<a href="https://github.com/theme-next/hexo-theme-next/blob/master/source/js/utils.js">github仓库</a>获取最新的utils.js代码</p>
+]]></content>
+      <categories>
+        <category>next</category>
+        <category>bug</category>
+      </categories>
+      <tags>
+        <tag>next</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>nginx实现负载均衡</title>
     <url>/essay/nginx-config.html</url>
     <content><![CDATA[<p>Nginx可以配置代理多台服务器，当一台服务器宕机之后，仍能保持系统可用。记录一下nginx负载均衡的实现，配置文件如下：</p>
@@ -336,32 +362,6 @@
       </categories>
       <tags>
         <tag>nginx</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>next主题下中文标题跳转失效</title>
-    <url>/essay/80ff7aac.html</url>
-    <content><![CDATA[<p>next 7.8版本发布于2020年4月1日，很久没更新 </p>
-<p>该bug导致中文标题无法跳转，但是英文标题可以</p>
-<a id="more"></a>
-
-<h2 id="环境："><a href="#环境：" class="headerlink" title="环境："></a>环境：</h2><p>hexo 5.0</p>
-<p>next 7.8</p>
-<h2 id="原因"><a href="#原因" class="headerlink" title="原因:"></a>原因:</h2><p><img src="/essay/80ff7aac/title_bug.png"></p>
-<p>由上图可知，utils中的一行代码出了问题，导致后面的一系列出了问题</p>
-<p>于是我先是去搜索了一下这个问题，但是并没有人写过相关内容</p>
-<p>最终 在官方代码最新的commit中，我看到了这样的一个提交。</p>
-<p><img src="/essay/80ff7aac/utils.png"></p>
-<p>但是即使将此次提交变动的代码修改之后也不可以，会出现另一个错误。</p>
-<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案:"></a>解决方案:</h2><p>将下面这个链接的整个代码全部复制，粘贴到<code>\themes\next\source\js\utils.js</code>中，问题完美解决</p>
-<p>访问官方的<a href="https://github.com/theme-next/hexo-theme-next/blob/master/source/js/utils.js">github仓库</a>获取最新的utils.js代码</p>
-]]></content>
-      <categories>
-        <category>next</category>
-        <category>bug</category>
-      </categories>
-      <tags>
-        <tag>next</tag>
       </tags>
   </entry>
   <entry>
@@ -586,6 +586,60 @@
 <p><a href="https://blog.csdn.net/lc13571525583/article/details/90732553">https://blog.csdn.net/lc13571525583/article/details/90732553</a></p>
 <p><a href="https://www.cnblogs.com/xiaoxin-test/p/13559905.html">https://www.cnblogs.com/xiaoxin-test/p/13559905.html</a></p>
 ]]></content>
+  </entry>
+  <entry>
+    <title>新生代分区比例的思考</title>
+    <url>/essay/a12043e8.html</url>
+    <content><![CDATA[<h2 id="疑问"><a href="#疑问" class="headerlink" title="疑问"></a>疑问</h2><p>为什么年轻代中三个区（Eden，S0，S1）的比例是8:1:1呢？为什么不能是7:2:1？6:2:2？</p>
+<a id="more"></a>
+
+<h2 id="堆中区域分布"><a href="#堆中区域分布" class="headerlink" title="堆中区域分布"></a>堆中区域分布</h2><p><img src="/essay/a12043e8/%E5%A0%86%E5%88%86%E5%8C%BA.png"></p>
+<p>上图是不考虑细节而画出来的粗略的堆中的区域分布</p>
+<ul>
+<li><p>Eden：From：to ——&gt;  8:1:1</p>
+</li>
+<li><p>新生代：老年代  ——&gt;  1 : 2</p>
+</li>
+</ul>
+<h2 id="预备知识"><a href="#预备知识" class="headerlink" title="预备知识"></a>预备知识</h2><p>我们创建的对象，一般都是存放在Eden区的，当我们Eden区满了后，就会触发GC操作，一般被称为 YGC / Minor GC操作</p>
+<p>为了保证引用更新的正确性，Java将暂停所有其他的线程，这种情况被称为“Stop-The-World”</p>
+<p><img src="/essay/a12043e8/ygc1.png"></p>
+<p>当我们进行一次垃圾收集后，红色的将会被回收，而绿色的还会被占用着，存放在S0(Survivor From)区。同时我们给每个对象设置了一个年龄计数器，一次回收后就是1。</p>
+<p>同时Eden区继续存放对象，当Eden区再次存满的时候，又会触发一个MinorGC操作，此时GC将会把 Eden和Survivor From中的对象 进行一次收集，把存活的对象放到 Survivor To区，同时让年龄 + 1</p>
+<ul>
+<li>这里实际上使用的就是复制算法，将可触及的对象复制到to区，这样YGC会直接清空from区</li>
+</ul>
+<p><img src="/essay/a12043e8/ygc2.png" alt="ygc2"></p>
+<p>我们继续不断的进行对象生成 和 垃圾回收，当Survivor中的对象的年龄达到15的时候，将会触发一次 Promotion晋升的操作，也就是将年轻代中的对象  晋升到 老年代中</p>
+<p><img src="/essay/a12043e8/ygc3.png" alt="ygc3"></p>
+<p>特别注意，在Eden区满了的时候，才会触发MinorGC，而幸存者区满了后，不会触发MinorGC操作</p>
+<ul>
+<li>==如果Survivor区满了后，将会触发一些特殊的规则，也就是可能直接晋升 老年代==</li>
+</ul>
+<h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><p>那么回到最开始的问题，年轻代的比例为什么是8:1:1呢？我不能让Eden区大一点？或者S1或S2大一点？</p>
+<p>首先开始解答：</p>
+<p>由于S0 和 S1 区使用的是复制算法，则这两个区域的大小肯定是一样的</p>
+<blockquote>
+<p>假如Eden区域占比极大，有可能是占99%</p>
+</blockquote>
+<ol>
+<li>在YGC之后，会产生幸存对象存到S1区，但是此时s1区太小了，很容易就满了。</li>
+<li>而当幸存者区的区域满了之后，每次都有很多对象直接晋升到老年代区域中去。</li>
+<li>老年代中的GC频率很低，会产生大量的冗余对象，易产生OOM。这与老年代的设计理念不符合。</li>
+</ol>
+<blockquote>
+<p>假如Eden区域和幸存者区域占比为4:3:3 或者幸存者区占比更大一点</p>
+</blockquote>
+<ol>
+<li>由于Eden区域占据区域很小，当对象生成过快或者对象过大时。会在Eden区快满的时候YGC。</li>
+<li>注意：==Survivor区域并不会触发YGC，但是会在YGC时一并清理。==</li>
+<li>空间变小，意味着YGC的频率更快了。则Stop-The-World的情况也会发生的频繁，影响效率。</li>
+<li>从复制算法的角度来讲：此算法对于G1这种分拆成为大量region的GC，复制而不是移动，意味着GC需要维护region之间对象引用关系，不管是内存占用或者时间开销也不小。所以复制算法需要复制的存活对象数量并不会太大，或者说非常低才行（老年代大量的对象存活，那么复制的对象将会有很多，效率会很低）。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>jvm</category>
+      </categories>
   </entry>
   <entry>
     <title>mysql性能优化</title>
