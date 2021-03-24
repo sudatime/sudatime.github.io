@@ -33,7 +33,7 @@
 <meta property="og:image" content="https://blog.sodarain.cn/essay/a12043e8/ygc2.png">
 <meta property="og:image" content="https://blog.sodarain.cn/essay/a12043e8/ygc3.png">
 <meta property="article:published_time" content="2021-03-24T12:39:46.000Z">
-<meta property="article:modified_time" content="2021-03-24T14:14:52.335Z">
+<meta property="article:modified_time" content="2021-03-24T14:19:15.017Z">
 <meta property="article:author" content="sudatime">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://blog.sodarain.cn/essay/a12043e8/%E5%A0%86%E5%88%86%E5%8C%BA.png">
@@ -270,7 +270,7 @@
 <p><img src="/essay/a12043e8/ygc3.png" alt="ygc3"></p>
 <p>特别注意，在Eden区满了的时候，才会触发MinorGC，而幸存者区满了后，不会触发MinorGC操作</p>
 <ul>
-<li>==如果Survivor区满了后，将会触发一些特殊的规则，也就是可能直接晋升 老年代==</li>
+<li><code>如果Survivor区满了后，将会触发一些特殊的规则，也就是可能直接晋升 老年代</code></li>
 </ul>
 <h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><p>那么回到最开始的问题，年轻代的比例为什么是8:1:1呢？我不能让Eden区大一点？或者S1或S2大一点？</p>
 <p>首先开始解答：</p>
@@ -288,7 +288,7 @@
 </blockquote>
 <ol>
 <li>由于Eden区域占据区域很小，当对象生成过快或者对象过大时。会在Eden区快满的时候YGC。</li>
-<li>注意：==Survivor区域并不会触发YGC，但是会在YGC时一并清理。==</li>
+<li>注意：<code>Survivor区域并不会触发YGC，但是会在YGC时一并清理。</code></li>
 <li>空间变小，意味着YGC的频率更快了。则Stop-The-World的情况也会发生的频繁，影响效率。</li>
 <li>从复制算法的角度来讲：此算法对于G1这种分拆成为大量region的GC，复制而不是移动，意味着GC需要维护region之间对象引用关系，不管是内存占用或者时间开销也不小。所以复制算法需要复制的存活对象数量并不会太大，或者说非常低才行（老年代大量的对象存活，那么复制的对象将会有很多，效率会很低）。</li>
 </ol>
