@@ -21,24 +21,15 @@
     var CONFIG = {"hostname":"blog.sodarain.cn","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true,"b2t":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="疑问为什么年轻代中三个区（Eden，S0，S1）的比例是8:1:1呢？为什么不能是7:2:1？6:2:2？">
-<meta property="og:type" content="article">
-<meta property="og:title" content="新生代分区比例的思考">
-<meta property="og:url" content="https://blog.sodarain.cn/essay/a12043e8.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Rainbow">
+<meta property="og:url" content="https://blog.sodarain.cn/tags/gc/index.html">
 <meta property="og:site_name" content="Rainbow">
-<meta property="og:description" content="疑问为什么年轻代中三个区（Eden，S0，S1）的比例是8:1:1呢？为什么不能是7:2:1？6:2:2？">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://blog.sodarain.cn/essay/a12043e8/%E5%A0%86%E5%88%86%E5%8C%BA.png">
-<meta property="og:image" content="https://blog.sodarain.cn/essay/a12043e8/ygc1.png">
-<meta property="og:image" content="https://blog.sodarain.cn/essay/a12043e8/ygc2.png">
-<meta property="og:image" content="https://blog.sodarain.cn/essay/a12043e8/ygc3.png">
-<meta property="article:published_time" content="2021-03-24T12:39:46.000Z">
-<meta property="article:modified_time" content="2021-03-25T02:10:43.080Z">
 <meta property="article:author" content="sudatime">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://blog.sodarain.cn/essay/a12043e8/%E5%A0%86%E5%88%86%E5%8C%BA.png">
 
-<link rel="canonical" href="https://blog.sodarain.cn/essay/a12043e8.html">
+<link rel="canonical" href="https://blog.sodarain.cn/tags/gc/">
 
 
 <script id="page-configurations">
@@ -46,12 +37,12 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : true,
+    isPost : false,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>新生代分区比例的思考 | Rainbow</title>
+  <title>标签: gc | Rainbow</title>
   
 
 
@@ -193,167 +184,51 @@
         <div class="content-wrap">
           
 
-          <div class="content post posts-expand">
+          <div class="content tag">
             
 
-    
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://blog.sodarain.cn/essay/a12043e8.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="sudatime">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Rainbow">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          新生代分区比例的思考
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-03-24 20:39:46" itemprop="dateCreated datePublished" datetime="2021-03-24T20:39:46+08:00">2021-03-24</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/jvm/" itemprop="url" rel="index"><span itemprop="name">jvm</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
+  
+  <div class="post-block">
+    <div class="posts-collapse">
+      <div class="collection-title">
+        <h2 class="collection-header">gc
+          <small>标签</small>
+        </h2>
+      </div>
 
       
-        <h2 id="疑问"><a href="#疑问" class="headerlink" title="疑问"></a>疑问</h2><p>为什么年轻代中三个区（Eden，S0，S1）的比例是8:1:1呢？为什么不能是7:2:1？6:2:2？</p>
-<a id="more"></a>
-
-<h2 id="堆中区域分布"><a href="#堆中区域分布" class="headerlink" title="堆中区域分布"></a>堆中区域分布</h2><p><img src="/essay/a12043e8/%E5%A0%86%E5%88%86%E5%8C%BA.png"></p>
-<p>上图是不考虑细节而画出来的粗略的堆中的区域分布</p>
-<ul>
-<li><p>Eden：From：to ——&gt;  8:1:1</p>
-</li>
-<li><p>新生代：老年代  ——&gt;  1 : 2</p>
-</li>
-</ul>
-<h2 id="预备知识"><a href="#预备知识" class="headerlink" title="预备知识"></a>预备知识</h2><p>我们创建的对象，一般都是存放在Eden区的，当我们Eden区满了后，就会触发GC操作，一般被称为 YGC / Minor GC操作</p>
-<p>在这期间为了保证引用更新的正确性，Java将暂停所有其他的线程，这种情况被称为“Stop-The-World”</p>
-<p><img src="/essay/a12043e8/ygc1.png"></p>
-<p>当我们进行一次垃圾收集后，红色的将会被回收，而绿色的还会被占用着，存放在S0(Survivor From)区。同时我们给每个对象设置了一个年龄计数器，一次回收后就是1。</p>
-<p>同时Eden区继续存放对象，当Eden区再次存满的时候，又会触发一个MinorGC操作，此时GC将会把 Eden和Survivor From中的对象 进行一次收集，把存活的对象放到 Survivor To区，同时让年龄 + 1</p>
-<ul>
-<li>这里实际上使用的就是复制算法，将可触及的对象复制到to区，这样YGC会直接清空from区</li>
-</ul>
-<p><img src="/essay/a12043e8/ygc2.png" alt="ygc2"></p>
-<p>我们继续不断的进行对象生成 和 垃圾回收，当Survivor中的对象的年龄达到15的时候，将会触发一次 Promotion晋升的操作，也就是将年轻代中的对象  晋升到 老年代中</p>
-<p><img src="/essay/a12043e8/ygc3.png" alt="ygc3"></p>
-<p>特别注意，在Eden区满了的时候，才会触发MinorGC，而幸存者区满了后，不会触发MinorGC操作</p>
-<ul>
-<li><code>如果Survivor区满了后，将会触发一些特殊的规则，也就是可能直接晋升 老年代</code></li>
-</ul>
-<h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><p>那么回到最开始的问题，年轻代的比例为什么是8:1:1呢？我不能让Eden区大一点？或者S1或S2大一点？</p>
-<p>首先开始解答：</p>
-<p>由于S0 和 S1 区使用的是复制算法，则这两个区域的大小肯定是一样的</p>
-<blockquote>
-<p>假如Eden区域占比极大，假如说是占99%</p>
-</blockquote>
-<ol>
-<li>在YGC之后，会产生幸存对象存到S1区，但是此时s1区太小了，很容易就满了。</li>
-<li>而当幸存者区的区域满了之后，每次都有很多对象直接晋升到老年代区域中去。</li>
-<li>老年代很快被填满，触发Major GC（因为Major GC一般伴随着Minor GC，也可以看做触发了Full GC）。</li>
-<li>老年代的内存空间远大于新生代，进行一次Full GC消耗的时间比Minor GC长得多。频发的Full GC消耗的时间是非常可观的，这一点会影响大型程序的执行和响应速度，更不要说某些连接会因为超时发生连接错误了。</li>
-</ol>
-<blockquote>
-<p>假如Eden区域和幸存者区域占比为4:3:3 或者幸存者区占比更大一点</p>
-</blockquote>
-<ol>
-<li>由于Eden区域占据区域很小，当对象生成过快或者对象过大时。会在Eden区快满的时候YGC。</li>
-<li>注意：<code>Survivor区域并不会触发YGC，但是会在YGC时一并清理。</code></li>
-<li>空间变小，意味着YGC的频率更快了。则Stop-The-World的情况也会发生的频繁，影响效率。</li>
-<li>从复制算法的角度来讲：此算法对于G1这种分拆成为大量region的GC，复制而不是移动，意味着GC需要维护region之间对象引用关系，不管是内存占用或者时间开销也不小。所以复制算法需要复制的存活对象数量并不会太大，或者说非常低才行（老年代大量的对象存活，那么复制的对象将会有很多，效率会很低）。</li>
-</ol>
-
+    <div class="collection-year">
+      <span class="collection-header">2021</span>
     </div>
 
-    
-    
-    
-        
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
 
-<div>
-<ul class="post-copyright">
-  <li class="post-copyright-author">
-    <strong>本文作者： </strong>sudatime
-  </li>
-  <li class="post-copyright-link">
-    <strong>本文链接：</strong>
-    <a href="https://blog.sodarain.cn/essay/a12043e8.html" title="新生代分区比例的思考">https://blog.sodarain.cn/essay/a12043e8.html</a>
-  </li>
-  <li class="post-copyright-license">
-    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
-  </li>
-</ul>
-</div>
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2021-03-25T10:14:01+08:00"
+              content="2021-03-25">
+          03-25
+        </time>
+      </div>
 
+      <div class="post-title">
+          <a class="post-title-link" href="/essay/ac7099b6.html" itemprop="url">
+            <span itemprop="name">垃圾回收算法</span>
+          </a>
+      </div>
 
-      <footer class="post-footer">
-
-        
-
-
-        
-    <div class="post-nav">
-      <div class="post-nav-item">
-    <a href="/essay/792ee381.html" rel="prev" title="intern详解">
-      <i class="fa fa-chevron-left"></i> intern详解
-    </a></div>
-      <div class="post-nav-item">
-    <a href="/essay/ac7099b6.html" rel="next" title="垃圾回收算法">
-      垃圾回收算法 <i class="fa fa-chevron-right"></i>
-    </a></div>
-    </div>
-      </footer>
-    
-	
-	
-	
-	<div>
-	
-		<div>
-    
-        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
-    
-</div>
-
-	
-	</div>
-
-
-
+    </header>
   </article>
+
+    </div>
+  </div>
   
   
+  
+
   
 
 
@@ -406,7 +281,6 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%96%91%E9%97%AE"><span class="nav-number">1.</span> <span class="nav-text">疑问</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A0%86%E4%B8%AD%E5%8C%BA%E5%9F%9F%E5%88%86%E5%B8%83"><span class="nav-number">2.</span> <span class="nav-text">堆中区域分布</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%84%E5%A4%87%E7%9F%A5%E8%AF%86"><span class="nav-number">3.</span> <span class="nav-text">预备知识</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E7%AD%94"><span class="nav-number">4.</span> <span class="nav-text">解答</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
