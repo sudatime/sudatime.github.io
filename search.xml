@@ -286,32 +286,6 @@
       </tags>
   </entry>
   <entry>
-    <title>next主题下中文标题跳转失效</title>
-    <url>/essay/80ff7aac.html</url>
-    <content><![CDATA[<p>next 7.8版本发布于2020年4月1日，很久没更新 </p>
-<p>该bug导致中文标题无法跳转，但是英文标题可以</p>
-<a id="more"></a>
-
-<h2 id="环境："><a href="#环境：" class="headerlink" title="环境："></a>环境：</h2><p>hexo 5.0</p>
-<p>next 7.8</p>
-<h2 id="原因"><a href="#原因" class="headerlink" title="原因:"></a>原因:</h2><p><img src="/essay/80ff7aac/title_bug.png"></p>
-<p>由上图可知，utils中的一行代码出了问题，导致后面的一系列出了问题</p>
-<p>于是我先是去搜索了一下这个问题，但是并没有人写过相关内容</p>
-<p>最终 在官方代码最新的commit中，我看到了这样的一个提交。</p>
-<p><img src="/essay/80ff7aac/utils.png"></p>
-<p>但是即使将此次提交变动的代码修改之后也不可以，会出现另一个错误。</p>
-<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案:"></a>解决方案:</h2><p>将下面这个链接的整个代码全部复制，粘贴到<code>\themes\next\source\js\utils.js</code>中，问题完美解决</p>
-<p>访问官方的<a href="https://github.com/theme-next/hexo-theme-next/blob/master/source/js/utils.js">github仓库</a>获取最新的utils.js代码</p>
-]]></content>
-      <categories>
-        <category>next</category>
-        <category>bug</category>
-      </categories>
-      <tags>
-        <tag>next</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>nginx实现负载均衡</title>
     <url>/essay/nginx-config.html</url>
     <content><![CDATA[<p>Nginx可以配置代理多台服务器，当一台服务器宕机之后，仍能保持系统可用。记录一下nginx负载均衡的实现，配置文件如下：</p>
@@ -362,6 +336,32 @@
       </categories>
       <tags>
         <tag>nginx</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>next主题下中文标题跳转失效</title>
+    <url>/essay/80ff7aac.html</url>
+    <content><![CDATA[<p>next 7.8版本发布于2020年4月1日，很久没更新 </p>
+<p>该bug导致中文标题无法跳转，但是英文标题可以</p>
+<a id="more"></a>
+
+<h2 id="环境："><a href="#环境：" class="headerlink" title="环境："></a>环境：</h2><p>hexo 5.0</p>
+<p>next 7.8</p>
+<h2 id="原因"><a href="#原因" class="headerlink" title="原因:"></a>原因:</h2><p><img src="/essay/80ff7aac/title_bug.png"></p>
+<p>由上图可知，utils中的一行代码出了问题，导致后面的一系列出了问题</p>
+<p>于是我先是去搜索了一下这个问题，但是并没有人写过相关内容</p>
+<p>最终 在官方代码最新的commit中，我看到了这样的一个提交。</p>
+<p><img src="/essay/80ff7aac/utils.png"></p>
+<p>但是即使将此次提交变动的代码修改之后也不可以，会出现另一个错误。</p>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案:"></a>解决方案:</h2><p>将下面这个链接的整个代码全部复制，粘贴到<code>\themes\next\source\js\utils.js</code>中，问题完美解决</p>
+<p>访问官方的<a href="https://github.com/theme-next/hexo-theme-next/blob/master/source/js/utils.js">github仓库</a>获取最新的utils.js代码</p>
+]]></content>
+      <categories>
+        <category>next</category>
+        <category>bug</category>
+      </categories>
+      <tags>
+        <tag>next</tag>
       </tags>
   </entry>
   <entry>
@@ -625,7 +625,8 @@
 <ol>
 <li>在YGC之后，会产生幸存对象存到S1区，但是此时s1区太小了，很容易就满了。</li>
 <li>而当幸存者区的区域满了之后，每次都有很多对象直接晋升到老年代区域中去。</li>
-<li>老年代中的GC频率很低，会产生大量的冗余对象，易产生OOM。这与老年代的设计理念不符合。</li>
+<li>老年代很快被填满，触发Major GC（因为Major GC一般伴随着Minor GC，也可以看做触发了Full GC）。</li>
+<li>老年代的内存空间远大于新生代，进行一次Full GC消耗的时间比Minor GC长得多。频发的Full GC消耗的时间是非常可观的，这一点会影响大型程序的执行和响应速度，更不要说某些连接会因为超时发生连接错误了。</li>
 </ol>
 <blockquote>
 <p>假如Eden区域和幸存者区域占比为4:3:3 或者幸存者区占比更大一点</p>
