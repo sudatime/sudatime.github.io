@@ -171,661 +171,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Netty</title>
-    <url>/essay/1c6ba3e2.html</url>
-    <content><![CDATA[<p>Netty是一个异步事件驱动的网络应用框架，用于快速开发可维护的高性能服务器和客户端。</p>
-<a id="more"></a>
-
-<h1 id="IO编程"><a href="#IO编程" class="headerlink" title="IO编程"></a>IO编程</h1><h2 id="传统IO编程"><a href="#传统IO编程" class="headerlink" title="传统IO编程"></a>传统IO编程</h2><p>每个客户端连接过来后，服务端都会启动一个线程去处理该客户端的请求。阻塞I/O的通信模型示意图如下：</p>
-<img src="/essay/1c6ba3e2/传统io.png" style="zoom:80%;">
-
-<p>在传统的IO模型中，每个连接创建成功之后都需要一个线程来维护，每个线程包含一个while死循环。<br>如果在用户数量较少的情况下运行是没有问题的，但是对于用户数量比较多的业务来说，服务端可能需要支撑成千上万的连接，IO模型可能就不太合适了。</p>
-<p>如果有1万个连接就对应1万个线程，继而1万个while死循环，这种模型存在以下问题：</p>
-<ul>
-<li>当客户端越多，就会创建越多的处理线程。线程是操作系统中非常宝贵的资源，同一时刻有大量的线程处于阻塞状态是非常严重的资源浪费。并且如果务器遭遇洪峰流量冲击，例如双十一活动，线程池会瞬间被耗尽，导致服务器瘫痪。</li>
-<li>因为是阻塞式通信，线程爆炸之后操作系统频繁进行线程切换，应用性能急剧下降。</li>
-<li>IO编程中数据读写是以字节流为单位，效率不高。</li>
-</ul>
-<h2 id="NIO"><a href="#NIO" class="headerlink" title="NIO"></a>NIO</h2><p>NIO，也叫做new-IO或者non-blocking-IO，可理解为非阻塞IO。NIO编程模型中，新来一个连接不再创建一个新的线程，而是可以把这条连接直接绑定到某个固定的线程，然后这条连接所有的读写都由这个线程来负责</p>
-<img src="/essay/1c6ba3e2/nio.png" style="zoom:80%;">
-
-<p>在NIO模型中，可以把这么多的while死循环变成一个死循环，这个死循环由一个线程控制。这就是NIO模型中选择器（Selector）的作用，一条连接来了之后，现在不创建一个while死循环去监听是否有数据可读了，而是直接把这条连接注册到选择器上，通过检查这个选择器，就可以批量监测出有数据可读的连接，进而读取数据。</p>
-<h3 id="NIO三大组件"><a href="#NIO三大组件" class="headerlink" title="NIO三大组件"></a>NIO三大组件</h3><ul>
-<li><p>通道（Channel）<br>是传统IO中的Stream(流)的升级版。Stream是单向的、读写分离（inputstream和outputstream），Channel是双向的，既可以进行读操作，又可以进行写操作。</p>
-</li>
-<li><p>缓冲（Buffer）</p>
-<p>Buffer可以理解为一块内存区域，可以写入数据，并且在之后读取它。</p>
-</li>
-<li><p>选择器（Selector）<br>选择器可以实现一个单独的线程来监控多个注册在她上面的信道（Channel），通过一定的选择机制，实现多路复用的效果。</p>
-</li>
-</ul>
-<h3 id="NIO相对于IO的优势"><a href="#NIO相对于IO的优势" class="headerlink" title="NIO相对于IO的优势"></a>NIO相对于IO的优势</h3><ol>
-<li>IO是面向流的，每次都是从操作系统底层一个字节一个字节地读取数据，并且数据只能从一端读取到另一端，不能前后移动流中的数据。NIO则是面向缓冲区的，每次可以从这个缓冲区里面读取一块的数据，并且可以在需要时在缓冲区中前后移动。</li>
-<li>IO是阻塞的，这意味着，当一个线程读取数据或写数据时，该线程被阻塞，直到有一些数据被读取，或数据完全写入，在此期间该线程不能干其他任何事情。而NIO是非阻塞的，不需要一直等待操作完成才能干其他事情，而是在等待的过程中可以同时去做别的事情，所以能最大限度地使用服务器的资源。</li>
-<li>NIO引入了IO多路复用器selector。selector是一个提供channel注册服务的线程，可以同时对接多个Channel，并在线程池中为channel适配、选择合适的线程来处理channel。由于NIO模型中线程数量大大降低，线程切换效率因此也大幅度提高。</li>
-</ol>
-<h1 id="Netty"><a href="#Netty" class="headerlink" title="Netty"></a>Netty</h1><h2 id="netty不使用原生NIO原因"><a href="#netty不使用原生NIO原因" class="headerlink" title="netty不使用原生NIO原因"></a>netty不使用原生NIO原因</h2><p>下面是使用Netty不使用JDK原生NIO的一些原因：</p>
-<ul>
-<li>使用JDK自带的NIO需要了解太多的概念，编程复杂</li>
-<li>Netty底层IO模型随意切换，而这一切只需要做微小的改动，就可以直接从NIO模型变身为IO模型</li>
-<li>Netty自带的拆包解包，异常检测等机制，可以从NIO的繁重细节中脱离出来，只需要关心业务逻辑</li>
-<li>Netty解决了JDK的很多包括空轮询在内的bug</li>
-<li>Netty底层对线程，selector做了很多细小的优化，精心设计的线程模型做到非常高效的并发处理</li>
-<li>自带各种协议栈让你处理任何一种通用协议都几乎不用亲自动手</li>
-<li>Netty社区活跃，遇到问题随时邮件列表或者issue</li>
-<li>Netty已经历各大rpc框架，消息中间件，分布式通信中间件线上的广泛验证，健壮性无比强大</li>
-</ul>
-<h2 id="代码展示"><a href="#代码展示" class="headerlink" title="代码展示"></a>代码展示</h2><ul>
-<li>maven依赖</li>
-</ul>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.netty<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>netty-all<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">version</span>&gt;</span>4.1.42.Final<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>服务端</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NettyServer</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 用于接受客户端的连接以及为已接受的连接创建子通道，一般用于服务端。</span></span><br><span class="line">        ServerBootstrap serverBootstrap = <span class="keyword">new</span> ServerBootstrap();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 包含有多个EventLoop的实例，用来管理 event Loop 的组件，</span></span><br><span class="line">        <span class="comment">// 可以理解为一个线程池，内部维护了一组线程。</span></span><br><span class="line">        <span class="comment">// 处理新的连接</span></span><br><span class="line">        NioEventLoopGroup boos = <span class="keyword">new</span> NioEventLoopGroup();</span><br><span class="line">        <span class="comment">// 处理数据</span></span><br><span class="line">        NioEventLoopGroup worker = <span class="keyword">new</span> NioEventLoopGroup();</span><br><span class="line"></span><br><span class="line">        serverBootstrap</span><br><span class="line">                .group(boos, worker)</span><br><span class="line">                <span class="comment">// 对网络套接字的I/O操作，例如读、写、连接、绑定</span></span><br><span class="line">                <span class="comment">// 等操作进行适配和封装的组件。</span></span><br><span class="line">                .channel(NioServerSocketChannel.class)</span><br><span class="line">                <span class="comment">// 用于对刚创建的channel进行初始化，</span></span><br><span class="line">                <span class="comment">// 将ChannelHandler添加到channel的ChannelPipeline处理链路中。</span></span><br><span class="line">                .childHandler(<span class="keyword">new</span> ChannelInitializer&lt;NioSocketChannel&gt;() &#123;</span><br><span class="line">                    <span class="comment">// 初始化channel的方法</span></span><br><span class="line">                    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">initChannel</span><span class="params">(NioSocketChannel ch)</span> </span>&#123;</span><br><span class="line">                        <span class="comment">//流水线车间，当组件从流水线头部进入，流水线上的工人按顺序对组件进行加工</span></span><br><span class="line">                        <span class="comment">//到达流水线尾部时商品组装完成。</span></span><br><span class="line">                        <span class="comment">// 流水线相当于ChannelPipeline，</span></span><br><span class="line">                        <span class="comment">// 流水线工人相当于ChannelHandler，源头的组件当做event。</span></span><br><span class="line">                        ch.pipeline().addLast(<span class="keyword">new</span> StringDecoder());</span><br><span class="line">                        ch.pipeline().addLast(<span class="keyword">new</span> SimpleChannelInboundHandler&lt;String&gt;() &#123;</span><br><span class="line">                            <span class="meta">@Override</span></span><br><span class="line">                            <span class="comment">//自己指定流水线工作可以干什么事</span></span><br><span class="line">                            <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">channelRead0</span><span class="params">(ChannelHandlerContext ctx, String msg)</span> </span>&#123;</span><br><span class="line">                                System.out.println(msg);</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;)</span><br><span class="line">                .bind(<span class="number">8000</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>客户端：</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NettyClient</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">        Bootstrap bootstrap = <span class="keyword">new</span> Bootstrap();</span><br><span class="line">        NioEventLoopGroup group = <span class="keyword">new</span> NioEventLoopGroup();</span><br><span class="line"></span><br><span class="line">        bootstrap.group(group)</span><br><span class="line">                .channel(NioSocketChannel.class)</span><br><span class="line">                .handler(<span class="keyword">new</span> ChannelInitializer&lt;Channel&gt;() &#123;</span><br><span class="line">                    <span class="meta">@Override</span></span><br><span class="line">                    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">initChannel</span><span class="params">(Channel ch)</span> </span>&#123;</span><br><span class="line">                        ch.pipeline().addLast(<span class="keyword">new</span> StringEncoder());</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;);</span><br><span class="line"></span><br><span class="line">        Channel channel = bootstrap.connect(<span class="string">&quot;127.0.0.1&quot;</span>, <span class="number">8000</span>).channel();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">            channel.writeAndFlush(<span class="string">&quot;测试数据&quot;</span>);</span><br><span class="line">            Thread.sleep(<span class="number">2000</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="Netty的事件驱动"><a href="#Netty的事件驱动" class="headerlink" title="Netty的事件驱动"></a>Netty的事件驱动</h2><p>Netty使用事件驱动的方式作为底层架构，包括：</p>
-<ul>
-<li>事件队列（event queue）：接收事件的入口。</li>
-<li>分发器（event mediator）：将不同的事件分发到不同的业务逻辑单元。</li>
-<li>事件通道（event channel）：分发器与处理器之间的联系渠道。</li>
-<li>事件处理器（event processor）：实现业务逻辑，处理完成后会发出事件，触发下一步操作。</li>
-</ul>
-<img src="/essay/1c6ba3e2/netty事件驱动.png" style="zoom:75%;">
-
-<h2 id="核心组件"><a href="#核心组件" class="headerlink" title="核心组件"></a>核心组件</h2><p>Netty 的功能特性图：</p>
-<img src="/essay/1c6ba3e2/netty功能特性图.png" style="zoom:75%;">
-
-<p>Netty 功能特性：</p>
-<ul>
-<li>传输服务，支持 BIO 和 NIO。</li>
-<li>容器集成：支持 OSGI、JBossMC、Spring、Guice 容器。</li>
-<li>协议支持：HTTP、Protobuf、二进制、文本、WebSocket 等，支持自定义协议。</li>
-</ul>
-<p>BIO和NIO的区别：</p>
-<table>
-<thead>
-<tr>
-<th align="center">场景</th>
-<th align="center">BIO</th>
-<th align="center">NIO</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">有新连接请求时</td>
-<td align="center">开一个新的线程处理</td>
-<td align="center">使用多路复用原理，一个线程处理</td>
-</tr>
-<tr>
-<td align="center">适用场景</td>
-<td align="center">连接数小且固定</td>
-<td align="center">连接数特别多，连接比较短（轻操作）的场景</td>
-</tr>
-</tbody></table>
-<p>Netty框架包含如下的组件：</p>
-<ul>
-<li>ServerBootstrap ：用于接受客户端的连接以及为已接受的连接创建子通道，一般用于服务端。</li>
-<li>Bootstrap：不接受新的连接，并且是在父通道类完成一些操作，一般用于客户端的。</li>
-<li>Channel：对网络套接字的I/O操作，例如读、写、连接、绑定等操作进行适配和封装的组件。</li>
-<li>EventLoop：处理所有注册其上的channel的I/O操作。通常情况一个</li>
-<li>EventLoop可为多个channel提供服务。</li>
-<li>EventLoopGroup：包含有多个EventLoop的实例，用来管理 event Loop 的组件，可以理解为一个线程池，内部维护了一组线程。</li>
-<li>ChannelHandler和ChannelPipeline：例如一个流水线车间，当组件从流水线头部进入，穿越流水线，流水线上的工人按顺序对组件进行加工，到达流水线尾部时商品组装完成。流水线相当于ChannelPipeline ，流水线工人相当于ChannelHandler ，源头的组件当做event。</li>
-<li>ChannelInitializer：用于对刚创建的channel进行初始化，将ChannelHandler<br>添加到channel的ChannelPipeline处理链路中。</li>
-<li>ChannelFuture：与jdk中线程的Future接口类似，即实现并行处理的效果。可<br>以在操作执行成功或失败时自动触发监听器中的事件处理方法。</li>
-</ul>
-]]></content>
-      <categories>
-        <category>后端</category>
-      </categories>
-      <tags>
-        <tag>netty</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>next主题下中文标题跳转失效</title>
-    <url>/essay/80ff7aac.html</url>
-    <content><![CDATA[<p>next 7.8版本发布于2020年4月1日，很久没更新 </p>
-<p>该bug导致中文标题无法跳转，但是英文标题可以</p>
-<a id="more"></a>
-
-<h2 id="环境："><a href="#环境：" class="headerlink" title="环境："></a>环境：</h2><p>hexo 5.0</p>
-<p>next 7.8</p>
-<h2 id="原因"><a href="#原因" class="headerlink" title="原因:"></a>原因:</h2><p><img src="/essay/80ff7aac/title_bug.png"></p>
-<p>由上图可知，utils中的一行代码出了问题，导致后面的一系列出了问题</p>
-<p>于是我先是去搜索了一下这个问题，但是并没有人写过相关内容</p>
-<p>最终 在官方代码最新的commit中，我看到了这样的一个提交。</p>
-<p><img src="/essay/80ff7aac/utils.png"></p>
-<p>但是即使将此次提交变动的代码修改之后也不可以，会出现另一个错误。</p>
-<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案:"></a>解决方案:</h2><p>将下面这个链接的整个代码全部复制，粘贴到<code>\themes\next\source\js\utils.js</code>中，问题完美解决</p>
-<p>访问官方的<a href="https://github.com/theme-next/hexo-theme-next/blob/master/source/js/utils.js">github仓库</a>获取最新的utils.js代码</p>
-]]></content>
-      <categories>
-        <category>next</category>
-        <category>bug</category>
-      </categories>
-      <tags>
-        <tag>next</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>nginx实现负载均衡</title>
-    <url>/essay/nginx-config.html</url>
-    <content><![CDATA[<p>Nginx可以配置代理多台服务器，当一台服务器宕机之后，仍能保持系统可用。记录一下nginx负载均衡的实现，配置文件如下：</p>
-<a id="more"></a>
-
-<ol>
-<li>在http节点下，添加upstream节点。</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">upstream abc &#123; </span><br><span class="line">   server localhost:7080; </span><br><span class="line">   server localhost:8980; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>将server节点下的location节点中的proxy_pass配置为：http:// + upstream名称，即</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">location &#x2F; &#123; </span><br><span class="line">    root  html; </span><br><span class="line">    &#x2F;&#x2F;http:&#x2F;&#x2F; + upstream名称</span><br><span class="line">    proxy_pass http:&#x2F;&#x2F;abc; </span><br><span class="line">    index  index.html index.htm; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>upstream按照轮询（默认）方式进行负载，每个请求按时间顺序逐一分配到不同的后端服务器，如果后端服务器down掉，能自动剔除。虽然这种方式简便、成本低廉。但缺点是：可靠性低和负载分配不均衡。适用于图片服务器集群和纯静态页面服务器集群。除此之外，upstream还有其它的分配策略，分别如下：</p>
-<ol>
-<li>weight（权重）</li>
-</ol>
-<p>指定轮询几率，weight和访问比率成正比，用于后端服务器性能不均的情况。如下所示，10.0.0.88的访问比率要比10.0.0.77的访问比率高一倍。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">upstream linuxidc&#123; </span><br><span class="line">      server 10.0.0.77 weight&#x3D;5; </span><br><span class="line">      server 10.0.0.88 weight&#x3D;10; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>ip_hash（访问ip）</li>
-</ol>
-<p>每个请求按访问ip的hash结果分配，这样每个访客固定访问一个后端服务器，可以解决session的问题。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">upstream favresin&#123; </span><br><span class="line">      ip_hash; </span><br><span class="line">      server 10.0.0.10:8080; </span><br><span class="line">      server 10.0.0.11:8080; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ol start="3">
-<li><p>fair（第三方）</p>
-<p>按后端服务器的响应时间来分配请求，响应时间短的优先分配。与weight分配策略类似。</p>
-</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"> upstream abc&#123;   </span><br><span class="line">   server 10.0.0.10:8080; </span><br><span class="line">   server 10.0.0.11:8080; </span><br><span class="line">   fair; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ol start="4">
-<li>url_hash（第三方）</li>
-</ol>
-<p>按访问url的hash结果来分配请求，使每个url定向到同一个后端服务器，后端服务器为缓存时比较有效。</p>
-<p>注意：在upstream中加入hash语句，server语句中不能写入weight等其他的参数，hash_method是使用的hash算法。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"> upstream abc&#123; </span><br><span class="line">   server 10.0.0.10:7777; </span><br><span class="line">   server 10.0.0.11:8888; </span><br><span class="line">   hash $request_uri; </span><br><span class="line">   hash_method crc32; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>upstream还可以为每个设备设置状态值，这些状态值的含义分别如下：</p>
-<p>down 表示单前的server暂时不参与负载.</p>
-<p>weight 默认为1.weight越大，负载的权重就越大。</p>
-<p>max_fails ：允许请求失败的次数默认为1.当超过最大次数时，返回proxy_next_upstream 模块定义的错误.</p>
-<p>fail_timeout : max_fails次失败后，暂停的时间。</p>
-<p>backup： 其它所有的非backup机器down或者忙的时候，请求backup机器。所以这台机器压力会最轻。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">upstream bakend&#123; #定义负载均衡设备的Ip及设备状态 </span><br><span class="line"> ip_hash; </span><br><span class="line">   server 10.0.0.11:9090 down; </span><br><span class="line">   server 10.0.0.11:8080 weight&#x3D;2; </span><br><span class="line">   server 10.0.0.11:6060; </span><br><span class="line">   server 10.0.0.11:7070 backup; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>后端</category>
-        <category>nginx</category>
-      </categories>
-      <tags>
-        <tag>nginx</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>valine改为本地加载</title>
-    <url>/essay/802f7ce0.html</url>
-    <content><![CDATA[<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>主题next7.8  valine 1.4.14</p>
-<h2 id="找到模板源文件"><a href="#找到模板源文件" class="headerlink" title="找到模板源文件"></a>找到模板源文件</h2><p>通过以下路径找到</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">\themes\next\layout\_third-party\comments\valine.swig</span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-
-<p>打开代码</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;%- set valine_uri &#x3D; theme.vendors.valine or &#39;&#x2F;&#x2F;unpkg.com&#x2F;valine&#x2F;dist&#x2F;Valine.min.js&#39; %&#125;</span><br></pre></td></tr></table></figure>
-<p>从第一行代码可以看出，它是通过网络加载，然后用<code>NexT.utils</code>来进行获取参数  <del>我们可以不用管，直接删掉</del></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">NexT.utils.getScript(&#39;&#123;&#123; valine_uri &#125;&#125;&#39;, () &#x3D;&gt; &#123;</span><br><span class="line">    var GUEST &#x3D; [&#39;nick&#39;, &#39;mail&#39;, &#39;link&#39;];</span><br><span class="line">    var guest &#x3D; &#39;&#123;&#123; theme.valine.guest_info &#125;&#125;&#39;;</span><br><span class="line">    guest &#x3D; guest.split(&#39;,&#39;).filter(item &#x3D;&gt; &#123;</span><br><span class="line">      return GUEST.includes(item);</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
-<p><del>只留下主体new Valine 代码</del></p>
-<p><code>这样操作会导致读取不到guest</code></p>
-<p>应该这样写 ↓</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;script type&#x3D;&quot;text&#x2F;javascript&quot; src&#x3D;&quot;&#x2F;js&#x2F;Valine.min.js&quot;&gt;&lt;&#x2F;script&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">	var GUEST &#x3D; [&#39;nick&#39;, &#39;mail&#39;, &#39;link&#39;];</span><br><span class="line">	var guest &#x3D; &#39;&#123;&#123; theme.valine.guest_info &#125;&#125;&#39;;</span><br><span class="line">    guest &#x3D; guest.split(&#39;,&#39;).filter(item &#x3D;&gt; &#123;</span><br><span class="line">      return GUEST.includes(item);</span><br><span class="line">    &#125;);</span><br><span class="line">    new Valine(&#123;</span><br><span class="line">      el         : &#39;#valine-comments&#39;,</span><br><span class="line">      verify     : &#123;&#123; theme.valine.verify &#125;&#125;,</span><br><span class="line">      notify     : &#123;&#123; theme.valine.notify &#125;&#125;,</span><br><span class="line">      appId      : &#39;&#123;&#123; theme.valine.appid &#125;&#125;&#39;,</span><br><span class="line">      appKey     : &#39;&#123;&#123; theme.valine.appkey &#125;&#125;&#39;,</span><br><span class="line">      placeholder: &#123;&#123; theme.valine.placeholder | json &#125;&#125;,</span><br><span class="line">      avatar     : &#39;&#123;&#123; theme.valine.avatar &#125;&#125;&#39;,</span><br><span class="line">      meta       : guest,</span><br><span class="line">      pageSize   : &#39;&#123;&#123; theme.valine.pageSize &#125;&#125;&#39; || 10,</span><br><span class="line">      visitor    : &#123;&#123; theme.valine.visitor &#125;&#125;,</span><br><span class="line">      lang       : &#39;&#123;&#123; theme.valine.language &#125;&#125;&#39; || &#39;zh-cn&#39;,</span><br><span class="line">      path       : location.pathname,</span><br><span class="line">      recordIP   : &#123;&#123; theme.valine.recordIP &#125;&#125;,</span><br><span class="line">      serverURLs : &#39;&#123;&#123; theme.valine.serverURLs &#125;&#125;&#39;</span><br><span class="line">    &#125;);</span><br><span class="line">&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
-<h2 id="Valine-min-js获取方式"><a href="#Valine-min-js获取方式" class="headerlink" title="Valine.min.js获取方式"></a>Valine.min.js获取方式</h2><p>访问 <a href="https://unpkg.com/valine/dist/Valine.min.js">这里</a> 复制全部代码，新建一个Valine.min.js，放进去 保存 放在 <code>主题\source\js</code>里面</p>
-]]></content>
-      <categories>
-        <category>next</category>
-        <category>valine</category>
-      </categories>
-      <tags>
-        <tag>valine</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>vue与button的冲突</title>
-    <url>/essay/vue-button.html</url>
-    <content><![CDATA[<h2 id="环境："><a href="#环境：" class="headerlink" title="环境："></a>环境：</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">vue.js v2.5.16</span><br></pre></td></tr></table></figure>
-<h2 id="问题描述："><a href="#问题描述：" class="headerlink" title="问题描述："></a>问题描述：</h2><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span>&gt;</span><span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p> 这个标签未设置type属性时，在form表单中会默认为submit属性，也就是表单提交事件。</p>
-<p>当vue指定@click事件在这个button上时，就会出现两次请求的触发。</p>
-<p>出现同步请求的现象（也就是页面刷新一次）</p>
-<a id="more"></a>
-
-<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><h3 id="方案一："><a href="#方案一：" class="headerlink" title="方案一："></a>方案一：</h3><p>使用高版本vue.js</p>
-<p>实测vue.js : 2.6.11可解决问题，但是仍然有同步请求现象</p>
-<h3 id="方案二："><a href="#方案二：" class="headerlink" title="方案二："></a>方案二：</h3><p>给form内的button加上type属性，这个最为方便快捷</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">type</span>=<span class="string">&quot;button&quot;</span> @<span class="attr">click</span>=<span class="string">&quot;pageNum=1;findPage()&quot;</span> <span class="attr">class</span>=<span class="string">&quot;btn btn-default&quot;</span>&gt;</span>查询<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>vue</category>
-      </categories>
-      <tags>
-        <tag>vue</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>单点登录实现</title>
-    <url>/essay/9fd432c.html</url>
-    <content><![CDATA[<p><strong>单点登录</strong>（Single Sign On），简称为<strong>SSO</strong>，是比较流行的<strong>企业业务整合</strong>的解决方案之一。</p>
-<a id="more"></a>
-
-<h2 id="实现方案"><a href="#实现方案" class="headerlink" title="实现方案"></a>实现方案</h2><p>Oauth2：可以生成一个令牌的，经过<strong>用户验证</strong>（客户端、真实用户）生成令牌。</p>
-<h3 id="cookie"><a href="#cookie" class="headerlink" title="cookie"></a>cookie</h3><p>用户访问被保护的资源时要经过网关，网关会从里面得到cookie，再从cookie中取出JTI值，可用JTI值作为键值，从redis里面获取token值，验证token。</p>
-<p><img src="/essay/9fd432c/1.png"></p>
-<h3 id="完整流程："><a href="#完整流程：" class="headerlink" title="完整流程："></a>完整流程：</h3><ol>
-<li><p>用户访问资源的时候，网关取得请求的URL，来判断是否放行。</p>
-</li>
-<li><p>若用户访问的资源是被保护的，则网关不放行，并从中获取cookie值，如果里面不存在cookie，则跳转去登录页面。</p>
-</li>
-<li><p>当用户登录的时候，会进入登录服务里面，由于登录服务并没有校验密码的功能，我们需要借助于Oauth2服务。</p>
-</li>
-<li><p>Oauth2拿到用户名密码之后，会查询数据库来判断用户名密码是否正确，当密码正确时，会发放一个令牌给登录用户。</p>
-</li>
-<li><p>当登录服务拿到令牌之后，会把token以JTI值为键存入redis，并将JTI值存入cookie中。</p>
-</li>
-<li><p>再次回到网关，网关会重复第2步，若仍然不存在，则继续进入登录服务。若cookie存在，并成功取到token，当校验通过，则可以访问被保护的资源了</p>
-</li>
-</ol>
-<p><img src="/essay/9fd432c/2.png"></p>
-<h3 id="实现代码："><a href="#实现代码：" class="headerlink" title="实现代码："></a>实现代码：</h3><ul>
-<li>获取请求的URL</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">ServerHttpRequest request = exchange.getRequest();</span><br><span class="line">String path = request.getURI().getPath();</span><br></pre></td></tr></table></figure>
-<ul>
-<li>转发：</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//跳转登录页面 - 303</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> Mono&lt;Void&gt; <span class="title">toLoginPage</span><span class="params">(String loginUrl, ServerWebExchange exchange)</span> </span>&#123;</span><br><span class="line">    ServerHttpResponse response = exchange.getResponse();</span><br><span class="line">    response.setStatusCode(HttpStatus.SEE_OTHER);</span><br><span class="line">    response.getHeaders().set(<span class="string">&quot;Location&quot;</span>,loginUrl);</span><br><span class="line">    <span class="keyword">return</span> response.setComplete();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>取cookie</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">HttpCookie httpCookie = request.getCookies().getFirst(<span class="string">&quot;uid&quot;</span>);</span><br></pre></td></tr></table></figure>
-<ul>
-<li>给request请求添加header</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">request.mutate().header(<span class="string">&quot;Authorization&quot;</span>,<span class="string">&quot;Bearer &quot;</span>+jwt);</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>后端</category>
-      </categories>
-      <tags>
-        <tag>sso</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>地址栏输入url之后经历的过程</title>
-    <url>/essay/cf97c711.html</url>
-    <content><![CDATA[<h1 id="在地址栏输入URL后，经历了那些过程"><a href="#在地址栏输入URL后，经历了那些过程" class="headerlink" title="在地址栏输入URL后，经历了那些过程"></a>在地址栏输入URL后，经历了那些过程</h1><h2 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h2><ol>
-<li>DNS域名解析；</li>
-<li>建立TCP连接；</li>
-<li>发送HTTP请求；</li>
-<li>服务器处理请求；</li>
-<li>返回响应结果；</li>
-<li>关闭TCP连接；</li>
-<li>浏览器解析HTML；</li>
-<li>浏览器布局渲染；</li>
-</ol>
-<a id="more"></a>
-
-<h2 id="DNS域名解析"><a href="#DNS域名解析" class="headerlink" title="DNS域名解析"></a>DNS域名解析</h2><p>DNS是应用层协议，用于将用户提供的主机名解析为ip地址</p>
-<p>我们在浏览器输入网址，其实就是要向服务器请求我们想要的页面内容，所以浏览器首先要确认的是域名所对应的服务器在哪里。将域名解析成对应的服务器IP地址这项工作，是由DNS服务器来完成的。</p>
-<p>客户端收到你输入的域名地址后，它首先去找本地的hosts文件，检查在该文件中是否有相应的域名、IP对应关系，如果有，则向其IP地址发送请求，如果没有，再去找DNS服务器。一般用户很少去编辑修改hosts文件。</p>
-<p>解析过程：</p>
-<ol>
-<li><p>首先搜索浏览器自身的DNS缓存（缓存命中），如果有，解析结束。浏览器自身的缓存时间比较短，可以通过TTL来进行设置，大概能存储1000条缓存。</p>
-</li>
-<li><p>浏览器自身缓存没有（缓存未命中）就去操作系统的缓存中查找</p>
-</li>
-<li><p>当浏览器及系统缓存中均无域名对应IP则进入路由器缓存中检查 host文件</p>
-<p><strong>以上三步均为客服端的DNS缓存，都没有找的话就递归地去域名服务器去查找</strong></p>
-</li>
-<li><p>请求本地域名服务器（LDNS）解析域名</p>
-</li>
-<li><p>LDNS仍然没有命中，就直接跳到Root Server 域名服务器请求解析</p>
-</li>
-<li><p>根域名服务器返回给LDNS一个所查询域的主域名服务器（gTLD Server，例如 .com .cn等）</p>
-</li>
-<li><p>LDNS再发送请求给上一步返回的gTLD</p>
-</li>
-<li><p>接受请求的gTLD查找并返回这个域名对应的Name Server（网站注册的域名服务器）的地址</p>
-</li>
-<li><p>Name Server根据映射关系表找到目标ip，返回给LDNS</p>
-</li>
-<li><p>LDNS缓存这个域名和对应的ip并把解析的结果返回给用户，解析结束！</p>
-</li>
-</ol>
-<p><img src="/essay/cf97c711/dns1.png" alt="dns1"></p>
-<p><img src="/essay/cf97c711/dnschax.png" alt="dnschax"></p>
-<h2 id="TCP-IP三握四挥"><a href="#TCP-IP三握四挥" class="headerlink" title="TCP/IP三握四挥"></a>TCP/IP三握四挥</h2><p><code>三次握手的目的</code><br>三次握手的最主要目的是保证连接是双工的，可靠更多的是通过重传机制来保证的。<br><code>为什么是三次握手</code><br>为了保证服务端能收接受到客户端的信息并能做出正确的应答而进行前两次(第一次和第二次)握手，为了保证客户端能够接收到服务端的信息并能做出正确的应答而进行后两次(第二次和第三次)握手。<br><code>三次握手的过程（建立连接）</code></p>
-<ul>
-<li>客户端发送SYN请求，进入SYN_SEND状态</li>
-<li>服务端收到SYN请求，并返回一个ACK应答，并发送一个SYN其请求，服务器进入SYN_RECV状态</li>
-<li>客户端收到服务端的SYN请求和ACK应答，发送ACK应答，客户端进入ESTABLISH状态，服务端收到应答后进入ESTABLISH。</li>
-<li>如果没有收到ACK，数据包根据TCP重传机制进行重传</li>
-</ul>
-<p><img src="/essay/cf97c711/%E5%BB%BA%E7%AB%8Btcp%E9%93%BE%E6%8E%A5.png" alt="建立tcp链接"></p>
-<p><code>四次挥手（断开连接）</code></p>
-<ul>
-<li>客户端发送FIN包，请求断开连接，客户端进入FIN_WAIT1状态</li>
-<li>服务端收到FIN包后返回应答，进入CLOSE_WAIT状态</li>
-<li>客户端收到FIN的应答后进入FIN_WAIT2状态</li>
-<li>服务端发送FIN请求包，进入LAST_ACK状态</li>
-<li>客户端收到FIN请求包后，发送应答进入TIME_WAIT状态</li>
-<li>服务器收到ACK应答后，进入close状态</li>
-</ul>
-<p><img src="/essay/cf97c711/%E5%85%B3%E9%97%ADtcp%E8%BF%9E%E6%8E%A5.png" alt="关闭tcp连接"></p>
-<p><code>为什么连接三次就够了，断开为什么需要四次</code></p>
-<p>因为连接时，调用socket的connect函数发送SYN包，而服务器端只是accept一下，就一次发送了SYN和ACK标志位，而断开连接时我们都要调用各自的close函数结束这段socket，所以两次close分别触发了两次FIN包，导致没有和ACK合并为一个包，所以断开要4次握手。<br><code>请求头 Connection作用</code><br>请求头 Connection，Connection设置为 keep-alive用于说明 客户端这边设置的是，本次HTTP请求之后并不需要关闭TCP连接，这样可以使下次HTTP请求使用相同的TCP通道，节省TCP建立连接的时间</p>
-<h2 id="发起http请求"><a href="#发起http请求" class="headerlink" title="发起http请求"></a>发起http请求</h2><p><code>HTTP请求报文的三个部分</code></p>
-<ul>
-<li>请求行：用于描述客户端的请求方式，请求的资源名称以及使用的HTTP协议的版本号（例：GET/books/java.html HTTP/1.1）</li>
-<li>请求头：用于描述客户端请求哪台主机，以及客户端的一些环境信息等</li>
-<li>请求正文：当使用POST, PUT等方法时，通常需要客户端向服务器传递数据</li>
-</ul>
-<p><img src="/essay/cf97c711/%E6%8A%A5%E6%96%87%E7%BB%93%E6%9E%84.png" alt="报文结构"></p>
-<p><code>GET和POST区别</code></p>
-<ul>
-<li>GET在浏览器回退时是无害的，POST会再次提交请求</li>
-<li>GET产生的URL地址可以被BookMark，而POST不可以</li>
-<li>GET请求会被浏览器主动cache，POST不会，除非主动设置</li>
-<li>GET请求只能进行URL编码，而POST支持多种编码方式</li>
-<li>GET请求参数会被完整的保留在浏览器历史记录中，POST参数不会保留</li>
-<li>GET请求在URL中传递的参数是有长度限制的，POST没有</li>
-<li>GET只接受ASCII字符，POST没有限制</li>
-<li>GET比POST更不安全，GET参数都暴露在了URL上</li>
-<li>GET参数通过URL传递，POST参数放在Request Body中</li>
-<li><strong><em>GET产生一个TCP数据包，POST产生两个TCP数据包</em></strong>（重大区别）</li>
-</ul>
-<p>GET：浏览器会把http header 和data一并发出去 服务器响应200 ok<br>POST：浏览器先发送header，服务器响应100 继续 浏览器再发送data，服务器响应 200 ok（Firefox只发一次）</p>
-<blockquote>
-<p>本质上是没有区别的，GET和POST是HTTP协议中的两种发送请求的方法。HTTP是基于TCP/IP的关于数据<br>如何在万维网中如何通信的协议。HTTP的底层是TCP/IP。所以GET和POST的底层也是TCP/IP，也就是说，<br>GET/POST都是TCP链接。GET和POST能做的事情是一样一样的。给GET加上request body，给POST带上<br>url参数，技术上是完全行的通的。 </p>
-</blockquote>
-<h2 id="服务器响应http请求，浏览器得到html代码"><a href="#服务器响应http请求，浏览器得到html代码" class="headerlink" title="服务器响应http请求，浏览器得到html代码"></a>服务器响应http请求，浏览器得到html代码</h2><p><code>HTTP响应也由三部分组成</code>：</p>
-<ul>
-<li><p>状态码：表示服务器对请求的处理结果</p>
-<p>1xx：信息，请求收到，继续处理</p>
-<p>2xx：成功，行为被成功地接受、理解和采纳</p>
-<p>3xx：重定向，为完成请求，必须进一步执行的动作</p>
-<p>4xx：客户端错误，请求包含语法错误或者请求无法实现</p>
-<p>5xx：服务器错误，服务器不能实现一种明显无效的请求</p>
-</li>
-<li><p>响应头：响应头用于描述服务器的基本信息，以及客户端如何处理数据</p>
-</li>
-<li><p>实体内容：服务器返回给客户端的数据</p>
-</li>
-</ul>
-<h2 id="浏览器解析html代码，并请求代码中所需的资源"><a href="#浏览器解析html代码，并请求代码中所需的资源" class="headerlink" title="浏览器解析html代码，并请求代码中所需的资源"></a>浏览器解析html代码，并请求代码中所需的资源</h2><ul>
-<li>浏览器开始载入html代码，发现<code>&lt;head&gt;</code>标签内有一个<code>&lt;link&gt;</code>标签引用外部CSS文件</li>
-<li>浏览器又发出CSS文件的请求，服务器返回这个CSS文件</li>
-<li>浏览器继续载入html中<code>&lt;body&gt;</code>部分的代码，并且CSS文件已经拿到手了，可以开始渲染页面了</li>
-<li>浏览器在代码中发现一个<code>&lt;img&gt;</code>标签引用了一张图片，向服务器发出请求。此时浏览器不会等到图片下载完，而是继续渲染后面的代码（Connection设置为 keep-alive）</li>
-<li>服务器返回图片文件，由于图片占用了一定面积，影响了后面段落的排布，因此浏览器需要回过头来重新渲染这部分代码</li>
-<li>浏览器发现了一个包含一行Javascript代码<code>&lt;script&gt;</code>的标签，赶快运行它</li>
-<li>Javascript脚本执行（style.display=”none”）这条语句，它命令浏览器隐藏掉代码中的某个<code>&lt;div&gt;</code>，少了一个元素，浏览器不得不重新渲染这部分代码</li>
-<li>终于执行到了的到来并没有结束，用户点了一下界面中的“换肤”按钮，Javascript让浏览器换了一下标签的CSS路径；</li>
-<li>浏览器召集了在座的各位<code>&lt;div&gt;&lt;span&gt;&lt;ul&gt;&lt;li&gt;</code>们，“大伙儿收拾收拾行李，咱得重新来过……”，浏览器向服务器请求了新的CSS文件，重新渲染页面。</li>
-</ul>
-<h2 id="浏览器渲染页面"><a href="#浏览器渲染页面" class="headerlink" title="浏览器渲染页面"></a>浏览器渲染页面</h2><ul>
-<li>解析html文件构成 DOM树</li>
-<li>解析CSS文件构成渲染树</li>
-<li>边解析，边渲染</li>
-<li>JS 单线程运行，JS有可能修改DOM结构，意味着JS执行完成前，后续所有资源的下载是没有必要的，所以JS是单线程，会阻塞后续资源下载</li>
-</ul>
-<p><code>JS加载</code></p>
-<ul>
-<li>不能并行下载和解析（阻塞下载）</li>
-<li>当引用了JS的时候，浏览器发送1个js request就会一直等待该request的返回。因为浏览器需要1个稳定的DOM树结构，而JS中很有可能有代码直接改变了DOM树结构，比如使用 document.write 或 appendChild,甚至是直接使用的location.href进行跳转，浏览器为了防止出现JS修改DOM树，需要重新构建DOM树的情况，所以 就会阻塞其他的下载和呈现。</li>
-</ul>
-<p>参考链接：</p>
-<p><a href="https://blog.csdn.net/lc13571525583/article/details/90732553">https://blog.csdn.net/lc13571525583/article/details/90732553</a></p>
-<p><a href="https://www.cnblogs.com/xiaoxin-test/p/13559905.html">https://www.cnblogs.com/xiaoxin-test/p/13559905.html</a></p>
-]]></content>
-  </entry>
-  <entry>
-    <title>垃圾回收算法</title>
-    <url>/essay/ac7099b6.html</url>
-    <content><![CDATA[<h1 id="垃圾回收相关算法"><a href="#垃圾回收相关算法" class="headerlink" title="垃圾回收相关算法"></a>垃圾回收相关算法</h1><blockquote>
-<p>什么是垃圾？</p>
-</blockquote>
-<p>垃圾是指在运行程序中没有任何指针指向的对象，这个对象就是需要被回收的垃圾。</p>
-<p>如果不及时对内存中的垃圾进行清理，那么，这些垃圾对象所占的内存空间会一直保留到应用程序的结束，被保留的空间无法被其它对象使用，甚至可能导致内存溢出。</p>
-<a id="more"></a>
-
-<h1 id="标记阶段"><a href="#标记阶段" class="headerlink" title="标记阶段"></a>标记阶段</h1><p>在堆里存放着几乎所有的Java对象实例，在GC执行垃圾回收之前，首先需要区分出内存中哪些是存活对象，哪些是已经死亡的对象。只有被标记为己经死亡的对象，GC才会在执行垃圾回收时，释放掉其所占用的内存空间，因此这个过程我们可以称为垃圾标记阶段。</p>
-<p>那么在JVM中究竟是如何标记一个死亡对象呢？简单来说，当一个对象已经不再被任何的存活对象继续引用时，就可以宣判为已经死亡。</p>
-<p>判断对象存活一般有两种方式：<strong>引用计数算法</strong>和<strong>可达性分析算法。</strong></p>
-<h2 id="引用计数算法"><a href="#引用计数算法" class="headerlink" title="引用计数算法"></a>引用计数算法</h2><p>对每个对象保存一个整型的引用计数器属性。用于记录对象被引用的情况。</p>
-<p>对于一个对象A，只要有任何一个对象引用了A，则A的引用计数器就加1；当引用失效时，引用计数器就减1。只要对象A的引用计数器的值为0，即表示对象A不可能再被使用，可进行回收。</p>
-<p><code>优点</code>：实现简单，垃圾对象便于辨识；判定效率高，回收没有延迟性。</p>
-<p><code>缺点</code>：它需要单独的字段存储计数器，这样的做法增加了存储空间的开销。</p>
-<p>每次赋值都需要更新计数器，伴随着加法和减法操作，这增加了时间开销。<br>引用计数器有一个严重的问题，即<code>无法处理循环引用</code>的情况。这是一条致命缺陷，导致在Java的垃圾回收器中没有使用这类算法。</p>
-<blockquote>
-<p>循环引用</p>
-</blockquote>
-<p>当p的指针断开的时候，内部的引用形成一个循环，这就是循环引用，从而造成内存泄漏</p>
-<img src="/essay/ac7099b6/循环引用.png" style="zoom: 67%;">
-
-<h2 id="可达性分析算法"><a href="#可达性分析算法" class="headerlink" title="可达性分析算法"></a>可达性分析算法</h2><p>概念：</p>
-<p>可达性分析算法：也可以称为 根搜索算法、追踪性垃圾收集</p>
-<p>相对于引用计数算法而言，可达性分析算法不仅同样具备实现简单和执行高效等特点，更重要的是该算法可以有效地解决在引用计数算法中循环引用的问题，防止内存泄漏的发生。</p>
-<p>相较于引用计数算法，这里的可达性分析就是Java、C#选择的。这种类型的垃圾收集通常也叫作追踪性垃圾收集（Tracing Garbage Collection）</p>
-<p>基本思路：</p>
-<ul>
-<li>可达性分析算法是以根对象集合（GCRoots）为起始点，按照从上至下的方式搜索被根对象集合所连接的目标对象是否可达。</li>
-<li>使用可达性分析算法后，内存中的存活对象都会被根对象集合直接或间接连接着，搜索所走过的路径称为引用链（Reference Chain）</li>
-<li>如果目标对象没有任何引用链相连，则是不可达的，就意味着该对象己经死亡，可以标记为垃圾对象。</li>
-<li>在可达性分析算法中，只有能够被根对象集合直接或者间接连接的对象才是存活对象。</li>
-</ul>
-<h1 id="清除阶段："><a href="#清除阶段：" class="headerlink" title="清除阶段："></a>清除阶段：</h1><p>当成功区分出内存中存活对象和死亡对象后，GC接下来的任务就是执行垃圾回收，释放掉无用对象所占用的内存空间，以便有足够的可用内存空间为新对象分配内存。目前在JVM中比较常见的三种垃圾收集算法是</p>
-<ul>
-<li>标记一清除算法（Mark-Sweep）</li>
-<li>复制算法（copying）</li>
-<li>标记-压缩算法（Mark-Compact）</li>
-</ul>
-<h2 id="标记-清除算法"><a href="#标记-清除算法" class="headerlink" title="标记-清除算法"></a>标记-清除算法</h2><blockquote>
-<p>执行过程</p>
-</blockquote>
-<p>当堆中的有效内存空间（available memory）被耗尽的时候，就会停止整个程序（也被称为stop the world），然后进行两项工作，第一项则是标记，第二项则是清除</p>
-<ul>
-<li><strong>标记</strong>：Collector从引用根节点开始遍历，<strong>标记所有被引用的对象</strong>。一般是在对象的Header中记录为可达对象。<ul>
-<li><strong>标记的是引用的对象，不是垃圾！！</strong></li>
-</ul>
-</li>
-<li><strong>清除</strong>：Collector对堆内存从头到尾进行线性的遍历，如果发现某个对象在其Header中没有标记为可达对象，则将其回收</li>
-</ul>
-<img src="/essay/ac7099b6/mark-sweep.png" style="zoom: 50%;">
-
-<blockquote>
-<p>什么是清除？</p>
-</blockquote>
-<p>这里所谓的清除并不是真的置空，而是把需要清除的对象地址保存在空闲的地址列表里。下次有新对象需要加载时，判断垃圾的位置空间是否够，如果够，就存放覆盖原有的地址。</p>
-<p>关于空闲列表是在为对象分配内存的时候 提过</p>
-<ul>
-<li>如果内存规整<ul>
-<li>采用指针碰撞的方式进行内存分配</li>
-</ul>
-</li>
-<li>如果内存不规整<ul>
-<li>虚拟机需要维护一个列表</li>
-<li>空闲列表分配</li>
-</ul>
-</li>
-</ul>
-<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><ul>
-<li>标记清除算法的效率不算高</li>
-<li>在进行GC的时候，需要停止整个应用程序，用户体验较差</li>
-<li>这种方式清理出来的空闲内存是不连续的，产生内碎片，需要维护一个空闲列表</li>
-</ul>
-<h2 id="复制算法"><a href="#复制算法" class="headerlink" title="复制算法"></a>复制算法</h2><h3 id="核心思想"><a href="#核心思想" class="headerlink" title="核心思想"></a>核心思想</h3><p>将活着的内存空间分为两块，每次只使用其中一块，在垃圾回收时将正在使用的内存中的存活对象复制到未被使用的内存块中，之后清除正在使用的内存块中的所有对象，交换两个内存的角色，最后完成垃圾回收</p>
-<p><img src="/essay/ac7099b6/copying.png"></p>
-<p>把可达的对象，直接复制到另外一个区域中复制完成后，A区就没有用了，里面的对象可以直接清除掉，其实里面的新生代里面就用到了复制算法</p>
-<p><img src="/essay/ac7099b6/young.png"></p>
-<h3 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h3><ul>
-<li>没有标记和清除过程，实现简单，运行高效</li>
-<li>复制过去以后保证空间的连续性，不会出现“碎片”问题。</li>
-</ul>
-<h3 id="缺点-1"><a href="#缺点-1" class="headerlink" title="缺点"></a>缺点</h3><ul>
-<li>此算法的缺点也是很明显的，就是需要两倍的内存空间。</li>
-<li>对于G1这种分拆成为大量region的GC，复制而不是移动，意味着GC需要维护region之间对象引用关系，不管是内存占用或者时间开销也不小</li>
-</ul>
-<h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><p>如果系统中的垃圾对象很多，复制算法不会很理想。因为复制算法需要复制的存活对象数量并不会太大，或者说非常低才行（老年代大量的对象存活，那么复制的对象将会有很多，效率会很低）</p>
-<p>在新生代，对常规应用的垃圾回收，一次通常可以回收70% - 99% 的内存空间。回收性价比很高。所以现在的商业虚拟机都是用这种收集算法回收新生代。</p>
-<blockquote>
-<p>为什么新生代要使用复制算法？</p>
-</blockquote>
-<p>具体问题具体分析，没有最好的算法，只有最合适的算法。</p>
-<p>新生代区中的对象98%都是朝生夕死的，使用复制算法很好的解决了碎片化的问题。并且由于需要复制的存活对象不是很多。</p>
-<p>恰好符合复制算法的限制。而符合这一标准之后，这就是最快的回收算法了。</p>
-<h2 id="标记-整理算法"><a href="#标记-整理算法" class="headerlink" title="标记-整理算法"></a>标记-整理算法</h2><h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>复制算法的高效性是建立在存活对象少、垃圾对象多的前提下的。这种情况在新生代经常发生，但是在老年代，更常见的情况是大部分对象都是存活对象。如果依然使用复制算法，由于存活对象较多，复制的成本也将很高。因此，基于老年代垃圾回收的特性，需要使用其他的算法。</p>
-<p>标记一清除算法的确可以应用在老年代中，但是该算法不仅执行效率低下，而且在执行完内存回收后还会产生内存碎片，所以JvM的设计者需要在此基础之上进行改进。标记-压缩（Mark-Compact）算法由此诞生。</p>
-<p>1970年前后，G.L.Steele、C.J.Chene和D.s.Wise等研究者发布标记-压缩算法。在许多现代的垃圾收集器中，人们都使用了标记-压缩算法或其改进版本。</p>
-<h3 id="执行过程"><a href="#执行过程" class="headerlink" title="执行过程"></a>执行过程</h3><p>第一阶段和标记清除算法一样，从根节点开始标记所有被引用对象</p>
-<p>第二阶段将所有的存活对象压缩到内存的一端，按顺序排放。之后，清理边界外所有的空间。</p>
-<img src="/essay/ac7099b6/mark-compact.png" style="zoom: 67%;">
-
-<h3 id="标清和标整的区别"><a href="#标清和标整的区别" class="headerlink" title="标清和标整的区别"></a>标清和标整的区别</h3><p>标记-压缩算法的最终效果等同于标记-清除算法执行完成后，再进行一次内存碎片整理，因此，也可以把它称为标记-清除-压缩（Mark-Sweep-Compact）算法。</p>
-<p>二者的本质差异在于标记-清除算法是一种非移动式的回收算法，标记-压缩是移动式的。是否移动回收后的存活对象是一项优缺点并存的风险决策。可以看到，标记的存活对象将会被整理，按照内存地址依次排列，而未被标记的内存会被清理掉。如此一来，当我们需要给新对象分配内存时，JVM只需要持有一个内存的起始地址即可，这比维护一个空闲列表显然少了许多开销。</p>
-<h3 id="标整的优缺点"><a href="#标整的优缺点" class="headerlink" title="标整的优缺点"></a>标整的优缺点</h3><h4 id="优点-1"><a href="#优点-1" class="headerlink" title="优点"></a>优点</h4><ul>
-<li>消除了标记-清除算法当中，内存区域分散的缺点，我们需要给新对象分配内存时，JVM只需要持有一个内存的起始地址即可。</li>
-<li>消除了复制算法当中，内存减半的高额代价。</li>
-</ul>
-<h4 id="缺点-2"><a href="#缺点-2" class="headerlink" title="缺点"></a>缺点</h4><ul>
-<li>从效率上来说，标记-整理算法要低于复制算法。</li>
-<li>移动对象的同时，如果对象被其他对象引用，则还需要调整引用的地址</li>
-<li>移动过程中，需要全程暂停用户应用程序。即：STW</li>
-</ul>
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>效率上来说，复制算法是效率最高的，但是却浪费了太多内存。</p>
-<p>而为了尽量兼顾上面提到的三个指标，标记-整理算法相对来说更平滑一些，但是效率上不尽如人意，它比复制算法多了一个标记的阶段，比标记-清除多了一个整理内存的阶段。</p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th>标记清除</th>
-<th>标记整理</th>
-<th>复制</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><strong>速率</strong></td>
-<td>中等</td>
-<td>最慢</td>
-<td>最快</td>
-</tr>
-<tr>
-<td><strong>空间开销</strong></td>
-<td>少（但会堆积碎片）</td>
-<td>少（不堆积碎片）</td>
-<td>通常需要活对象的2倍空间（不堆积碎片）</td>
-</tr>
-<tr>
-<td><strong>移动对象</strong></td>
-<td>否</td>
-<td>是</td>
-<td>是</td>
-</tr>
-</tbody></table>
-<p>综合我们可以找到，没有最好的算法，只有最合适的算法</p>
-<h2 id="分代收集算法"><a href="#分代收集算法" class="headerlink" title="分代收集算法"></a>分代收集算法</h2><p>前面所有这些算法中，并没有一种算法可以完全替代其他算法，它们都具有自己独特的优势和特点。分代收集算法应运而生。</p>
-<p>分代收集算法，是基于这样一个事实：不同的对象的生命周期是不一样的。因此，不同生命周期的对象可以采取不同的收集方式，以便提高回收效率。一般是把Java堆分为新生代和老年代，这样就可以根据各个年代的特点使用不同的回收算法，以提高垃圾回收的效率。</p>
-<p>在Java程序运行的过程中，会产生大量的对象，其中有些对象是与业务信息相关，比如Http请求中的Session对象、线程、Socket连接，这类对象跟业务直接挂钩，因此生命周期比较长。但是还有一些对象，主要是程序运行过程中生成的临时变量，这些对象生命周期会比较短，比如：string对象，由于其不变类的特性，系统会产生大量的这些对象，有些对象甚至只用一次即可回收。</p>
-<p>目前几乎所有的GC都采用分代手机算法执行垃圾回收的</p>
-<p>在HotSpot中，基于分代的概念，GC所使用的内存回收算法必须结合年轻代和老年代各自的特点。</p>
-<ul>
-<li>年轻代（Young Gen）</li>
-</ul>
-<p>年轻代特点：区域相对老年代较小，对象生命周期短、存活率低，回收频繁。</p>
-<p>这种情况复制算法的回收整理，速度是最快的。复制算法的效率只和当前存活对象大小有关，因此很适用于年轻代的回收。而复制算法内存利用率不高的问题，通过hotspot中的两个survivor的设计得到缓解。</p>
-<ul>
-<li>老年代（Tenured Gen）</li>
-</ul>
-<p>老年代特点：区域较大，对象生命周期长、存活率高，回收不及年轻代频繁。</p>
-<p>这种情况存在大量存活率高的对象，复制算法明显变得不合适。一般是由标记-清除或者是标记-清除与标记-整理的混合实现。</p>
-<ul>
-<li>Mark阶段的开销与存活对象的数量成正比。</li>
-<li>Sweep阶段的开销与所管理区域的大小成正相关。</li>
-<li>compact阶段的开销与存活对象的数据成正比。</li>
-</ul>
-<p>以HotSpot中的CMS回收器为例，CMS是基于Mark-Sweep实现的，对于对象的回收效率很高。而对于碎片问题，CMS采用基于Mark-Compact算法的Serial old回收器作为补偿措施：当内存回收不佳（碎片导致的Concurrent Mode Failure时），将采用serial old执行FullGC以达到对老年代内存的整理。</p>
-<p>分代的思想被现有的虚拟机广泛使用。几乎所有的垃圾回收器都区分新生代和老年代</p>
-<h2 id="增量收集算法"><a href="#增量收集算法" class="headerlink" title="增量收集算法"></a>增量收集算法</h2><h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>上述现有的算法，在垃圾回收过程中，应用软件将处于一种stop the World的状态。在stop the World状态下，应用程序所有的线程都会挂起，暂停一切正常的工作，等待垃圾回收的完成。如果垃圾回收时间过长，应用程序会被挂起很久，将严重影响用户体验或者系统的稳定性。为了解决这个问题，即对实时垃圾收集算法的研究直接导致了增量收集（Incremental Collecting）算法的诞生。</p>
-<p>如果一次性将所有的垃圾进行处理，需要造成系统长时间的停顿，那么就可以让垃圾收集线程和应用程序线程交替执行。每次，垃圾收集线程只收集一小片区域的内存空间，接着切换到应用程序线程。依次反复，直到垃圾收集完成。</p>
-<p>总的来说，增量收集算法的基础仍是传统的标记-清除和复制算法。<strong>增量收集算法通过对线程间冲突的妥善处理</strong>，允许垃圾收集线程以分阶段的方式完成标记、清理或复制工作</p>
-<h3 id="缺点-3"><a href="#缺点-3" class="headerlink" title="缺点"></a>缺点</h3><p>使用这种方式，由于在垃圾回收过程中，间断性地还执行了应用程序代码，所以能减少系统的停顿时间。但是，因为线程切换和上下文转换的消耗，会使得垃圾回收的总体成本上升，造成系统吞吐量的下降。</p>
-<h2 id="分区算法"><a href="#分区算法" class="headerlink" title="分区算法"></a>分区算法</h2><p>一般来说，在相同条件下，堆空间越大，一次Gc时所需要的时间就越长，有关GC产生的停顿也越长。为了更好地控制GC产生的停顿时间，将一块大的内存区域分割成多个小块，根据目标的停顿时间，每次合理地回收若干个小区间，而不是整个堆空间，从而减少一次GC所产生的停顿。</p>
-<p>分代算法将按照对象的生命周期长短划分成两个部分，分区算法将整个堆空间划分成连续的不同小区间。<br>每一个小区间都独立使用，独立回收。这种算法的好处是可以控制一次回收多少个小区间。</p>
-<img src="/essay/ac7099b6/分区算法.png" style="zoom:67%;">
-
-<p>注意，这些只是基本的算法思路，实际GC实现过程要复杂的多，目前还在发展中的前沿GC都是复合算法，并且并行和并发兼备。</p>
-]]></content>
-      <categories>
-        <category>jvm</category>
-      </categories>
-      <tags>
-        <tag>gc</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>新生代分区比例的思考</title>
-    <url>/essay/a12043e8.html</url>
-    <content><![CDATA[<h2 id="疑问"><a href="#疑问" class="headerlink" title="疑问"></a>疑问</h2><p>为什么年轻代中三个区（Eden，S0，S1）的比例是8:1:1呢？为什么不能是7:2:1？6:2:2？</p>
-<a id="more"></a>
-
-<h2 id="堆中区域分布"><a href="#堆中区域分布" class="headerlink" title="堆中区域分布"></a>堆中区域分布</h2><p><img src="/essay/a12043e8/%E5%A0%86%E5%88%86%E5%8C%BA.png"></p>
-<p>上图是不考虑细节而画出来的粗略的堆中的区域分布</p>
-<ul>
-<li><p>Eden：From：to ——&gt;  8:1:1</p>
-</li>
-<li><p>新生代：老年代  ——&gt;  1 : 2</p>
-</li>
-</ul>
-<h2 id="预备知识"><a href="#预备知识" class="headerlink" title="预备知识"></a>预备知识</h2><p>我们创建的对象，一般都是存放在Eden区的，当我们Eden区满了后，就会触发GC操作，一般被称为 YGC / Minor GC操作</p>
-<p>在这期间为了保证引用更新的正确性，Java将暂停所有其他的线程，这种情况被称为“Stop-The-World”</p>
-<p><img src="/essay/a12043e8/ygc1.png"></p>
-<p>当我们进行一次垃圾收集后，红色的将会被回收，而绿色的还会被占用着，存放在S0(Survivor From)区。同时我们给每个对象设置了一个年龄计数器，一次回收后就是1。</p>
-<p>同时Eden区继续存放对象，当Eden区再次存满的时候，又会触发一个MinorGC操作，此时GC将会把 Eden和Survivor From中的对象 进行一次收集，把存活的对象放到 Survivor To区，同时让年龄 + 1</p>
-<ul>
-<li>这里实际上使用的就是复制算法，将可触及的对象复制到to区，这样YGC会直接清空from区</li>
-</ul>
-<p><img src="/essay/a12043e8/ygc2.png" alt="ygc2"></p>
-<p>我们继续不断的进行对象生成 和 垃圾回收，当Survivor中的对象的年龄达到15的时候，将会触发一次 Promotion晋升的操作，也就是将年轻代中的对象  晋升到 老年代中</p>
-<p><img src="/essay/a12043e8/ygc3.png" alt="ygc3"></p>
-<p>特别注意，在Eden区满了的时候，才会触发MinorGC，而幸存者区满了后，不会触发MinorGC操作</p>
-<ul>
-<li><code>如果Survivor区满了后，将会触发一些特殊的规则，也就是可能直接晋升 老年代</code></li>
-</ul>
-<h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><p>那么回到最开始的问题，年轻代的比例为什么是8:1:1呢？我不能让Eden区大一点？或者S1或S2大一点？</p>
-<p>首先开始解答：</p>
-<p>由于S0 和 S1 区使用的是复制算法，则这两个区域的大小肯定是一样的</p>
-<blockquote>
-<p>假如Eden区域占比极大，假如说是占99%</p>
-</blockquote>
-<ol>
-<li>在YGC之后，会产生幸存对象存到S1区，但是此时s1区太小了，很容易就满了。</li>
-<li>而当幸存者区的区域满了之后，每次都有很多对象直接晋升到老年代区域中去。</li>
-<li>老年代很快被填满，触发Major GC（因为Major GC一般伴随着Minor GC，也可以看做触发了Full GC）。</li>
-<li>老年代的内存空间远大于新生代，进行一次Full GC消耗的时间比Minor GC长得多。频发的Full GC消耗的时间是非常可观的，这一点会影响大型程序的执行和响应速度，更不要说某些连接会因为超时发生连接错误了。</li>
-</ol>
-<blockquote>
-<p>假如Eden区域和幸存者区域占比为4:3:3 或者幸存者区占比更大一点</p>
-</blockquote>
-<ol>
-<li>由于Eden区域占据区域很小，当对象生成过快或者对象过大时。会在Eden区快满的时候YGC。</li>
-<li>注意：<code>Survivor区域并不会触发YGC，但是会在YGC时一并清理。</code></li>
-<li>空间变小，意味着YGC的频率更快了。则Stop-The-World的情况也会发生的频繁，影响效率。</li>
-<li>从复制算法的角度来讲：此算法对于G1这种分拆成为大量region的GC，复制而不是移动，意味着GC需要维护region之间对象引用关系，不管是内存占用或者时间开销也不小。所以复制算法需要复制的存活对象数量并不会太大，或者说非常低才行（老年代大量的对象存活，那么复制的对象将会有很多，效率会很低）。</li>
-</ol>
-]]></content>
-      <categories>
-        <category>jvm</category>
-      </categories>
-  </entry>
-  <entry>
     <title>mysql性能优化</title>
     <url>/essay/d9f1b207.html</url>
     <content><![CDATA[<h1 id="MySQL性能优化"><a href="#MySQL性能优化" class="headerlink" title="MySQL性能优化"></a>MySQL性能优化</h1><p>优化有风险，涉足需谨慎！</p>
@@ -1241,5 +586,687 @@
       <tags>
         <tag>mysql</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>Netty</title>
+    <url>/essay/1c6ba3e2.html</url>
+    <content><![CDATA[<p>Netty是一个异步事件驱动的网络应用框架，用于快速开发可维护的高性能服务器和客户端。</p>
+<a id="more"></a>
+
+<h1 id="IO编程"><a href="#IO编程" class="headerlink" title="IO编程"></a>IO编程</h1><h2 id="传统IO编程"><a href="#传统IO编程" class="headerlink" title="传统IO编程"></a>传统IO编程</h2><p>每个客户端连接过来后，服务端都会启动一个线程去处理该客户端的请求。阻塞I/O的通信模型示意图如下：</p>
+<img src="/essay/1c6ba3e2/传统io.png" style="zoom:80%;">
+
+<p>在传统的IO模型中，每个连接创建成功之后都需要一个线程来维护，每个线程包含一个while死循环。<br>如果在用户数量较少的情况下运行是没有问题的，但是对于用户数量比较多的业务来说，服务端可能需要支撑成千上万的连接，IO模型可能就不太合适了。</p>
+<p>如果有1万个连接就对应1万个线程，继而1万个while死循环，这种模型存在以下问题：</p>
+<ul>
+<li>当客户端越多，就会创建越多的处理线程。线程是操作系统中非常宝贵的资源，同一时刻有大量的线程处于阻塞状态是非常严重的资源浪费。并且如果务器遭遇洪峰流量冲击，例如双十一活动，线程池会瞬间被耗尽，导致服务器瘫痪。</li>
+<li>因为是阻塞式通信，线程爆炸之后操作系统频繁进行线程切换，应用性能急剧下降。</li>
+<li>IO编程中数据读写是以字节流为单位，效率不高。</li>
+</ul>
+<h2 id="NIO"><a href="#NIO" class="headerlink" title="NIO"></a>NIO</h2><p>NIO，也叫做new-IO或者non-blocking-IO，可理解为非阻塞IO。NIO编程模型中，新来一个连接不再创建一个新的线程，而是可以把这条连接直接绑定到某个固定的线程，然后这条连接所有的读写都由这个线程来负责</p>
+<img src="/essay/1c6ba3e2/nio.png" style="zoom:80%;">
+
+<p>在NIO模型中，可以把这么多的while死循环变成一个死循环，这个死循环由一个线程控制。这就是NIO模型中选择器（Selector）的作用，一条连接来了之后，现在不创建一个while死循环去监听是否有数据可读了，而是直接把这条连接注册到选择器上，通过检查这个选择器，就可以批量监测出有数据可读的连接，进而读取数据。</p>
+<h3 id="NIO三大组件"><a href="#NIO三大组件" class="headerlink" title="NIO三大组件"></a>NIO三大组件</h3><ul>
+<li><p>通道（Channel）<br>是传统IO中的Stream(流)的升级版。Stream是单向的、读写分离（inputstream和outputstream），Channel是双向的，既可以进行读操作，又可以进行写操作。</p>
+</li>
+<li><p>缓冲（Buffer）</p>
+<p>Buffer可以理解为一块内存区域，可以写入数据，并且在之后读取它。</p>
+</li>
+<li><p>选择器（Selector）<br>选择器可以实现一个单独的线程来监控多个注册在她上面的信道（Channel），通过一定的选择机制，实现多路复用的效果。</p>
+</li>
+</ul>
+<h3 id="NIO相对于IO的优势"><a href="#NIO相对于IO的优势" class="headerlink" title="NIO相对于IO的优势"></a>NIO相对于IO的优势</h3><ol>
+<li>IO是面向流的，每次都是从操作系统底层一个字节一个字节地读取数据，并且数据只能从一端读取到另一端，不能前后移动流中的数据。NIO则是面向缓冲区的，每次可以从这个缓冲区里面读取一块的数据，并且可以在需要时在缓冲区中前后移动。</li>
+<li>IO是阻塞的，这意味着，当一个线程读取数据或写数据时，该线程被阻塞，直到有一些数据被读取，或数据完全写入，在此期间该线程不能干其他任何事情。而NIO是非阻塞的，不需要一直等待操作完成才能干其他事情，而是在等待的过程中可以同时去做别的事情，所以能最大限度地使用服务器的资源。</li>
+<li>NIO引入了IO多路复用器selector。selector是一个提供channel注册服务的线程，可以同时对接多个Channel，并在线程池中为channel适配、选择合适的线程来处理channel。由于NIO模型中线程数量大大降低，线程切换效率因此也大幅度提高。</li>
+</ol>
+<h1 id="Netty"><a href="#Netty" class="headerlink" title="Netty"></a>Netty</h1><h2 id="netty不使用原生NIO原因"><a href="#netty不使用原生NIO原因" class="headerlink" title="netty不使用原生NIO原因"></a>netty不使用原生NIO原因</h2><p>下面是使用Netty不使用JDK原生NIO的一些原因：</p>
+<ul>
+<li>使用JDK自带的NIO需要了解太多的概念，编程复杂</li>
+<li>Netty底层IO模型随意切换，而这一切只需要做微小的改动，就可以直接从NIO模型变身为IO模型</li>
+<li>Netty自带的拆包解包，异常检测等机制，可以从NIO的繁重细节中脱离出来，只需要关心业务逻辑</li>
+<li>Netty解决了JDK的很多包括空轮询在内的bug</li>
+<li>Netty底层对线程，selector做了很多细小的优化，精心设计的线程模型做到非常高效的并发处理</li>
+<li>自带各种协议栈让你处理任何一种通用协议都几乎不用亲自动手</li>
+<li>Netty社区活跃，遇到问题随时邮件列表或者issue</li>
+<li>Netty已经历各大rpc框架，消息中间件，分布式通信中间件线上的广泛验证，健壮性无比强大</li>
+</ul>
+<h2 id="代码展示"><a href="#代码展示" class="headerlink" title="代码展示"></a>代码展示</h2><ul>
+<li>maven依赖</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.netty<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>netty-all<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">version</span>&gt;</span>4.1.42.Final<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>服务端</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NettyServer</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 用于接受客户端的连接以及为已接受的连接创建子通道，一般用于服务端。</span></span><br><span class="line">        ServerBootstrap serverBootstrap = <span class="keyword">new</span> ServerBootstrap();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 包含有多个EventLoop的实例，用来管理 event Loop 的组件，</span></span><br><span class="line">        <span class="comment">// 可以理解为一个线程池，内部维护了一组线程。</span></span><br><span class="line">        <span class="comment">// 处理新的连接</span></span><br><span class="line">        NioEventLoopGroup boos = <span class="keyword">new</span> NioEventLoopGroup();</span><br><span class="line">        <span class="comment">// 处理数据</span></span><br><span class="line">        NioEventLoopGroup worker = <span class="keyword">new</span> NioEventLoopGroup();</span><br><span class="line"></span><br><span class="line">        serverBootstrap</span><br><span class="line">                .group(boos, worker)</span><br><span class="line">                <span class="comment">// 对网络套接字的I/O操作，例如读、写、连接、绑定</span></span><br><span class="line">                <span class="comment">// 等操作进行适配和封装的组件。</span></span><br><span class="line">                .channel(NioServerSocketChannel.class)</span><br><span class="line">                <span class="comment">// 用于对刚创建的channel进行初始化，</span></span><br><span class="line">                <span class="comment">// 将ChannelHandler添加到channel的ChannelPipeline处理链路中。</span></span><br><span class="line">                .childHandler(<span class="keyword">new</span> ChannelInitializer&lt;NioSocketChannel&gt;() &#123;</span><br><span class="line">                    <span class="comment">// 初始化channel的方法</span></span><br><span class="line">                    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">initChannel</span><span class="params">(NioSocketChannel ch)</span> </span>&#123;</span><br><span class="line">                        <span class="comment">//流水线车间，当组件从流水线头部进入，流水线上的工人按顺序对组件进行加工</span></span><br><span class="line">                        <span class="comment">//到达流水线尾部时商品组装完成。</span></span><br><span class="line">                        <span class="comment">// 流水线相当于ChannelPipeline，</span></span><br><span class="line">                        <span class="comment">// 流水线工人相当于ChannelHandler，源头的组件当做event。</span></span><br><span class="line">                        ch.pipeline().addLast(<span class="keyword">new</span> StringDecoder());</span><br><span class="line">                        ch.pipeline().addLast(<span class="keyword">new</span> SimpleChannelInboundHandler&lt;String&gt;() &#123;</span><br><span class="line">                            <span class="meta">@Override</span></span><br><span class="line">                            <span class="comment">//自己指定流水线工作可以干什么事</span></span><br><span class="line">                            <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">channelRead0</span><span class="params">(ChannelHandlerContext ctx, String msg)</span> </span>&#123;</span><br><span class="line">                                System.out.println(msg);</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;)</span><br><span class="line">                .bind(<span class="number">8000</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>客户端：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NettyClient</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">        Bootstrap bootstrap = <span class="keyword">new</span> Bootstrap();</span><br><span class="line">        NioEventLoopGroup group = <span class="keyword">new</span> NioEventLoopGroup();</span><br><span class="line"></span><br><span class="line">        bootstrap.group(group)</span><br><span class="line">                .channel(NioSocketChannel.class)</span><br><span class="line">                .handler(<span class="keyword">new</span> ChannelInitializer&lt;Channel&gt;() &#123;</span><br><span class="line">                    <span class="meta">@Override</span></span><br><span class="line">                    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">initChannel</span><span class="params">(Channel ch)</span> </span>&#123;</span><br><span class="line">                        ch.pipeline().addLast(<span class="keyword">new</span> StringEncoder());</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;);</span><br><span class="line"></span><br><span class="line">        Channel channel = bootstrap.connect(<span class="string">&quot;127.0.0.1&quot;</span>, <span class="number">8000</span>).channel();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">            channel.writeAndFlush(<span class="string">&quot;测试数据&quot;</span>);</span><br><span class="line">            Thread.sleep(<span class="number">2000</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Netty的事件驱动"><a href="#Netty的事件驱动" class="headerlink" title="Netty的事件驱动"></a>Netty的事件驱动</h2><p>Netty使用事件驱动的方式作为底层架构，包括：</p>
+<ul>
+<li>事件队列（event queue）：接收事件的入口。</li>
+<li>分发器（event mediator）：将不同的事件分发到不同的业务逻辑单元。</li>
+<li>事件通道（event channel）：分发器与处理器之间的联系渠道。</li>
+<li>事件处理器（event processor）：实现业务逻辑，处理完成后会发出事件，触发下一步操作。</li>
+</ul>
+<img src="/essay/1c6ba3e2/netty事件驱动.png" style="zoom:75%;">
+
+<h2 id="核心组件"><a href="#核心组件" class="headerlink" title="核心组件"></a>核心组件</h2><p>Netty 的功能特性图：</p>
+<img src="/essay/1c6ba3e2/netty功能特性图.png" style="zoom:75%;">
+
+<p>Netty 功能特性：</p>
+<ul>
+<li>传输服务，支持 BIO 和 NIO。</li>
+<li>容器集成：支持 OSGI、JBossMC、Spring、Guice 容器。</li>
+<li>协议支持：HTTP、Protobuf、二进制、文本、WebSocket 等，支持自定义协议。</li>
+</ul>
+<p>BIO和NIO的区别：</p>
+<table>
+<thead>
+<tr>
+<th align="center">场景</th>
+<th align="center">BIO</th>
+<th align="center">NIO</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">有新连接请求时</td>
+<td align="center">开一个新的线程处理</td>
+<td align="center">使用多路复用原理，一个线程处理</td>
+</tr>
+<tr>
+<td align="center">适用场景</td>
+<td align="center">连接数小且固定</td>
+<td align="center">连接数特别多，连接比较短（轻操作）的场景</td>
+</tr>
+</tbody></table>
+<p>Netty框架包含如下的组件：</p>
+<ul>
+<li>ServerBootstrap ：用于接受客户端的连接以及为已接受的连接创建子通道，一般用于服务端。</li>
+<li>Bootstrap：不接受新的连接，并且是在父通道类完成一些操作，一般用于客户端的。</li>
+<li>Channel：对网络套接字的I/O操作，例如读、写、连接、绑定等操作进行适配和封装的组件。</li>
+<li>EventLoop：处理所有注册其上的channel的I/O操作。通常情况一个</li>
+<li>EventLoop可为多个channel提供服务。</li>
+<li>EventLoopGroup：包含有多个EventLoop的实例，用来管理 event Loop 的组件，可以理解为一个线程池，内部维护了一组线程。</li>
+<li>ChannelHandler和ChannelPipeline：例如一个流水线车间，当组件从流水线头部进入，穿越流水线，流水线上的工人按顺序对组件进行加工，到达流水线尾部时商品组装完成。流水线相当于ChannelPipeline ，流水线工人相当于ChannelHandler ，源头的组件当做event。</li>
+<li>ChannelInitializer：用于对刚创建的channel进行初始化，将ChannelHandler<br>添加到channel的ChannelPipeline处理链路中。</li>
+<li>ChannelFuture：与jdk中线程的Future接口类似，即实现并行处理的效果。可<br>以在操作执行成功或失败时自动触发监听器中的事件处理方法。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>后端</category>
+      </categories>
+      <tags>
+        <tag>netty</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>next主题下中文标题跳转失效</title>
+    <url>/essay/80ff7aac.html</url>
+    <content><![CDATA[<p>next 7.8版本发布于2020年4月1日，很久没更新 </p>
+<p>该bug导致中文标题无法跳转，但是英文标题可以</p>
+<a id="more"></a>
+
+<h2 id="环境："><a href="#环境：" class="headerlink" title="环境："></a>环境：</h2><p>hexo 5.0</p>
+<p>next 7.8</p>
+<h2 id="原因"><a href="#原因" class="headerlink" title="原因:"></a>原因:</h2><p><img src="/essay/80ff7aac/title_bug.png"></p>
+<p>由上图可知，utils中的一行代码出了问题，导致后面的一系列出了问题</p>
+<p>于是我先是去搜索了一下这个问题，但是并没有人写过相关内容</p>
+<p>最终 在官方代码最新的commit中，我看到了这样的一个提交。</p>
+<p><img src="/essay/80ff7aac/utils.png"></p>
+<p>但是即使将此次提交变动的代码修改之后也不可以，会出现另一个错误。</p>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案:"></a>解决方案:</h2><p>将下面这个链接的整个代码全部复制，粘贴到<code>\themes\next\source\js\utils.js</code>中，问题完美解决</p>
+<p>访问官方的<a href="https://github.com/theme-next/hexo-theme-next/blob/master/source/js/utils.js">github仓库</a>获取最新的utils.js代码</p>
+]]></content>
+      <categories>
+        <category>next</category>
+        <category>bug</category>
+      </categories>
+      <tags>
+        <tag>next</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>nginx实现负载均衡</title>
+    <url>/essay/nginx-config.html</url>
+    <content><![CDATA[<p>Nginx可以配置代理多台服务器，当一台服务器宕机之后，仍能保持系统可用。记录一下nginx负载均衡的实现，配置文件如下：</p>
+<a id="more"></a>
+
+<ol>
+<li>在http节点下，添加upstream节点。</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">upstream abc &#123; </span><br><span class="line">   server localhost:7080; </span><br><span class="line">   server localhost:8980; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>将server节点下的location节点中的proxy_pass配置为：http:// + upstream名称，即</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">location &#x2F; &#123; </span><br><span class="line">    root  html; </span><br><span class="line">    &#x2F;&#x2F;http:&#x2F;&#x2F; + upstream名称</span><br><span class="line">    proxy_pass http:&#x2F;&#x2F;abc; </span><br><span class="line">    index  index.html index.htm; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>upstream按照轮询（默认）方式进行负载，每个请求按时间顺序逐一分配到不同的后端服务器，如果后端服务器down掉，能自动剔除。虽然这种方式简便、成本低廉。但缺点是：可靠性低和负载分配不均衡。适用于图片服务器集群和纯静态页面服务器集群。除此之外，upstream还有其它的分配策略，分别如下：</p>
+<ol>
+<li>weight（权重）</li>
+</ol>
+<p>指定轮询几率，weight和访问比率成正比，用于后端服务器性能不均的情况。如下所示，10.0.0.88的访问比率要比10.0.0.77的访问比率高一倍。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">upstream linuxidc&#123; </span><br><span class="line">      server 10.0.0.77 weight&#x3D;5; </span><br><span class="line">      server 10.0.0.88 weight&#x3D;10; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>ip_hash（访问ip）</li>
+</ol>
+<p>每个请求按访问ip的hash结果分配，这样每个访客固定访问一个后端服务器，可以解决session的问题。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">upstream favresin&#123; </span><br><span class="line">      ip_hash; </span><br><span class="line">      server 10.0.0.10:8080; </span><br><span class="line">      server 10.0.0.11:8080; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li><p>fair（第三方）</p>
+<p>按后端服务器的响应时间来分配请求，响应时间短的优先分配。与weight分配策略类似。</p>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"> upstream abc&#123;   </span><br><span class="line">   server 10.0.0.10:8080; </span><br><span class="line">   server 10.0.0.11:8080; </span><br><span class="line">   fair; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>url_hash（第三方）</li>
+</ol>
+<p>按访问url的hash结果来分配请求，使每个url定向到同一个后端服务器，后端服务器为缓存时比较有效。</p>
+<p>注意：在upstream中加入hash语句，server语句中不能写入weight等其他的参数，hash_method是使用的hash算法。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"> upstream abc&#123; </span><br><span class="line">   server 10.0.0.10:7777; </span><br><span class="line">   server 10.0.0.11:8888; </span><br><span class="line">   hash $request_uri; </span><br><span class="line">   hash_method crc32; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>upstream还可以为每个设备设置状态值，这些状态值的含义分别如下：</p>
+<p>down 表示单前的server暂时不参与负载.</p>
+<p>weight 默认为1.weight越大，负载的权重就越大。</p>
+<p>max_fails ：允许请求失败的次数默认为1.当超过最大次数时，返回proxy_next_upstream 模块定义的错误.</p>
+<p>fail_timeout : max_fails次失败后，暂停的时间。</p>
+<p>backup： 其它所有的非backup机器down或者忙的时候，请求backup机器。所以这台机器压力会最轻。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">upstream bakend&#123; #定义负载均衡设备的Ip及设备状态 </span><br><span class="line"> ip_hash; </span><br><span class="line">   server 10.0.0.11:9090 down; </span><br><span class="line">   server 10.0.0.11:8080 weight&#x3D;2; </span><br><span class="line">   server 10.0.0.11:6060; </span><br><span class="line">   server 10.0.0.11:7070 backup; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>后端</category>
+        <category>nginx</category>
+      </categories>
+      <tags>
+        <tag>nginx</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>valine改为本地加载</title>
+    <url>/essay/802f7ce0.html</url>
+    <content><![CDATA[<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>主题next7.8  valine 1.4.14</p>
+<h2 id="找到模板源文件"><a href="#找到模板源文件" class="headerlink" title="找到模板源文件"></a>找到模板源文件</h2><p>通过以下路径找到</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">\themes\next\layout\_third-party\comments\valine.swig</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+
+<p>打开代码</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;%- set valine_uri &#x3D; theme.vendors.valine or &#39;&#x2F;&#x2F;unpkg.com&#x2F;valine&#x2F;dist&#x2F;Valine.min.js&#39; %&#125;</span><br></pre></td></tr></table></figure>
+<p>从第一行代码可以看出，它是通过网络加载，然后用<code>NexT.utils</code>来进行获取参数  <del>我们可以不用管，直接删掉</del></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">NexT.utils.getScript(&#39;&#123;&#123; valine_uri &#125;&#125;&#39;, () &#x3D;&gt; &#123;</span><br><span class="line">    var GUEST &#x3D; [&#39;nick&#39;, &#39;mail&#39;, &#39;link&#39;];</span><br><span class="line">    var guest &#x3D; &#39;&#123;&#123; theme.valine.guest_info &#125;&#125;&#39;;</span><br><span class="line">    guest &#x3D; guest.split(&#39;,&#39;).filter(item &#x3D;&gt; &#123;</span><br><span class="line">      return GUEST.includes(item);</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
+<p><del>只留下主体new Valine 代码</del></p>
+<p><code>这样操作会导致读取不到guest</code></p>
+<p>应该这样写 ↓</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;script type&#x3D;&quot;text&#x2F;javascript&quot; src&#x3D;&quot;&#x2F;js&#x2F;Valine.min.js&quot;&gt;&lt;&#x2F;script&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">	var GUEST &#x3D; [&#39;nick&#39;, &#39;mail&#39;, &#39;link&#39;];</span><br><span class="line">	var guest &#x3D; &#39;&#123;&#123; theme.valine.guest_info &#125;&#125;&#39;;</span><br><span class="line">    guest &#x3D; guest.split(&#39;,&#39;).filter(item &#x3D;&gt; &#123;</span><br><span class="line">      return GUEST.includes(item);</span><br><span class="line">    &#125;);</span><br><span class="line">    new Valine(&#123;</span><br><span class="line">      el         : &#39;#valine-comments&#39;,</span><br><span class="line">      verify     : &#123;&#123; theme.valine.verify &#125;&#125;,</span><br><span class="line">      notify     : &#123;&#123; theme.valine.notify &#125;&#125;,</span><br><span class="line">      appId      : &#39;&#123;&#123; theme.valine.appid &#125;&#125;&#39;,</span><br><span class="line">      appKey     : &#39;&#123;&#123; theme.valine.appkey &#125;&#125;&#39;,</span><br><span class="line">      placeholder: &#123;&#123; theme.valine.placeholder | json &#125;&#125;,</span><br><span class="line">      avatar     : &#39;&#123;&#123; theme.valine.avatar &#125;&#125;&#39;,</span><br><span class="line">      meta       : guest,</span><br><span class="line">      pageSize   : &#39;&#123;&#123; theme.valine.pageSize &#125;&#125;&#39; || 10,</span><br><span class="line">      visitor    : &#123;&#123; theme.valine.visitor &#125;&#125;,</span><br><span class="line">      lang       : &#39;&#123;&#123; theme.valine.language &#125;&#125;&#39; || &#39;zh-cn&#39;,</span><br><span class="line">      path       : location.pathname,</span><br><span class="line">      recordIP   : &#123;&#123; theme.valine.recordIP &#125;&#125;,</span><br><span class="line">      serverURLs : &#39;&#123;&#123; theme.valine.serverURLs &#125;&#125;&#39;</span><br><span class="line">    &#125;);</span><br><span class="line">&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="Valine-min-js获取方式"><a href="#Valine-min-js获取方式" class="headerlink" title="Valine.min.js获取方式"></a>Valine.min.js获取方式</h2><p>访问 <a href="https://unpkg.com/valine/dist/Valine.min.js">这里</a> 复制全部代码，新建一个Valine.min.js，放进去 保存 放在 <code>主题\source\js</code>里面</p>
+]]></content>
+      <categories>
+        <category>next</category>
+        <category>valine</category>
+      </categories>
+      <tags>
+        <tag>valine</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>vue与button的冲突</title>
+    <url>/essay/vue-button.html</url>
+    <content><![CDATA[<h2 id="环境："><a href="#环境：" class="headerlink" title="环境："></a>环境：</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">vue.js v2.5.16</span><br></pre></td></tr></table></figure>
+<h2 id="问题描述："><a href="#问题描述：" class="headerlink" title="问题描述："></a>问题描述：</h2><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span>&gt;</span><span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p> 这个标签未设置type属性时，在form表单中会默认为submit属性，也就是表单提交事件。</p>
+<p>当vue指定@click事件在这个button上时，就会出现两次请求的触发。</p>
+<p>出现同步请求的现象（也就是页面刷新一次）</p>
+<a id="more"></a>
+
+<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><h3 id="方案一："><a href="#方案一：" class="headerlink" title="方案一："></a>方案一：</h3><p>使用高版本vue.js</p>
+<p>实测vue.js : 2.6.11可解决问题，但是仍然有同步请求现象</p>
+<h3 id="方案二："><a href="#方案二：" class="headerlink" title="方案二："></a>方案二：</h3><p>给form内的button加上type属性，这个最为方便快捷</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">type</span>=<span class="string">&quot;button&quot;</span> @<span class="attr">click</span>=<span class="string">&quot;pageNum=1;findPage()&quot;</span> <span class="attr">class</span>=<span class="string">&quot;btn btn-default&quot;</span>&gt;</span>查询<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>vue</category>
+      </categories>
+      <tags>
+        <tag>vue</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>修改Hosts访问GitHub</title>
+    <url>/essay/host-github.html</url>
+    <content><![CDATA[<p>国内访问GitHub总是会有连接慢、图片加载不出来等等问题，修改hosts即可解决这个问题，我提供的工具仅限于Windows平台。能够从<a href="https://www.ipaddress.com/">IpAddress网站</a>中拿到最新的IP地址，配置到Host中。</p>
+<a id="more"></a>
+
+<h1 id="1-准备"><a href="#1-准备" class="headerlink" title="1.准备"></a>1.准备</h1><ol>
+<li>Host文件位置：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">C:\Windows\System32\drivers\etc\hosts</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>JDK环境</li>
+<li>确保你的hosts文件没有处于只读状态。（右键-&gt;属性-&gt;取消只读复选框勾选）</li>
+</ol>
+<h1 id="2-使用"><a href="#2-使用" class="headerlink" title="2.使用"></a>2.使用</h1><ul>
+<li>cmd脚本</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@echo off </span><br><span class="line">java -jar github_host.jar</span><br><span class="line">ipconfig &#x2F;flushdns # 刷新DNS缓存，使用最新的IP访问Github</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>tool</category>
+        <category>host</category>
+      </categories>
+      <tags>
+        <tag>host</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>单点登录实现</title>
+    <url>/essay/9fd432c.html</url>
+    <content><![CDATA[<p><strong>单点登录</strong>（Single Sign On），简称为<strong>SSO</strong>，是比较流行的<strong>企业业务整合</strong>的解决方案之一。</p>
+<a id="more"></a>
+
+<h2 id="实现方案"><a href="#实现方案" class="headerlink" title="实现方案"></a>实现方案</h2><p>Oauth2：可以生成一个令牌的，经过<strong>用户验证</strong>（客户端、真实用户）生成令牌。</p>
+<h3 id="cookie"><a href="#cookie" class="headerlink" title="cookie"></a>cookie</h3><p>用户访问被保护的资源时要经过网关，网关会从里面得到cookie，再从cookie中取出JTI值，可用JTI值作为键值，从redis里面获取token值，验证token。</p>
+<p><img src="/essay/9fd432c/1.png"></p>
+<h3 id="完整流程："><a href="#完整流程：" class="headerlink" title="完整流程："></a>完整流程：</h3><ol>
+<li><p>用户访问资源的时候，网关取得请求的URL，来判断是否放行。</p>
+</li>
+<li><p>若用户访问的资源是被保护的，则网关不放行，并从中获取cookie值，如果里面不存在cookie，则跳转去登录页面。</p>
+</li>
+<li><p>当用户登录的时候，会进入登录服务里面，由于登录服务并没有校验密码的功能，我们需要借助于Oauth2服务。</p>
+</li>
+<li><p>Oauth2拿到用户名密码之后，会查询数据库来判断用户名密码是否正确，当密码正确时，会发放一个令牌给登录用户。</p>
+</li>
+<li><p>当登录服务拿到令牌之后，会把token以JTI值为键存入redis，并将JTI值存入cookie中。</p>
+</li>
+<li><p>再次回到网关，网关会重复第2步，若仍然不存在，则继续进入登录服务。若cookie存在，并成功取到token，当校验通过，则可以访问被保护的资源了</p>
+</li>
+</ol>
+<p><img src="/essay/9fd432c/2.png"></p>
+<h3 id="实现代码："><a href="#实现代码：" class="headerlink" title="实现代码："></a>实现代码：</h3><ul>
+<li>获取请求的URL</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">ServerHttpRequest request = exchange.getRequest();</span><br><span class="line">String path = request.getURI().getPath();</span><br></pre></td></tr></table></figure>
+<ul>
+<li>转发：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//跳转登录页面 - 303</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> Mono&lt;Void&gt; <span class="title">toLoginPage</span><span class="params">(String loginUrl, ServerWebExchange exchange)</span> </span>&#123;</span><br><span class="line">    ServerHttpResponse response = exchange.getResponse();</span><br><span class="line">    response.setStatusCode(HttpStatus.SEE_OTHER);</span><br><span class="line">    response.getHeaders().set(<span class="string">&quot;Location&quot;</span>,loginUrl);</span><br><span class="line">    <span class="keyword">return</span> response.setComplete();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>取cookie</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">HttpCookie httpCookie = request.getCookies().getFirst(<span class="string">&quot;uid&quot;</span>);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>给request请求添加header</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">request.mutate().header(<span class="string">&quot;Authorization&quot;</span>,<span class="string">&quot;Bearer &quot;</span>+jwt);</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>后端</category>
+      </categories>
+      <tags>
+        <tag>sso</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>地址栏输入url之后经历的过程</title>
+    <url>/essay/cf97c711.html</url>
+    <content><![CDATA[<h1 id="在地址栏输入URL后，经历了那些过程"><a href="#在地址栏输入URL后，经历了那些过程" class="headerlink" title="在地址栏输入URL后，经历了那些过程"></a>在地址栏输入URL后，经历了那些过程</h1><h2 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h2><ol>
+<li>DNS域名解析；</li>
+<li>建立TCP连接；</li>
+<li>发送HTTP请求；</li>
+<li>服务器处理请求；</li>
+<li>返回响应结果；</li>
+<li>关闭TCP连接；</li>
+<li>浏览器解析HTML；</li>
+<li>浏览器布局渲染；</li>
+</ol>
+<a id="more"></a>
+
+<h2 id="DNS域名解析"><a href="#DNS域名解析" class="headerlink" title="DNS域名解析"></a>DNS域名解析</h2><p>DNS是应用层协议，用于将用户提供的主机名解析为ip地址</p>
+<p>我们在浏览器输入网址，其实就是要向服务器请求我们想要的页面内容，所以浏览器首先要确认的是域名所对应的服务器在哪里。将域名解析成对应的服务器IP地址这项工作，是由DNS服务器来完成的。</p>
+<p>客户端收到你输入的域名地址后，它首先去找本地的hosts文件，检查在该文件中是否有相应的域名、IP对应关系，如果有，则向其IP地址发送请求，如果没有，再去找DNS服务器。一般用户很少去编辑修改hosts文件。</p>
+<p>解析过程：</p>
+<ol>
+<li><p>首先搜索浏览器自身的DNS缓存（缓存命中），如果有，解析结束。浏览器自身的缓存时间比较短，可以通过TTL来进行设置，大概能存储1000条缓存。</p>
+</li>
+<li><p>浏览器自身缓存没有（缓存未命中）就去操作系统的缓存中查找</p>
+</li>
+<li><p>当浏览器及系统缓存中均无域名对应IP则进入路由器缓存中检查 host文件</p>
+<p><strong>以上三步均为客服端的DNS缓存，都没有找的话就递归地去域名服务器去查找</strong></p>
+</li>
+<li><p>请求本地域名服务器（LDNS）解析域名</p>
+</li>
+<li><p>LDNS仍然没有命中，就直接跳到Root Server 域名服务器请求解析</p>
+</li>
+<li><p>根域名服务器返回给LDNS一个所查询域的主域名服务器（gTLD Server，例如 .com .cn等）</p>
+</li>
+<li><p>LDNS再发送请求给上一步返回的gTLD</p>
+</li>
+<li><p>接受请求的gTLD查找并返回这个域名对应的Name Server（网站注册的域名服务器）的地址</p>
+</li>
+<li><p>Name Server根据映射关系表找到目标ip，返回给LDNS</p>
+</li>
+<li><p>LDNS缓存这个域名和对应的ip并把解析的结果返回给用户，解析结束！</p>
+</li>
+</ol>
+<p><img src="/essay/cf97c711/dns1.png" alt="dns1"></p>
+<p><img src="/essay/cf97c711/dnschax.png" alt="dnschax"></p>
+<h2 id="TCP-IP三握四挥"><a href="#TCP-IP三握四挥" class="headerlink" title="TCP/IP三握四挥"></a>TCP/IP三握四挥</h2><p><code>三次握手的目的</code><br>三次握手的最主要目的是保证连接是双工的，可靠更多的是通过重传机制来保证的。<br><code>为什么是三次握手</code><br>为了保证服务端能收接受到客户端的信息并能做出正确的应答而进行前两次(第一次和第二次)握手，为了保证客户端能够接收到服务端的信息并能做出正确的应答而进行后两次(第二次和第三次)握手。<br><code>三次握手的过程（建立连接）</code></p>
+<ul>
+<li>客户端发送SYN请求，进入SYN_SEND状态</li>
+<li>服务端收到SYN请求，并返回一个ACK应答，并发送一个SYN其请求，服务器进入SYN_RECV状态</li>
+<li>客户端收到服务端的SYN请求和ACK应答，发送ACK应答，客户端进入ESTABLISH状态，服务端收到应答后进入ESTABLISH。</li>
+<li>如果没有收到ACK，数据包根据TCP重传机制进行重传</li>
+</ul>
+<p><img src="/essay/cf97c711/%E5%BB%BA%E7%AB%8Btcp%E9%93%BE%E6%8E%A5.png" alt="建立tcp链接"></p>
+<p><code>四次挥手（断开连接）</code></p>
+<ul>
+<li>客户端发送FIN包，请求断开连接，客户端进入FIN_WAIT1状态</li>
+<li>服务端收到FIN包后返回应答，进入CLOSE_WAIT状态</li>
+<li>客户端收到FIN的应答后进入FIN_WAIT2状态</li>
+<li>服务端发送FIN请求包，进入LAST_ACK状态</li>
+<li>客户端收到FIN请求包后，发送应答进入TIME_WAIT状态</li>
+<li>服务器收到ACK应答后，进入close状态</li>
+</ul>
+<p><img src="/essay/cf97c711/%E5%85%B3%E9%97%ADtcp%E8%BF%9E%E6%8E%A5.png" alt="关闭tcp连接"></p>
+<p><code>为什么连接三次就够了，断开为什么需要四次</code></p>
+<p>因为连接时，调用socket的connect函数发送SYN包，而服务器端只是accept一下，就一次发送了SYN和ACK标志位，而断开连接时我们都要调用各自的close函数结束这段socket，所以两次close分别触发了两次FIN包，导致没有和ACK合并为一个包，所以断开要4次握手。<br><code>请求头 Connection作用</code><br>请求头 Connection，Connection设置为 keep-alive用于说明 客户端这边设置的是，本次HTTP请求之后并不需要关闭TCP连接，这样可以使下次HTTP请求使用相同的TCP通道，节省TCP建立连接的时间</p>
+<h2 id="发起http请求"><a href="#发起http请求" class="headerlink" title="发起http请求"></a>发起http请求</h2><p><code>HTTP请求报文的三个部分</code></p>
+<ul>
+<li>请求行：用于描述客户端的请求方式，请求的资源名称以及使用的HTTP协议的版本号（例：GET/books/java.html HTTP/1.1）</li>
+<li>请求头：用于描述客户端请求哪台主机，以及客户端的一些环境信息等</li>
+<li>请求正文：当使用POST, PUT等方法时，通常需要客户端向服务器传递数据</li>
+</ul>
+<p><img src="/essay/cf97c711/%E6%8A%A5%E6%96%87%E7%BB%93%E6%9E%84.png" alt="报文结构"></p>
+<p><code>GET和POST区别</code></p>
+<ul>
+<li>GET在浏览器回退时是无害的，POST会再次提交请求</li>
+<li>GET产生的URL地址可以被BookMark，而POST不可以</li>
+<li>GET请求会被浏览器主动cache，POST不会，除非主动设置</li>
+<li>GET请求只能进行URL编码，而POST支持多种编码方式</li>
+<li>GET请求参数会被完整的保留在浏览器历史记录中，POST参数不会保留</li>
+<li>GET请求在URL中传递的参数是有长度限制的，POST没有</li>
+<li>GET只接受ASCII字符，POST没有限制</li>
+<li>GET比POST更不安全，GET参数都暴露在了URL上</li>
+<li>GET参数通过URL传递，POST参数放在Request Body中</li>
+<li><strong><em>GET产生一个TCP数据包，POST产生两个TCP数据包</em></strong>（重大区别）</li>
+</ul>
+<p>GET：浏览器会把http header 和data一并发出去 服务器响应200 ok<br>POST：浏览器先发送header，服务器响应100 继续 浏览器再发送data，服务器响应 200 ok（Firefox只发一次）</p>
+<blockquote>
+<p>本质上是没有区别的，GET和POST是HTTP协议中的两种发送请求的方法。HTTP是基于TCP/IP的关于数据<br>如何在万维网中如何通信的协议。HTTP的底层是TCP/IP。所以GET和POST的底层也是TCP/IP，也就是说，<br>GET/POST都是TCP链接。GET和POST能做的事情是一样一样的。给GET加上request body，给POST带上<br>url参数，技术上是完全行的通的。 </p>
+</blockquote>
+<h2 id="服务器响应http请求，浏览器得到html代码"><a href="#服务器响应http请求，浏览器得到html代码" class="headerlink" title="服务器响应http请求，浏览器得到html代码"></a>服务器响应http请求，浏览器得到html代码</h2><p><code>HTTP响应也由三部分组成</code>：</p>
+<ul>
+<li><p>状态码：表示服务器对请求的处理结果</p>
+<p>1xx：信息，请求收到，继续处理</p>
+<p>2xx：成功，行为被成功地接受、理解和采纳</p>
+<p>3xx：重定向，为完成请求，必须进一步执行的动作</p>
+<p>4xx：客户端错误，请求包含语法错误或者请求无法实现</p>
+<p>5xx：服务器错误，服务器不能实现一种明显无效的请求</p>
+</li>
+<li><p>响应头：响应头用于描述服务器的基本信息，以及客户端如何处理数据</p>
+</li>
+<li><p>实体内容：服务器返回给客户端的数据</p>
+</li>
+</ul>
+<h2 id="浏览器解析html代码，并请求代码中所需的资源"><a href="#浏览器解析html代码，并请求代码中所需的资源" class="headerlink" title="浏览器解析html代码，并请求代码中所需的资源"></a>浏览器解析html代码，并请求代码中所需的资源</h2><ul>
+<li>浏览器开始载入html代码，发现<code>&lt;head&gt;</code>标签内有一个<code>&lt;link&gt;</code>标签引用外部CSS文件</li>
+<li>浏览器又发出CSS文件的请求，服务器返回这个CSS文件</li>
+<li>浏览器继续载入html中<code>&lt;body&gt;</code>部分的代码，并且CSS文件已经拿到手了，可以开始渲染页面了</li>
+<li>浏览器在代码中发现一个<code>&lt;img&gt;</code>标签引用了一张图片，向服务器发出请求。此时浏览器不会等到图片下载完，而是继续渲染后面的代码（Connection设置为 keep-alive）</li>
+<li>服务器返回图片文件，由于图片占用了一定面积，影响了后面段落的排布，因此浏览器需要回过头来重新渲染这部分代码</li>
+<li>浏览器发现了一个包含一行Javascript代码<code>&lt;script&gt;</code>的标签，赶快运行它</li>
+<li>Javascript脚本执行（style.display=”none”）这条语句，它命令浏览器隐藏掉代码中的某个<code>&lt;div&gt;</code>，少了一个元素，浏览器不得不重新渲染这部分代码</li>
+<li>终于执行到了的到来并没有结束，用户点了一下界面中的“换肤”按钮，Javascript让浏览器换了一下标签的CSS路径；</li>
+<li>浏览器召集了在座的各位<code>&lt;div&gt;&lt;span&gt;&lt;ul&gt;&lt;li&gt;</code>们，“大伙儿收拾收拾行李，咱得重新来过……”，浏览器向服务器请求了新的CSS文件，重新渲染页面。</li>
+</ul>
+<h2 id="浏览器渲染页面"><a href="#浏览器渲染页面" class="headerlink" title="浏览器渲染页面"></a>浏览器渲染页面</h2><ul>
+<li>解析html文件构成 DOM树</li>
+<li>解析CSS文件构成渲染树</li>
+<li>边解析，边渲染</li>
+<li>JS 单线程运行，JS有可能修改DOM结构，意味着JS执行完成前，后续所有资源的下载是没有必要的，所以JS是单线程，会阻塞后续资源下载</li>
+</ul>
+<p><code>JS加载</code></p>
+<ul>
+<li>不能并行下载和解析（阻塞下载）</li>
+<li>当引用了JS的时候，浏览器发送1个js request就会一直等待该request的返回。因为浏览器需要1个稳定的DOM树结构，而JS中很有可能有代码直接改变了DOM树结构，比如使用 document.write 或 appendChild,甚至是直接使用的location.href进行跳转，浏览器为了防止出现JS修改DOM树，需要重新构建DOM树的情况，所以 就会阻塞其他的下载和呈现。</li>
+</ul>
+<p>参考链接：</p>
+<p><a href="https://blog.csdn.net/lc13571525583/article/details/90732553">https://blog.csdn.net/lc13571525583/article/details/90732553</a></p>
+<p><a href="https://www.cnblogs.com/xiaoxin-test/p/13559905.html">https://www.cnblogs.com/xiaoxin-test/p/13559905.html</a></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>垃圾回收算法</title>
+    <url>/essay/ac7099b6.html</url>
+    <content><![CDATA[<h1 id="垃圾回收相关算法"><a href="#垃圾回收相关算法" class="headerlink" title="垃圾回收相关算法"></a>垃圾回收相关算法</h1><blockquote>
+<p>什么是垃圾？</p>
+</blockquote>
+<p>垃圾是指在运行程序中没有任何指针指向的对象，这个对象就是需要被回收的垃圾。</p>
+<p>如果不及时对内存中的垃圾进行清理，那么，这些垃圾对象所占的内存空间会一直保留到应用程序的结束，被保留的空间无法被其它对象使用，甚至可能导致内存溢出。</p>
+<a id="more"></a>
+
+<h1 id="标记阶段"><a href="#标记阶段" class="headerlink" title="标记阶段"></a>标记阶段</h1><p>在堆里存放着几乎所有的Java对象实例，在GC执行垃圾回收之前，首先需要区分出内存中哪些是存活对象，哪些是已经死亡的对象。只有被标记为己经死亡的对象，GC才会在执行垃圾回收时，释放掉其所占用的内存空间，因此这个过程我们可以称为垃圾标记阶段。</p>
+<p>那么在JVM中究竟是如何标记一个死亡对象呢？简单来说，当一个对象已经不再被任何的存活对象继续引用时，就可以宣判为已经死亡。</p>
+<p>判断对象存活一般有两种方式：<strong>引用计数算法</strong>和<strong>可达性分析算法。</strong></p>
+<h2 id="引用计数算法"><a href="#引用计数算法" class="headerlink" title="引用计数算法"></a>引用计数算法</h2><p>对每个对象保存一个整型的引用计数器属性。用于记录对象被引用的情况。</p>
+<p>对于一个对象A，只要有任何一个对象引用了A，则A的引用计数器就加1；当引用失效时，引用计数器就减1。只要对象A的引用计数器的值为0，即表示对象A不可能再被使用，可进行回收。</p>
+<p><code>优点</code>：实现简单，垃圾对象便于辨识；判定效率高，回收没有延迟性。</p>
+<p><code>缺点</code>：它需要单独的字段存储计数器，这样的做法增加了存储空间的开销。</p>
+<p>每次赋值都需要更新计数器，伴随着加法和减法操作，这增加了时间开销。<br>引用计数器有一个严重的问题，即<code>无法处理循环引用</code>的情况。这是一条致命缺陷，导致在Java的垃圾回收器中没有使用这类算法。</p>
+<blockquote>
+<p>循环引用</p>
+</blockquote>
+<p>当p的指针断开的时候，内部的引用形成一个循环，这就是循环引用，从而造成内存泄漏</p>
+<img src="/essay/ac7099b6/循环引用.png" style="zoom: 67%;">
+
+<h2 id="可达性分析算法"><a href="#可达性分析算法" class="headerlink" title="可达性分析算法"></a>可达性分析算法</h2><p>概念：</p>
+<p>可达性分析算法：也可以称为 根搜索算法、追踪性垃圾收集</p>
+<p>相对于引用计数算法而言，可达性分析算法不仅同样具备实现简单和执行高效等特点，更重要的是该算法可以有效地解决在引用计数算法中循环引用的问题，防止内存泄漏的发生。</p>
+<p>相较于引用计数算法，这里的可达性分析就是Java、C#选择的。这种类型的垃圾收集通常也叫作追踪性垃圾收集（Tracing Garbage Collection）</p>
+<p>基本思路：</p>
+<ul>
+<li>可达性分析算法是以根对象集合（GCRoots）为起始点，按照从上至下的方式搜索被根对象集合所连接的目标对象是否可达。</li>
+<li>使用可达性分析算法后，内存中的存活对象都会被根对象集合直接或间接连接着，搜索所走过的路径称为引用链（Reference Chain）</li>
+<li>如果目标对象没有任何引用链相连，则是不可达的，就意味着该对象己经死亡，可以标记为垃圾对象。</li>
+<li>在可达性分析算法中，只有能够被根对象集合直接或者间接连接的对象才是存活对象。</li>
+</ul>
+<h1 id="清除阶段："><a href="#清除阶段：" class="headerlink" title="清除阶段："></a>清除阶段：</h1><p>当成功区分出内存中存活对象和死亡对象后，GC接下来的任务就是执行垃圾回收，释放掉无用对象所占用的内存空间，以便有足够的可用内存空间为新对象分配内存。目前在JVM中比较常见的三种垃圾收集算法是</p>
+<ul>
+<li>标记一清除算法（Mark-Sweep）</li>
+<li>复制算法（copying）</li>
+<li>标记-压缩算法（Mark-Compact）</li>
+</ul>
+<h2 id="标记-清除算法"><a href="#标记-清除算法" class="headerlink" title="标记-清除算法"></a>标记-清除算法</h2><blockquote>
+<p>执行过程</p>
+</blockquote>
+<p>当堆中的有效内存空间（available memory）被耗尽的时候，就会停止整个程序（也被称为stop the world），然后进行两项工作，第一项则是标记，第二项则是清除</p>
+<ul>
+<li><strong>标记</strong>：Collector从引用根节点开始遍历，<strong>标记所有被引用的对象</strong>。一般是在对象的Header中记录为可达对象。<ul>
+<li><strong>标记的是引用的对象，不是垃圾！！</strong></li>
+</ul>
+</li>
+<li><strong>清除</strong>：Collector对堆内存从头到尾进行线性的遍历，如果发现某个对象在其Header中没有标记为可达对象，则将其回收</li>
+</ul>
+<img src="/essay/ac7099b6/mark-sweep.png" style="zoom: 50%;">
+
+<blockquote>
+<p>什么是清除？</p>
+</blockquote>
+<p>这里所谓的清除并不是真的置空，而是把需要清除的对象地址保存在空闲的地址列表里。下次有新对象需要加载时，判断垃圾的位置空间是否够，如果够，就存放覆盖原有的地址。</p>
+<p>关于空闲列表是在为对象分配内存的时候 提过</p>
+<ul>
+<li>如果内存规整<ul>
+<li>采用指针碰撞的方式进行内存分配</li>
+</ul>
+</li>
+<li>如果内存不规整<ul>
+<li>虚拟机需要维护一个列表</li>
+<li>空闲列表分配</li>
+</ul>
+</li>
+</ul>
+<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><ul>
+<li>标记清除算法的效率不算高</li>
+<li>在进行GC的时候，需要停止整个应用程序，用户体验较差</li>
+<li>这种方式清理出来的空闲内存是不连续的，产生内碎片，需要维护一个空闲列表</li>
+</ul>
+<h2 id="复制算法"><a href="#复制算法" class="headerlink" title="复制算法"></a>复制算法</h2><h3 id="核心思想"><a href="#核心思想" class="headerlink" title="核心思想"></a>核心思想</h3><p>将活着的内存空间分为两块，每次只使用其中一块，在垃圾回收时将正在使用的内存中的存活对象复制到未被使用的内存块中，之后清除正在使用的内存块中的所有对象，交换两个内存的角色，最后完成垃圾回收</p>
+<p><img src="/essay/ac7099b6/copying.png"></p>
+<p>把可达的对象，直接复制到另外一个区域中复制完成后，A区就没有用了，里面的对象可以直接清除掉，其实里面的新生代里面就用到了复制算法</p>
+<p><img src="/essay/ac7099b6/young.png"></p>
+<h3 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h3><ul>
+<li>没有标记和清除过程，实现简单，运行高效</li>
+<li>复制过去以后保证空间的连续性，不会出现“碎片”问题。</li>
+</ul>
+<h3 id="缺点-1"><a href="#缺点-1" class="headerlink" title="缺点"></a>缺点</h3><ul>
+<li>此算法的缺点也是很明显的，就是需要两倍的内存空间。</li>
+<li>对于G1这种分拆成为大量region的GC，复制而不是移动，意味着GC需要维护region之间对象引用关系，不管是内存占用或者时间开销也不小</li>
+</ul>
+<h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><p>如果系统中的垃圾对象很多，复制算法不会很理想。因为复制算法需要复制的存活对象数量并不会太大，或者说非常低才行（老年代大量的对象存活，那么复制的对象将会有很多，效率会很低）</p>
+<p>在新生代，对常规应用的垃圾回收，一次通常可以回收70% - 99% 的内存空间。回收性价比很高。所以现在的商业虚拟机都是用这种收集算法回收新生代。</p>
+<blockquote>
+<p>为什么新生代要使用复制算法？</p>
+</blockquote>
+<p>具体问题具体分析，没有最好的算法，只有最合适的算法。</p>
+<p>新生代区中的对象98%都是朝生夕死的，使用复制算法很好的解决了碎片化的问题。并且由于需要复制的存活对象不是很多。</p>
+<p>恰好符合复制算法的限制。而符合这一标准之后，这就是最快的回收算法了。</p>
+<h2 id="标记-整理算法"><a href="#标记-整理算法" class="headerlink" title="标记-整理算法"></a>标记-整理算法</h2><h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>复制算法的高效性是建立在存活对象少、垃圾对象多的前提下的。这种情况在新生代经常发生，但是在老年代，更常见的情况是大部分对象都是存活对象。如果依然使用复制算法，由于存活对象较多，复制的成本也将很高。因此，基于老年代垃圾回收的特性，需要使用其他的算法。</p>
+<p>标记一清除算法的确可以应用在老年代中，但是该算法不仅执行效率低下，而且在执行完内存回收后还会产生内存碎片，所以JvM的设计者需要在此基础之上进行改进。标记-压缩（Mark-Compact）算法由此诞生。</p>
+<p>1970年前后，G.L.Steele、C.J.Chene和D.s.Wise等研究者发布标记-压缩算法。在许多现代的垃圾收集器中，人们都使用了标记-压缩算法或其改进版本。</p>
+<h3 id="执行过程"><a href="#执行过程" class="headerlink" title="执行过程"></a>执行过程</h3><p>第一阶段和标记清除算法一样，从根节点开始标记所有被引用对象</p>
+<p>第二阶段将所有的存活对象压缩到内存的一端，按顺序排放。之后，清理边界外所有的空间。</p>
+<img src="/essay/ac7099b6/mark-compact.png" style="zoom: 67%;">
+
+<h3 id="标清和标整的区别"><a href="#标清和标整的区别" class="headerlink" title="标清和标整的区别"></a>标清和标整的区别</h3><p>标记-压缩算法的最终效果等同于标记-清除算法执行完成后，再进行一次内存碎片整理，因此，也可以把它称为标记-清除-压缩（Mark-Sweep-Compact）算法。</p>
+<p>二者的本质差异在于标记-清除算法是一种非移动式的回收算法，标记-压缩是移动式的。是否移动回收后的存活对象是一项优缺点并存的风险决策。可以看到，标记的存活对象将会被整理，按照内存地址依次排列，而未被标记的内存会被清理掉。如此一来，当我们需要给新对象分配内存时，JVM只需要持有一个内存的起始地址即可，这比维护一个空闲列表显然少了许多开销。</p>
+<h3 id="标整的优缺点"><a href="#标整的优缺点" class="headerlink" title="标整的优缺点"></a>标整的优缺点</h3><h4 id="优点-1"><a href="#优点-1" class="headerlink" title="优点"></a>优点</h4><ul>
+<li>消除了标记-清除算法当中，内存区域分散的缺点，我们需要给新对象分配内存时，JVM只需要持有一个内存的起始地址即可。</li>
+<li>消除了复制算法当中，内存减半的高额代价。</li>
+</ul>
+<h4 id="缺点-2"><a href="#缺点-2" class="headerlink" title="缺点"></a>缺点</h4><ul>
+<li>从效率上来说，标记-整理算法要低于复制算法。</li>
+<li>移动对象的同时，如果对象被其他对象引用，则还需要调整引用的地址</li>
+<li>移动过程中，需要全程暂停用户应用程序。即：STW</li>
+</ul>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>效率上来说，复制算法是效率最高的，但是却浪费了太多内存。</p>
+<p>而为了尽量兼顾上面提到的三个指标，标记-整理算法相对来说更平滑一些，但是效率上不尽如人意，它比复制算法多了一个标记的阶段，比标记-清除多了一个整理内存的阶段。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>标记清除</th>
+<th>标记整理</th>
+<th>复制</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>速率</strong></td>
+<td>中等</td>
+<td>最慢</td>
+<td>最快</td>
+</tr>
+<tr>
+<td><strong>空间开销</strong></td>
+<td>少（但会堆积碎片）</td>
+<td>少（不堆积碎片）</td>
+<td>通常需要活对象的2倍空间（不堆积碎片）</td>
+</tr>
+<tr>
+<td><strong>移动对象</strong></td>
+<td>否</td>
+<td>是</td>
+<td>是</td>
+</tr>
+</tbody></table>
+<p>综合我们可以找到，没有最好的算法，只有最合适的算法</p>
+<h2 id="分代收集算法"><a href="#分代收集算法" class="headerlink" title="分代收集算法"></a>分代收集算法</h2><p>前面所有这些算法中，并没有一种算法可以完全替代其他算法，它们都具有自己独特的优势和特点。分代收集算法应运而生。</p>
+<p>分代收集算法，是基于这样一个事实：不同的对象的生命周期是不一样的。因此，不同生命周期的对象可以采取不同的收集方式，以便提高回收效率。一般是把Java堆分为新生代和老年代，这样就可以根据各个年代的特点使用不同的回收算法，以提高垃圾回收的效率。</p>
+<p>在Java程序运行的过程中，会产生大量的对象，其中有些对象是与业务信息相关，比如Http请求中的Session对象、线程、Socket连接，这类对象跟业务直接挂钩，因此生命周期比较长。但是还有一些对象，主要是程序运行过程中生成的临时变量，这些对象生命周期会比较短，比如：string对象，由于其不变类的特性，系统会产生大量的这些对象，有些对象甚至只用一次即可回收。</p>
+<p>目前几乎所有的GC都采用分代手机算法执行垃圾回收的</p>
+<p>在HotSpot中，基于分代的概念，GC所使用的内存回收算法必须结合年轻代和老年代各自的特点。</p>
+<ul>
+<li>年轻代（Young Gen）</li>
+</ul>
+<p>年轻代特点：区域相对老年代较小，对象生命周期短、存活率低，回收频繁。</p>
+<p>这种情况复制算法的回收整理，速度是最快的。复制算法的效率只和当前存活对象大小有关，因此很适用于年轻代的回收。而复制算法内存利用率不高的问题，通过hotspot中的两个survivor的设计得到缓解。</p>
+<ul>
+<li>老年代（Tenured Gen）</li>
+</ul>
+<p>老年代特点：区域较大，对象生命周期长、存活率高，回收不及年轻代频繁。</p>
+<p>这种情况存在大量存活率高的对象，复制算法明显变得不合适。一般是由标记-清除或者是标记-清除与标记-整理的混合实现。</p>
+<ul>
+<li>Mark阶段的开销与存活对象的数量成正比。</li>
+<li>Sweep阶段的开销与所管理区域的大小成正相关。</li>
+<li>compact阶段的开销与存活对象的数据成正比。</li>
+</ul>
+<p>以HotSpot中的CMS回收器为例，CMS是基于Mark-Sweep实现的，对于对象的回收效率很高。而对于碎片问题，CMS采用基于Mark-Compact算法的Serial old回收器作为补偿措施：当内存回收不佳（碎片导致的Concurrent Mode Failure时），将采用serial old执行FullGC以达到对老年代内存的整理。</p>
+<p>分代的思想被现有的虚拟机广泛使用。几乎所有的垃圾回收器都区分新生代和老年代</p>
+<h2 id="增量收集算法"><a href="#增量收集算法" class="headerlink" title="增量收集算法"></a>增量收集算法</h2><h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>上述现有的算法，在垃圾回收过程中，应用软件将处于一种stop the World的状态。在stop the World状态下，应用程序所有的线程都会挂起，暂停一切正常的工作，等待垃圾回收的完成。如果垃圾回收时间过长，应用程序会被挂起很久，将严重影响用户体验或者系统的稳定性。为了解决这个问题，即对实时垃圾收集算法的研究直接导致了增量收集（Incremental Collecting）算法的诞生。</p>
+<p>如果一次性将所有的垃圾进行处理，需要造成系统长时间的停顿，那么就可以让垃圾收集线程和应用程序线程交替执行。每次，垃圾收集线程只收集一小片区域的内存空间，接着切换到应用程序线程。依次反复，直到垃圾收集完成。</p>
+<p>总的来说，增量收集算法的基础仍是传统的标记-清除和复制算法。<strong>增量收集算法通过对线程间冲突的妥善处理</strong>，允许垃圾收集线程以分阶段的方式完成标记、清理或复制工作</p>
+<h3 id="缺点-3"><a href="#缺点-3" class="headerlink" title="缺点"></a>缺点</h3><p>使用这种方式，由于在垃圾回收过程中，间断性地还执行了应用程序代码，所以能减少系统的停顿时间。但是，因为线程切换和上下文转换的消耗，会使得垃圾回收的总体成本上升，造成系统吞吐量的下降。</p>
+<h2 id="分区算法"><a href="#分区算法" class="headerlink" title="分区算法"></a>分区算法</h2><p>一般来说，在相同条件下，堆空间越大，一次Gc时所需要的时间就越长，有关GC产生的停顿也越长。为了更好地控制GC产生的停顿时间，将一块大的内存区域分割成多个小块，根据目标的停顿时间，每次合理地回收若干个小区间，而不是整个堆空间，从而减少一次GC所产生的停顿。</p>
+<p>分代算法将按照对象的生命周期长短划分成两个部分，分区算法将整个堆空间划分成连续的不同小区间。<br>每一个小区间都独立使用，独立回收。这种算法的好处是可以控制一次回收多少个小区间。</p>
+<img src="/essay/ac7099b6/分区算法.png" style="zoom:67%;">
+
+<p>注意，这些只是基本的算法思路，实际GC实现过程要复杂的多，目前还在发展中的前沿GC都是复合算法，并且并行和并发兼备。</p>
+]]></content>
+      <categories>
+        <category>jvm</category>
+      </categories>
+      <tags>
+        <tag>gc</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>新生代分区比例的思考</title>
+    <url>/essay/a12043e8.html</url>
+    <content><![CDATA[<h2 id="疑问"><a href="#疑问" class="headerlink" title="疑问"></a>疑问</h2><p>为什么年轻代中三个区（Eden，S0，S1）的比例是8:1:1呢？为什么不能是7:2:1？6:2:2？</p>
+<a id="more"></a>
+
+<h2 id="堆中区域分布"><a href="#堆中区域分布" class="headerlink" title="堆中区域分布"></a>堆中区域分布</h2><p><img src="/essay/a12043e8/%E5%A0%86%E5%88%86%E5%8C%BA.png"></p>
+<p>上图是不考虑细节而画出来的粗略的堆中的区域分布</p>
+<ul>
+<li><p>Eden：From：to ——&gt;  8:1:1</p>
+</li>
+<li><p>新生代：老年代  ——&gt;  1 : 2</p>
+</li>
+</ul>
+<h2 id="预备知识"><a href="#预备知识" class="headerlink" title="预备知识"></a>预备知识</h2><p>我们创建的对象，一般都是存放在Eden区的，当我们Eden区满了后，就会触发GC操作，一般被称为 YGC / Minor GC操作</p>
+<p>在这期间为了保证引用更新的正确性，Java将暂停所有其他的线程，这种情况被称为“Stop-The-World”</p>
+<p><img src="/essay/a12043e8/ygc1.png"></p>
+<p>当我们进行一次垃圾收集后，红色的将会被回收，而绿色的还会被占用着，存放在S0(Survivor From)区。同时我们给每个对象设置了一个年龄计数器，一次回收后就是1。</p>
+<p>同时Eden区继续存放对象，当Eden区再次存满的时候，又会触发一个MinorGC操作，此时GC将会把 Eden和Survivor From中的对象 进行一次收集，把存活的对象放到 Survivor To区，同时让年龄 + 1</p>
+<ul>
+<li>这里实际上使用的就是复制算法，将可触及的对象复制到to区，这样YGC会直接清空from区</li>
+</ul>
+<p><img src="/essay/a12043e8/ygc2.png" alt="ygc2"></p>
+<p>我们继续不断的进行对象生成 和 垃圾回收，当Survivor中的对象的年龄达到15的时候，将会触发一次 Promotion晋升的操作，也就是将年轻代中的对象  晋升到 老年代中</p>
+<p><img src="/essay/a12043e8/ygc3.png" alt="ygc3"></p>
+<p>特别注意，在Eden区满了的时候，才会触发MinorGC，而幸存者区满了后，不会触发MinorGC操作</p>
+<ul>
+<li><code>如果Survivor区满了后，将会触发一些特殊的规则，也就是可能直接晋升 老年代</code></li>
+</ul>
+<h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><p>那么回到最开始的问题，年轻代的比例为什么是8:1:1呢？我不能让Eden区大一点？或者S1或S2大一点？</p>
+<p>首先开始解答：</p>
+<p>由于S0 和 S1 区使用的是复制算法，则这两个区域的大小肯定是一样的</p>
+<blockquote>
+<p>假如Eden区域占比极大，假如说是占99%</p>
+</blockquote>
+<ol>
+<li>在YGC之后，会产生幸存对象存到S1区，但是此时s1区太小了，很容易就满了。</li>
+<li>而当幸存者区的区域满了之后，每次都有很多对象直接晋升到老年代区域中去。</li>
+<li>老年代很快被填满，触发Major GC（因为Major GC一般伴随着Minor GC，也可以看做触发了Full GC）。</li>
+<li>老年代的内存空间远大于新生代，进行一次Full GC消耗的时间比Minor GC长得多。频发的Full GC消耗的时间是非常可观的，这一点会影响大型程序的执行和响应速度，更不要说某些连接会因为超时发生连接错误了。</li>
+</ol>
+<blockquote>
+<p>假如Eden区域和幸存者区域占比为4:3:3 或者幸存者区占比更大一点</p>
+</blockquote>
+<ol>
+<li>由于Eden区域占据区域很小，当对象生成过快或者对象过大时。会在Eden区快满的时候YGC。</li>
+<li>注意：<code>Survivor区域并不会触发YGC，但是会在YGC时一并清理。</code></li>
+<li>空间变小，意味着YGC的频率更快了。则Stop-The-World的情况也会发生的频繁，影响效率。</li>
+<li>从复制算法的角度来讲：此算法对于G1这种分拆成为大量region的GC，复制而不是移动，意味着GC需要维护region之间对象引用关系，不管是内存占用或者时间开销也不小。所以复制算法需要复制的存活对象数量并不会太大，或者说非常低才行（老年代大量的对象存活，那么复制的对象将会有很多，效率会很低）。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>jvm</category>
+      </categories>
   </entry>
 </search>
