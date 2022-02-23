@@ -156,15 +156,56 @@
 </tbody></table>
 <h1 id="集群对比"><a href="#集群对比" class="headerlink" title="集群对比"></a>集群对比</h1><p>redis集群，不管是redis中的哨兵还是cluster集群，服务与服务直接是可以有数据的同步的，master的节点数据会通过slaveof的配置参数进行同步。</p>
 <p>memcached也是可以支持集群的，但他的集群仅仅体现再数据的分库中。虽然memcached内存有限制可以用多个memcached来存去解决。但是memcached节点之间是不会进行任何通信的，更别说什么master与slave机制了，他本身也不支持持久化，服务重启数据就丢了，所以不存在高可用。</p>
-<h1 id="另外一些对比"><a href="#另外一些对比" class="headerlink" title="另外一些对比"></a>另外一些对比</h1><ul>
-<li><p>memcached可缓存图片和视频。redis 支持除 k/v 更多的数据结构;</p>
-</li>
-<li><p>redis 可以使用虚拟内存，redis 可持久化和 aof 灾难恢复，redis 通过主从支持数据备份;</p>
-</li>
-<li><p>redis 可以做消息队列。</p>
+<h1 id="共同点以及区别"><a href="#共同点以及区别" class="headerlink" title="共同点以及区别"></a>共同点以及区别</h1><ul>
+<li><p><strong>共同点</strong> ：</p>
+<ol>
+<li>都是基于内存的数据库，一般都用来当做缓存使用。</li>
+<li>都有过期策略。</li>
+<li>两者的性能都非常高。</li>
+</ol>
+<p><strong>区别</strong> ：</p>
+<ol>
+<li><strong>Redis 支持更丰富的数据类型（支持更复杂的应用场景）</strong>。Redis 不仅仅支持简单的 k/v 类型的数据，同时还提供 list，set，zset，hash 等数据结构的存储。Memcached 只支持最简单的 k/v 数据类型。</li>
+<li><strong>Redis 支持数据的持久化，可以将内存中的数据保持在磁盘中，重启的时候可以再次加载进行使用,而 Memcached 把数据全部存在内存之中。</strong></li>
+<li><strong>Redis 有灾难恢复机制。</strong> 因为可以把缓存中的数据持久化到磁盘上。</li>
+<li><strong>Redis 在服务器内存使用完之后，可以将不用的数据放到磁盘上。但是，Memcached 在服务器内存使用完之后，就会直接报异常。</strong></li>
+<li><strong>Memcached 没有原生的集群模式，需要依靠客户端来实现往集群中分片写入数据；但是 Redis 目前是原生支持 cluster 模式的。</strong></li>
+<li><strong>Memcached 是多线程，非阻塞 IO 复用的网络模型；Redis 使用单线程的多路 IO 复用模型。</strong> （Redis 6.0 引入了多线程 IO ）</li>
+<li><strong>Redis 支持发布订阅模型、Lua 脚本、事务等功能，而 Memcached 不支持。并且，Redis 支持更多的编程语言。</strong></li>
+<li><strong>Memcached 过期数据的删除策略只用了惰性删除，而 Redis 同时使用了惰性删除与定期删除。</strong></li>
+</ol>
 </li>
 </ul>
 <p>tips: 虽然redis是单线程的，但是高并发下redis的性能比memcached要高，原因是因为memcached多线程模型引入了缓存一致性和锁，加锁带来了性能损耗。</p>
+]]></content>
+      <categories>
+        <category>redis</category>
+      </categories>
+      <tags>
+        <tag>redis</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Redis持久化</title>
+    <url>/essay/119ed1dc.html</url>
+    <content><![CDATA[<p>Redis支持两种持久化操作：分别是<strong>快照（snapshotting，RDB）</strong>和<strong>只追加文件（append-only file, AOF）</strong>。</p>
+<a id="more"></a>
+
+<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><h2 id="快照（snapshotting）持久化（RDB）"><a href="#快照（snapshotting）持久化（RDB）" class="headerlink" title="快照（snapshotting）持久化（RDB）"></a>快照（snapshotting）持久化（RDB）</h2><p>Redis 可以通过创建快照来获得存储在内存里面的数据在某个时间点上的副本。Redis 创建快照之后，可以对快照进行备份，可以将快照复制到其他服务器从而创建具有相同数据的服务器副本（Redis 主从结构，主要用来提高 Redis 性能），还可以将快照留在原地以便重启服务器的时候使用。</p>
+<p>快照持久化是 Redis 默认采用的持久化方式，在 Redis.conf 配置文件中默认有此下配置：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">save 900 1           #在900秒(15分钟)之后，如果至少有1个key发生变化，Redis就会自动触发BGSAVE命令创建快照。</span><br><span class="line"></span><br><span class="line">save 300 10          #在300秒(5分钟)之后，如果至少有10个key发生变化，Redis就会自动触发BGSAVE命令创建快照。</span><br><span class="line"></span><br><span class="line">save 60 10000        #在60秒(1分钟)之后，如果至少有10000个key发生变化，Redis就会自动触发BGSAVE命令创建快照。</span><br></pre></td></tr></table></figure>
+<h2 id="AOF（append-only-file）持久化"><a href="#AOF（append-only-file）持久化" class="headerlink" title="AOF（append-only file）持久化"></a>AOF（append-only file）持久化</h2><p>与快照持久化相比，AOF 持久化的实时性更好，因此已成为主流的持久化方案。默认情况下 Redis 没有开启 AOF（append only file）方式的持久化，可以通过 appendonly 参数开启：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">appendonly yes</span><br></pre></td></tr></table></figure>
+<p>开启 AOF 持久化后每执行一条会更改 Redis 中的数据的命令，Redis 就会将该命令写入到内存缓存 <code>server.aof_buf</code> 中，然后再根据 <code>appendfsync</code> 配置来决定何时将其同步到硬盘中的 AOF 文件。</p>
+<p>AOF 文件的保存位置和 RDB 文件的位置相同，都是通过 dir 参数设置的，默认的文件名是 <code>appendonly.aof</code>。</p>
+<p>在 Redis 的配置文件中存在三种不同的 AOF 持久化方式，它们分别是：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">appendfsync always    #每次有数据修改发生时都会写入AOF文件,这样会严重降低Redis的速度</span><br><span class="line">appendfsync everysec  #每秒钟同步一次，显示地将多个写命令同步到硬盘</span><br><span class="line">appendfsync no        #让操作系统决定何时进行同步</span><br></pre></td></tr></table></figure>
+<p>为了兼顾数据和写入性能，用户可以考虑 <code>appendfsync everysec</code> 选项 ，让 Redis 每秒同步一次 AOF 文件，Redis 性能几乎没受到任何影响。而且这样即使出现系统崩溃，用户最多只会丢失一秒之内产生的数据。当硬盘忙于执行写入操作的时候，Redis 还会优雅的放慢自己的速度以便适应硬盘的最大写入速度。</p>
+<h1 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h1><h2 id="Redis-4-0-对于持久化机制的优化"><a href="#Redis-4-0-对于持久化机制的优化" class="headerlink" title="Redis 4.0 对于持久化机制的优化"></a>Redis 4.0 对于持久化机制的优化</h2><p>Redis 4.0 开始支持 RDB 和 AOF 的混合持久化（默认关闭，可以通过配置项 <code>aof-use-rdb-preamble</code> 开启）。</p>
+<p>如果把混合持久化打开，AOF 重写的时候就直接把 RDB 的内容写到 AOF 文件开头。这样做的好处是可以结合 RDB 和 AOF 的优点, 快速加载同时避免丢失过多的数据。当然缺点也是有的， AOF 里面的 RDB 部分是压缩格式不再是 AOF 格式，可读性较差。</p>
+<h2 id="AOF-重写"><a href="#AOF-重写" class="headerlink" title="AOF 重写"></a>AOF 重写</h2><p>AOF 重写可以产生一个新的 AOF 文件，这个新的 AOF 文件和原有的 AOF 文件所保存的数据库状态一样，但体积更小。</p>
+<p>AOF 重写是一个有歧义的名字，该功能是通过读取数据库中的键值对来实现的，程序无须对现有 AOF 文件进行任何读入、分析或者写入操作。</p>
+<p>在执行 BGREWRITEAOF 命令时，Redis 服务器会维护一个 AOF 重写缓冲区，该缓冲区会在子进程创建新 AOF 文件期间，记录服务器执行的所有写命令。当子进程完成创建新 AOF 文件的工作之后，服务器会将重写缓冲区中的所有内容追加到新 AOF 文件的末尾，使得新的 AOF 文件保存的数据库状态与现有的数据库状态一致。最后，服务器用新的 AOF 文件替换旧的 AOF 文件，以此来完成 AOF 文件重写操作。</p>
 ]]></content>
       <categories>
         <category>redis</category>

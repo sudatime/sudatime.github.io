@@ -29,7 +29,7 @@
 <meta property="og:description" content="Redis : Redis是一款内存高速缓存数据库。Redis全称为:Remote Dictionary Server (远程数据服务),使用C语言编写,Redis是一个key-value存储系统(键值存储系统),支持丰富的数据类型。 Memcached：是一个免费开源的、高性能的、具有分布式内存对象的缓存系统，它通过减轻数据库负载加速动态Web应用；  那么，同样是可以作为缓存服务，他们有什么">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-02-23T07:29:40.000Z">
-<meta property="article:modified_time" content="2022-02-23T08:01:29.988Z">
+<meta property="article:modified_time" content="2022-02-23T08:27:57.051Z">
 <meta property="article:author" content="sudatime">
 <meta property="article:tag" content="redis">
 <meta name="twitter:card" content="summary">
@@ -342,12 +342,24 @@
 </tbody></table>
 <h1 id="集群对比"><a href="#集群对比" class="headerlink" title="集群对比"></a>集群对比</h1><p>redis集群，不管是redis中的哨兵还是cluster集群，服务与服务直接是可以有数据的同步的，master的节点数据会通过slaveof的配置参数进行同步。</p>
 <p>memcached也是可以支持集群的，但他的集群仅仅体现再数据的分库中。虽然memcached内存有限制可以用多个memcached来存去解决。但是memcached节点之间是不会进行任何通信的，更别说什么master与slave机制了，他本身也不支持持久化，服务重启数据就丢了，所以不存在高可用。</p>
-<h1 id="另外一些对比"><a href="#另外一些对比" class="headerlink" title="另外一些对比"></a>另外一些对比</h1><ul>
-<li><p>memcached可缓存图片和视频。redis 支持除 k/v 更多的数据结构;</p>
-</li>
-<li><p>redis 可以使用虚拟内存，redis 可持久化和 aof 灾难恢复，redis 通过主从支持数据备份;</p>
-</li>
-<li><p>redis 可以做消息队列。</p>
+<h1 id="共同点以及区别"><a href="#共同点以及区别" class="headerlink" title="共同点以及区别"></a>共同点以及区别</h1><ul>
+<li><p><strong>共同点</strong> ：</p>
+<ol>
+<li>都是基于内存的数据库，一般都用来当做缓存使用。</li>
+<li>都有过期策略。</li>
+<li>两者的性能都非常高。</li>
+</ol>
+<p><strong>区别</strong> ：</p>
+<ol>
+<li><strong>Redis 支持更丰富的数据类型（支持更复杂的应用场景）</strong>。Redis 不仅仅支持简单的 k/v 类型的数据，同时还提供 list，set，zset，hash 等数据结构的存储。Memcached 只支持最简单的 k/v 数据类型。</li>
+<li><strong>Redis 支持数据的持久化，可以将内存中的数据保持在磁盘中，重启的时候可以再次加载进行使用,而 Memcached 把数据全部存在内存之中。</strong></li>
+<li><strong>Redis 有灾难恢复机制。</strong> 因为可以把缓存中的数据持久化到磁盘上。</li>
+<li><strong>Redis 在服务器内存使用完之后，可以将不用的数据放到磁盘上。但是，Memcached 在服务器内存使用完之后，就会直接报异常。</strong></li>
+<li><strong>Memcached 没有原生的集群模式，需要依靠客户端来实现往集群中分片写入数据；但是 Redis 目前是原生支持 cluster 模式的。</strong></li>
+<li><strong>Memcached 是多线程，非阻塞 IO 复用的网络模型；Redis 使用单线程的多路 IO 复用模型。</strong> （Redis 6.0 引入了多线程 IO ）</li>
+<li><strong>Redis 支持发布订阅模型、Lua 脚本、事务等功能，而 Memcached 不支持。并且，Redis 支持更多的编程语言。</strong></li>
+<li><strong>Memcached 过期数据的删除策略只用了惰性删除，而 Redis 同时使用了惰性删除与定期删除。</strong></li>
+</ol>
 </li>
 </ul>
 <p>tips: 虽然redis是单线程的，但是高并发下redis的性能比memcached要高，原因是因为memcached多线程模型引入了缓存一致性和锁，加锁带来了性能损耗。</p>
@@ -390,7 +402,10 @@
     <a href="/essay/cc4d73b2.html" rel="prev" title="Redis分布式锁">
       <i class="fa fa-chevron-left"></i> Redis分布式锁
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/essay/119ed1dc.html" rel="next" title="Redis持久化">
+      Redis持久化 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -465,7 +480,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%89%B9%E6%80%A7"><span class="nav-number">1.</span> <span class="nav-text">特性</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis%E7%89%B9%E6%80%A7"><span class="nav-number">1.1.</span> <span class="nav-text">Redis特性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Memcached%E7%89%B9%E6%80%A7"><span class="nav-number">1.2.</span> <span class="nav-text">Memcached特性</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-number">2.</span> <span class="nav-text">应用场景</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis"><span class="nav-number">2.1.</span> <span class="nav-text">Redis</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Memcached"><span class="nav-number">2.2.</span> <span class="nav-text">Memcached</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%89%B9%E6%80%A7%E5%AF%B9%E6%AF%94"><span class="nav-number">3.</span> <span class="nav-text">特性对比</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%9B%86%E7%BE%A4%E5%AF%B9%E6%AF%94"><span class="nav-number">4.</span> <span class="nav-text">集群对比</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%A6%E5%A4%96%E4%B8%80%E4%BA%9B%E5%AF%B9%E6%AF%94"><span class="nav-number">5.</span> <span class="nav-text">另外一些对比</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%89%B9%E6%80%A7"><span class="nav-number">1.</span> <span class="nav-text">特性</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis%E7%89%B9%E6%80%A7"><span class="nav-number">1.1.</span> <span class="nav-text">Redis特性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Memcached%E7%89%B9%E6%80%A7"><span class="nav-number">1.2.</span> <span class="nav-text">Memcached特性</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-number">2.</span> <span class="nav-text">应用场景</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis"><span class="nav-number">2.1.</span> <span class="nav-text">Redis</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Memcached"><span class="nav-number">2.2.</span> <span class="nav-text">Memcached</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%89%B9%E6%80%A7%E5%AF%B9%E6%AF%94"><span class="nav-number">3.</span> <span class="nav-text">特性对比</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%9B%86%E7%BE%A4%E5%AF%B9%E6%AF%94"><span class="nav-number">4.</span> <span class="nav-text">集群对比</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%B1%E5%90%8C%E7%82%B9%E4%BB%A5%E5%8F%8A%E5%8C%BA%E5%88%AB"><span class="nav-number">5.</span> <span class="nav-text">共同点以及区别</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -481,7 +496,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-count">17</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
