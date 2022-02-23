@@ -49,26 +49,6 @@
       </tags>
   </entry>
   <entry>
-    <title>mybatisplus配置文件</title>
-    <url>/essay/mybatisplus-config.html</url>
-    <content><![CDATA[<p>mybatisplus3.0.5配置文件</p>
-<a id="more"></a>
-
-<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>mybatisplus 3.0.5</p>
-<h2 id="依赖"><a href="#依赖" class="headerlink" title="依赖"></a>依赖</h2><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.baomidou<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mybatis-plus-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.0.5<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.baomidou<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mybatis-plus<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.0.5<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-
-<h2 id="yml配置文件"><a href="#yml配置文件" class="headerlink" title="yml配置文件"></a>yml配置文件</h2><figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Mybatis-Plus 配置</span></span><br><span class="line"><span class="attr">mybatis-plus:</span></span><br><span class="line">  <span class="comment">#  mapper-locations: classpath:/mapper/*Mapper.xml</span></span><br><span class="line">  <span class="comment">#实体扫描，多个package用逗号或者分号分隔</span></span><br><span class="line">  <span class="attr">typeAliasesPackage:</span> <span class="string">com.mybatis.demo.domain</span></span><br><span class="line">  <span class="attr">global-config:</span></span><br><span class="line">    <span class="attr">db-config:</span></span><br><span class="line">      <span class="attr">id-type:</span> <span class="string">none</span></span><br><span class="line">      <span class="attr">table-underline:</span> <span class="literal">false</span></span><br><span class="line">    <span class="attr">refresh:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">configuration:</span></span><br><span class="line">    <span class="attr">map-underscore-to-camel-case:</span> <span class="literal">true</span></span><br><span class="line">    <span class="attr">cache-enabled:</span> <span class="literal">true</span> <span class="comment">#配置的缓存的全局开关</span></span><br><span class="line">    <span class="attr">lazyLoadingEnabled:</span> <span class="literal">true</span> <span class="comment">#延时加载的开关</span></span><br><span class="line">    <span class="attr">multipleResultSetsEnabled:</span> <span class="literal">true</span> <span class="comment">#开启延时加载，否则按需加载属性</span></span><br><span class="line">    <span class="attr">log-impl:</span> <span class="string">org.apache.ibatis.logging.stdout.StdOutImpl</span> <span class="comment">#打印sql语句,调试用</span></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>后端</category>
-        <category>mybatis</category>
-      </categories>
-      <tags>
-        <tag>mybatis</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>intern详解</title>
     <url>/essay/792ee381.html</url>
     <content><![CDATA[<h1 id="深入解析String-intern"><a href="#深入解析String-intern" class="headerlink" title="深入解析String#intern"></a>深入解析String#intern</h1><p>在 JAVA 语言中有8中基本类型和一种比较特殊的类型<code>String</code>。这些类型为了使他们在运行过程中速度更快，更节省内存，都提供了一种常量池的概念。常量池就类似一个JAVA系统级别提供的缓存。</p>
@@ -171,197 +151,23 @@
       </tags>
   </entry>
   <entry>
-    <title>Netty</title>
-    <url>/essay/1c6ba3e2.html</url>
-    <content><![CDATA[<p>Netty是一个异步事件驱动的网络应用框架，用于快速开发可维护的高性能服务器和客户端。</p>
+    <title>mybatisplus配置文件</title>
+    <url>/essay/mybatisplus-config.html</url>
+    <content><![CDATA[<p>mybatisplus3.0.5配置文件</p>
 <a id="more"></a>
 
-<h1 id="IO编程"><a href="#IO编程" class="headerlink" title="IO编程"></a>IO编程</h1><h2 id="传统IO编程"><a href="#传统IO编程" class="headerlink" title="传统IO编程"></a>传统IO编程</h2><p>每个客户端连接过来后，服务端都会启动一个线程去处理该客户端的请求。阻塞I/O的通信模型示意图如下：</p>
-<img src="/essay/1c6ba3e2/传统io.png" style="zoom:80%;">
+<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>mybatisplus 3.0.5</p>
+<h2 id="依赖"><a href="#依赖" class="headerlink" title="依赖"></a>依赖</h2><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.baomidou<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mybatis-plus-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.0.5<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.baomidou<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mybatis-plus<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.0.5<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-<p>在传统的IO模型中，每个连接创建成功之后都需要一个线程来维护，每个线程包含一个while死循环。<br>如果在用户数量较少的情况下运行是没有问题的，但是对于用户数量比较多的业务来说，服务端可能需要支撑成千上万的连接，IO模型可能就不太合适了。</p>
-<p>如果有1万个连接就对应1万个线程，继而1万个while死循环，这种模型存在以下问题：</p>
-<ul>
-<li>当客户端越多，就会创建越多的处理线程。线程是操作系统中非常宝贵的资源，同一时刻有大量的线程处于阻塞状态是非常严重的资源浪费。并且如果务器遭遇洪峰流量冲击，例如双十一活动，线程池会瞬间被耗尽，导致服务器瘫痪。</li>
-<li>因为是阻塞式通信，线程爆炸之后操作系统频繁进行线程切换，应用性能急剧下降。</li>
-<li>IO编程中数据读写是以字节流为单位，效率不高。</li>
-</ul>
-<h2 id="NIO"><a href="#NIO" class="headerlink" title="NIO"></a>NIO</h2><p>NIO，也叫做new-IO或者non-blocking-IO，可理解为非阻塞IO。NIO编程模型中，新来一个连接不再创建一个新的线程，而是可以把这条连接直接绑定到某个固定的线程，然后这条连接所有的读写都由这个线程来负责</p>
-<img src="/essay/1c6ba3e2/nio.png" style="zoom:80%;">
 
-<p>在NIO模型中，可以把这么多的while死循环变成一个死循环，这个死循环由一个线程控制。这就是NIO模型中选择器（Selector）的作用，一条连接来了之后，现在不创建一个while死循环去监听是否有数据可读了，而是直接把这条连接注册到选择器上，通过检查这个选择器，就可以批量监测出有数据可读的连接，进而读取数据。</p>
-<h3 id="NIO三大组件"><a href="#NIO三大组件" class="headerlink" title="NIO三大组件"></a>NIO三大组件</h3><ul>
-<li><p>通道（Channel）<br>是传统IO中的Stream(流)的升级版。Stream是单向的、读写分离（inputstream和outputstream），Channel是双向的，既可以进行读操作，又可以进行写操作。</p>
-</li>
-<li><p>缓冲（Buffer）</p>
-<p>Buffer可以理解为一块内存区域，可以写入数据，并且在之后读取它。</p>
-</li>
-<li><p>选择器（Selector）<br>选择器可以实现一个单独的线程来监控多个注册在她上面的信道（Channel），通过一定的选择机制，实现多路复用的效果。</p>
-</li>
-</ul>
-<h3 id="NIO相对于IO的优势"><a href="#NIO相对于IO的优势" class="headerlink" title="NIO相对于IO的优势"></a>NIO相对于IO的优势</h3><ol>
-<li>IO是面向流的，每次都是从操作系统底层一个字节一个字节地读取数据，并且数据只能从一端读取到另一端，不能前后移动流中的数据。NIO则是面向缓冲区的，每次可以从这个缓冲区里面读取一块的数据，并且可以在需要时在缓冲区中前后移动。</li>
-<li>IO是阻塞的，这意味着，当一个线程读取数据或写数据时，该线程被阻塞，直到有一些数据被读取，或数据完全写入，在此期间该线程不能干其他任何事情。而NIO是非阻塞的，不需要一直等待操作完成才能干其他事情，而是在等待的过程中可以同时去做别的事情，所以能最大限度地使用服务器的资源。</li>
-<li>NIO引入了IO多路复用器selector。selector是一个提供channel注册服务的线程，可以同时对接多个Channel，并在线程池中为channel适配、选择合适的线程来处理channel。由于NIO模型中线程数量大大降低，线程切换效率因此也大幅度提高。</li>
-</ol>
-<h1 id="Netty"><a href="#Netty" class="headerlink" title="Netty"></a>Netty</h1><h2 id="netty不使用原生NIO原因"><a href="#netty不使用原生NIO原因" class="headerlink" title="netty不使用原生NIO原因"></a>netty不使用原生NIO原因</h2><p>下面是使用Netty不使用JDK原生NIO的一些原因：</p>
-<ul>
-<li>使用JDK自带的NIO需要了解太多的概念，编程复杂</li>
-<li>Netty底层IO模型随意切换，而这一切只需要做微小的改动，就可以直接从NIO模型变身为IO模型</li>
-<li>Netty自带的拆包解包，异常检测等机制，可以从NIO的繁重细节中脱离出来，只需要关心业务逻辑</li>
-<li>Netty解决了JDK的很多包括空轮询在内的bug</li>
-<li>Netty底层对线程，selector做了很多细小的优化，精心设计的线程模型做到非常高效的并发处理</li>
-<li>自带各种协议栈让你处理任何一种通用协议都几乎不用亲自动手</li>
-<li>Netty社区活跃，遇到问题随时邮件列表或者issue</li>
-<li>Netty已经历各大rpc框架，消息中间件，分布式通信中间件线上的广泛验证，健壮性无比强大</li>
-</ul>
-<h2 id="代码展示"><a href="#代码展示" class="headerlink" title="代码展示"></a>代码展示</h2><ul>
-<li>maven依赖</li>
-</ul>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.netty<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>netty-all<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">version</span>&gt;</span>4.1.42.Final<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>服务端</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NettyServer</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 用于接受客户端的连接以及为已接受的连接创建子通道，一般用于服务端。</span></span><br><span class="line">        ServerBootstrap serverBootstrap = <span class="keyword">new</span> ServerBootstrap();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 包含有多个EventLoop的实例，用来管理 event Loop 的组件，</span></span><br><span class="line">        <span class="comment">// 可以理解为一个线程池，内部维护了一组线程。</span></span><br><span class="line">        <span class="comment">// 处理新的连接</span></span><br><span class="line">        NioEventLoopGroup boos = <span class="keyword">new</span> NioEventLoopGroup();</span><br><span class="line">        <span class="comment">// 处理数据</span></span><br><span class="line">        NioEventLoopGroup worker = <span class="keyword">new</span> NioEventLoopGroup();</span><br><span class="line"></span><br><span class="line">        serverBootstrap</span><br><span class="line">                .group(boos, worker)</span><br><span class="line">                <span class="comment">// 对网络套接字的I/O操作，例如读、写、连接、绑定</span></span><br><span class="line">                <span class="comment">// 等操作进行适配和封装的组件。</span></span><br><span class="line">                .channel(NioServerSocketChannel.class)</span><br><span class="line">                <span class="comment">// 用于对刚创建的channel进行初始化，</span></span><br><span class="line">                <span class="comment">// 将ChannelHandler添加到channel的ChannelPipeline处理链路中。</span></span><br><span class="line">                .childHandler(<span class="keyword">new</span> ChannelInitializer&lt;NioSocketChannel&gt;() &#123;</span><br><span class="line">                    <span class="comment">// 初始化channel的方法</span></span><br><span class="line">                    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">initChannel</span><span class="params">(NioSocketChannel ch)</span> </span>&#123;</span><br><span class="line">                        <span class="comment">//流水线车间，当组件从流水线头部进入，流水线上的工人按顺序对组件进行加工</span></span><br><span class="line">                        <span class="comment">//到达流水线尾部时商品组装完成。</span></span><br><span class="line">                        <span class="comment">// 流水线相当于ChannelPipeline，</span></span><br><span class="line">                        <span class="comment">// 流水线工人相当于ChannelHandler，源头的组件当做event。</span></span><br><span class="line">                        ch.pipeline().addLast(<span class="keyword">new</span> StringDecoder());</span><br><span class="line">                        ch.pipeline().addLast(<span class="keyword">new</span> SimpleChannelInboundHandler&lt;String&gt;() &#123;</span><br><span class="line">                            <span class="meta">@Override</span></span><br><span class="line">                            <span class="comment">//自己指定流水线工作可以干什么事</span></span><br><span class="line">                            <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">channelRead0</span><span class="params">(ChannelHandlerContext ctx, String msg)</span> </span>&#123;</span><br><span class="line">                                System.out.println(msg);</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;)</span><br><span class="line">                .bind(<span class="number">8000</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>客户端：</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NettyClient</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">        Bootstrap bootstrap = <span class="keyword">new</span> Bootstrap();</span><br><span class="line">        NioEventLoopGroup group = <span class="keyword">new</span> NioEventLoopGroup();</span><br><span class="line"></span><br><span class="line">        bootstrap.group(group)</span><br><span class="line">                .channel(NioSocketChannel.class)</span><br><span class="line">                .handler(<span class="keyword">new</span> ChannelInitializer&lt;Channel&gt;() &#123;</span><br><span class="line">                    <span class="meta">@Override</span></span><br><span class="line">                    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">initChannel</span><span class="params">(Channel ch)</span> </span>&#123;</span><br><span class="line">                        ch.pipeline().addLast(<span class="keyword">new</span> StringEncoder());</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;);</span><br><span class="line"></span><br><span class="line">        Channel channel = bootstrap.connect(<span class="string">&quot;127.0.0.1&quot;</span>, <span class="number">8000</span>).channel();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">            channel.writeAndFlush(<span class="string">&quot;测试数据&quot;</span>);</span><br><span class="line">            Thread.sleep(<span class="number">2000</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="Netty的事件驱动"><a href="#Netty的事件驱动" class="headerlink" title="Netty的事件驱动"></a>Netty的事件驱动</h2><p>Netty使用事件驱动的方式作为底层架构，包括：</p>
-<ul>
-<li>事件队列（event queue）：接收事件的入口。</li>
-<li>分发器（event mediator）：将不同的事件分发到不同的业务逻辑单元。</li>
-<li>事件通道（event channel）：分发器与处理器之间的联系渠道。</li>
-<li>事件处理器（event processor）：实现业务逻辑，处理完成后会发出事件，触发下一步操作。</li>
-</ul>
-<img src="/essay/1c6ba3e2/netty事件驱动.png" style="zoom:75%;">
-
-<h2 id="核心组件"><a href="#核心组件" class="headerlink" title="核心组件"></a>核心组件</h2><p>Netty 的功能特性图：</p>
-<img src="/essay/1c6ba3e2/netty功能特性图.png" style="zoom:75%;">
-
-<p>Netty 功能特性：</p>
-<ul>
-<li>传输服务，支持 BIO 和 NIO。</li>
-<li>容器集成：支持 OSGI、JBossMC、Spring、Guice 容器。</li>
-<li>协议支持：HTTP、Protobuf、二进制、文本、WebSocket 等，支持自定义协议。</li>
-</ul>
-<p>BIO和NIO的区别：</p>
-<table>
-<thead>
-<tr>
-<th align="center">场景</th>
-<th align="center">BIO</th>
-<th align="center">NIO</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">有新连接请求时</td>
-<td align="center">开一个新的线程处理</td>
-<td align="center">使用多路复用原理，一个线程处理</td>
-</tr>
-<tr>
-<td align="center">适用场景</td>
-<td align="center">连接数小且固定</td>
-<td align="center">连接数特别多，连接比较短（轻操作）的场景</td>
-</tr>
-</tbody></table>
-<p>Netty框架包含如下的组件：</p>
-<ul>
-<li>ServerBootstrap ：用于接受客户端的连接以及为已接受的连接创建子通道，一般用于服务端。</li>
-<li>Bootstrap：不接受新的连接，并且是在父通道类完成一些操作，一般用于客户端的。</li>
-<li>Channel：对网络套接字的I/O操作，例如读、写、连接、绑定等操作进行适配和封装的组件。</li>
-<li>EventLoop：处理所有注册其上的channel的I/O操作。通常情况一个</li>
-<li>EventLoop可为多个channel提供服务。</li>
-<li>EventLoopGroup：包含有多个EventLoop的实例，用来管理 event Loop 的组件，可以理解为一个线程池，内部维护了一组线程。</li>
-<li>ChannelHandler和ChannelPipeline：例如一个流水线车间，当组件从流水线头部进入，穿越流水线，流水线上的工人按顺序对组件进行加工，到达流水线尾部时商品组装完成。流水线相当于ChannelPipeline ，流水线工人相当于ChannelHandler ，源头的组件当做event。</li>
-<li>ChannelInitializer：用于对刚创建的channel进行初始化，将ChannelHandler<br>添加到channel的ChannelPipeline处理链路中。</li>
-<li>ChannelFuture：与jdk中线程的Future接口类似，即实现并行处理的效果。可<br>以在操作执行成功或失败时自动触发监听器中的事件处理方法。</li>
-</ul>
+<h2 id="yml配置文件"><a href="#yml配置文件" class="headerlink" title="yml配置文件"></a>yml配置文件</h2><figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Mybatis-Plus 配置</span></span><br><span class="line"><span class="attr">mybatis-plus:</span></span><br><span class="line">  <span class="comment">#  mapper-locations: classpath:/mapper/*Mapper.xml</span></span><br><span class="line">  <span class="comment">#实体扫描，多个package用逗号或者分号分隔</span></span><br><span class="line">  <span class="attr">typeAliasesPackage:</span> <span class="string">com.mybatis.demo.domain</span></span><br><span class="line">  <span class="attr">global-config:</span></span><br><span class="line">    <span class="attr">db-config:</span></span><br><span class="line">      <span class="attr">id-type:</span> <span class="string">none</span></span><br><span class="line">      <span class="attr">table-underline:</span> <span class="literal">false</span></span><br><span class="line">    <span class="attr">refresh:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">configuration:</span></span><br><span class="line">    <span class="attr">map-underscore-to-camel-case:</span> <span class="literal">true</span></span><br><span class="line">    <span class="attr">cache-enabled:</span> <span class="literal">true</span> <span class="comment">#配置的缓存的全局开关</span></span><br><span class="line">    <span class="attr">lazyLoadingEnabled:</span> <span class="literal">true</span> <span class="comment">#延时加载的开关</span></span><br><span class="line">    <span class="attr">multipleResultSetsEnabled:</span> <span class="literal">true</span> <span class="comment">#开启延时加载，否则按需加载属性</span></span><br><span class="line">    <span class="attr">log-impl:</span> <span class="string">org.apache.ibatis.logging.stdout.StdOutImpl</span> <span class="comment">#打印sql语句,调试用</span></span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>后端</category>
+        <category>mybatis</category>
       </categories>
       <tags>
-        <tag>netty</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>next主题下中文标题跳转失效</title>
-    <url>/essay/80ff7aac.html</url>
-    <content><![CDATA[<p>next 7.8版本发布于2020年4月1日，很久没更新 </p>
-<p>该bug导致中文标题无法跳转，但是英文标题可以</p>
-<a id="more"></a>
-
-<h2 id="环境："><a href="#环境：" class="headerlink" title="环境："></a>环境：</h2><p>hexo 5.0</p>
-<p>next 7.8</p>
-<h2 id="原因"><a href="#原因" class="headerlink" title="原因:"></a>原因:</h2><p><img src="/essay/80ff7aac/title_bug.png"></p>
-<p>由上图可知，utils中的一行代码出了问题，导致后面的一系列出了问题</p>
-<p>于是我先是去搜索了一下这个问题，但是并没有人写过相关内容</p>
-<p>最终 在官方代码最新的commit中，我看到了这样的一个提交。</p>
-<p><img src="/essay/80ff7aac/utils.png"></p>
-<p>但是即使将此次提交变动的代码修改之后也不可以，会出现另一个错误。</p>
-<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案:"></a>解决方案:</h2><p>将下面这个链接的整个代码全部复制，粘贴到<code>\themes\next\source\js\utils.js</code>中，问题完美解决</p>
-<p>访问官方的<a href="https://github.com/theme-next/hexo-theme-next/blob/master/source/js/utils.js">github仓库</a>获取最新的utils.js代码</p>
-]]></content>
-      <categories>
-        <category>next</category>
-        <category>bug</category>
-      </categories>
-      <tags>
-        <tag>next</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>nginx实现负载均衡</title>
-    <url>/essay/nginx-config.html</url>
-    <content><![CDATA[<p>Nginx可以配置代理多台服务器，当一台服务器宕机之后，仍能保持系统可用。记录一下nginx负载均衡的实现，配置文件如下：</p>
-<a id="more"></a>
-
-<ol>
-<li>在http节点下，添加upstream节点。</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">upstream abc &#123; </span><br><span class="line">   server localhost:7080; </span><br><span class="line">   server localhost:8980; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>将server节点下的location节点中的proxy_pass配置为：http:// + upstream名称，即</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">location &#x2F; &#123; </span><br><span class="line">    root  html; </span><br><span class="line">    &#x2F;&#x2F;http:&#x2F;&#x2F; + upstream名称</span><br><span class="line">    proxy_pass http:&#x2F;&#x2F;abc; </span><br><span class="line">    index  index.html index.htm; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>upstream按照轮询（默认）方式进行负载，每个请求按时间顺序逐一分配到不同的后端服务器，如果后端服务器down掉，能自动剔除。虽然这种方式简便、成本低廉。但缺点是：可靠性低和负载分配不均衡。适用于图片服务器集群和纯静态页面服务器集群。除此之外，upstream还有其它的分配策略，分别如下：</p>
-<ol>
-<li>weight（权重）</li>
-</ol>
-<p>指定轮询几率，weight和访问比率成正比，用于后端服务器性能不均的情况。如下所示，10.0.0.88的访问比率要比10.0.0.77的访问比率高一倍。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">upstream linuxidc&#123; </span><br><span class="line">      server 10.0.0.77 weight&#x3D;5; </span><br><span class="line">      server 10.0.0.88 weight&#x3D;10; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>ip_hash（访问ip）</li>
-</ol>
-<p>每个请求按访问ip的hash结果分配，这样每个访客固定访问一个后端服务器，可以解决session的问题。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">upstream favresin&#123; </span><br><span class="line">      ip_hash; </span><br><span class="line">      server 10.0.0.10:8080; </span><br><span class="line">      server 10.0.0.11:8080; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ol start="3">
-<li><p>fair（第三方）</p>
-<p>按后端服务器的响应时间来分配请求，响应时间短的优先分配。与weight分配策略类似。</p>
-</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"> upstream abc&#123;   </span><br><span class="line">   server 10.0.0.10:8080; </span><br><span class="line">   server 10.0.0.11:8080; </span><br><span class="line">   fair; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ol start="4">
-<li>url_hash（第三方）</li>
-</ol>
-<p>按访问url的hash结果来分配请求，使每个url定向到同一个后端服务器，后端服务器为缓存时比较有效。</p>
-<p>注意：在upstream中加入hash语句，server语句中不能写入weight等其他的参数，hash_method是使用的hash算法。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"> upstream abc&#123; </span><br><span class="line">   server 10.0.0.10:7777; </span><br><span class="line">   server 10.0.0.11:8888; </span><br><span class="line">   hash $request_uri; </span><br><span class="line">   hash_method crc32; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>upstream还可以为每个设备设置状态值，这些状态值的含义分别如下：</p>
-<p>down 表示单前的server暂时不参与负载.</p>
-<p>weight 默认为1.weight越大，负载的权重就越大。</p>
-<p>max_fails ：允许请求失败的次数默认为1.当超过最大次数时，返回proxy_next_upstream 模块定义的错误.</p>
-<p>fail_timeout : max_fails次失败后，暂停的时间。</p>
-<p>backup： 其它所有的非backup机器down或者忙的时候，请求backup机器。所以这台机器压力会最轻。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">upstream bakend&#123; #定义负载均衡设备的Ip及设备状态 </span><br><span class="line"> ip_hash; </span><br><span class="line">   server 10.0.0.11:9090 down; </span><br><span class="line">   server 10.0.0.11:8080 weight&#x3D;2; </span><br><span class="line">   server 10.0.0.11:6060; </span><br><span class="line">   server 10.0.0.11:7070 backup; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>后端</category>
-        <category>nginx</category>
-      </categories>
-      <tags>
-        <tag>nginx</tag>
+        <tag>mybatis</tag>
       </tags>
   </entry>
   <entry>
@@ -782,6 +588,200 @@
       </tags>
   </entry>
   <entry>
+    <title>Netty</title>
+    <url>/essay/1c6ba3e2.html</url>
+    <content><![CDATA[<p>Netty是一个异步事件驱动的网络应用框架，用于快速开发可维护的高性能服务器和客户端。</p>
+<a id="more"></a>
+
+<h1 id="IO编程"><a href="#IO编程" class="headerlink" title="IO编程"></a>IO编程</h1><h2 id="传统IO编程"><a href="#传统IO编程" class="headerlink" title="传统IO编程"></a>传统IO编程</h2><p>每个客户端连接过来后，服务端都会启动一个线程去处理该客户端的请求。阻塞I/O的通信模型示意图如下：</p>
+<img src="/essay/1c6ba3e2/传统io.png" style="zoom:80%;">
+
+<p>在传统的IO模型中，每个连接创建成功之后都需要一个线程来维护，每个线程包含一个while死循环。<br>如果在用户数量较少的情况下运行是没有问题的，但是对于用户数量比较多的业务来说，服务端可能需要支撑成千上万的连接，IO模型可能就不太合适了。</p>
+<p>如果有1万个连接就对应1万个线程，继而1万个while死循环，这种模型存在以下问题：</p>
+<ul>
+<li>当客户端越多，就会创建越多的处理线程。线程是操作系统中非常宝贵的资源，同一时刻有大量的线程处于阻塞状态是非常严重的资源浪费。并且如果务器遭遇洪峰流量冲击，例如双十一活动，线程池会瞬间被耗尽，导致服务器瘫痪。</li>
+<li>因为是阻塞式通信，线程爆炸之后操作系统频繁进行线程切换，应用性能急剧下降。</li>
+<li>IO编程中数据读写是以字节流为单位，效率不高。</li>
+</ul>
+<h2 id="NIO"><a href="#NIO" class="headerlink" title="NIO"></a>NIO</h2><p>NIO，也叫做new-IO或者non-blocking-IO，可理解为非阻塞IO。NIO编程模型中，新来一个连接不再创建一个新的线程，而是可以把这条连接直接绑定到某个固定的线程，然后这条连接所有的读写都由这个线程来负责</p>
+<img src="/essay/1c6ba3e2/nio.png" style="zoom:80%;">
+
+<p>在NIO模型中，可以把这么多的while死循环变成一个死循环，这个死循环由一个线程控制。这就是NIO模型中选择器（Selector）的作用，一条连接来了之后，现在不创建一个while死循环去监听是否有数据可读了，而是直接把这条连接注册到选择器上，通过检查这个选择器，就可以批量监测出有数据可读的连接，进而读取数据。</p>
+<h3 id="NIO三大组件"><a href="#NIO三大组件" class="headerlink" title="NIO三大组件"></a>NIO三大组件</h3><ul>
+<li><p>通道（Channel）<br>是传统IO中的Stream(流)的升级版。Stream是单向的、读写分离（inputstream和outputstream），Channel是双向的，既可以进行读操作，又可以进行写操作。</p>
+</li>
+<li><p>缓冲（Buffer）</p>
+<p>Buffer可以理解为一块内存区域，可以写入数据，并且在之后读取它。</p>
+</li>
+<li><p>选择器（Selector）<br>选择器可以实现一个单独的线程来监控多个注册在她上面的信道（Channel），通过一定的选择机制，实现多路复用的效果。</p>
+</li>
+</ul>
+<h3 id="NIO相对于IO的优势"><a href="#NIO相对于IO的优势" class="headerlink" title="NIO相对于IO的优势"></a>NIO相对于IO的优势</h3><ol>
+<li>IO是面向流的，每次都是从操作系统底层一个字节一个字节地读取数据，并且数据只能从一端读取到另一端，不能前后移动流中的数据。NIO则是面向缓冲区的，每次可以从这个缓冲区里面读取一块的数据，并且可以在需要时在缓冲区中前后移动。</li>
+<li>IO是阻塞的，这意味着，当一个线程读取数据或写数据时，该线程被阻塞，直到有一些数据被读取，或数据完全写入，在此期间该线程不能干其他任何事情。而NIO是非阻塞的，不需要一直等待操作完成才能干其他事情，而是在等待的过程中可以同时去做别的事情，所以能最大限度地使用服务器的资源。</li>
+<li>NIO引入了IO多路复用器selector。selector是一个提供channel注册服务的线程，可以同时对接多个Channel，并在线程池中为channel适配、选择合适的线程来处理channel。由于NIO模型中线程数量大大降低，线程切换效率因此也大幅度提高。</li>
+</ol>
+<h1 id="Netty"><a href="#Netty" class="headerlink" title="Netty"></a>Netty</h1><h2 id="netty不使用原生NIO原因"><a href="#netty不使用原生NIO原因" class="headerlink" title="netty不使用原生NIO原因"></a>netty不使用原生NIO原因</h2><p>下面是使用Netty不使用JDK原生NIO的一些原因：</p>
+<ul>
+<li>使用JDK自带的NIO需要了解太多的概念，编程复杂</li>
+<li>Netty底层IO模型随意切换，而这一切只需要做微小的改动，就可以直接从NIO模型变身为IO模型</li>
+<li>Netty自带的拆包解包，异常检测等机制，可以从NIO的繁重细节中脱离出来，只需要关心业务逻辑</li>
+<li>Netty解决了JDK的很多包括空轮询在内的bug</li>
+<li>Netty底层对线程，selector做了很多细小的优化，精心设计的线程模型做到非常高效的并发处理</li>
+<li>自带各种协议栈让你处理任何一种通用协议都几乎不用亲自动手</li>
+<li>Netty社区活跃，遇到问题随时邮件列表或者issue</li>
+<li>Netty已经历各大rpc框架，消息中间件，分布式通信中间件线上的广泛验证，健壮性无比强大</li>
+</ul>
+<h2 id="代码展示"><a href="#代码展示" class="headerlink" title="代码展示"></a>代码展示</h2><ul>
+<li>maven依赖</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.netty<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>netty-all<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">version</span>&gt;</span>4.1.42.Final<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>服务端</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NettyServer</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 用于接受客户端的连接以及为已接受的连接创建子通道，一般用于服务端。</span></span><br><span class="line">        ServerBootstrap serverBootstrap = <span class="keyword">new</span> ServerBootstrap();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 包含有多个EventLoop的实例，用来管理 event Loop 的组件，</span></span><br><span class="line">        <span class="comment">// 可以理解为一个线程池，内部维护了一组线程。</span></span><br><span class="line">        <span class="comment">// 处理新的连接</span></span><br><span class="line">        NioEventLoopGroup boos = <span class="keyword">new</span> NioEventLoopGroup();</span><br><span class="line">        <span class="comment">// 处理数据</span></span><br><span class="line">        NioEventLoopGroup worker = <span class="keyword">new</span> NioEventLoopGroup();</span><br><span class="line"></span><br><span class="line">        serverBootstrap</span><br><span class="line">                .group(boos, worker)</span><br><span class="line">                <span class="comment">// 对网络套接字的I/O操作，例如读、写、连接、绑定</span></span><br><span class="line">                <span class="comment">// 等操作进行适配和封装的组件。</span></span><br><span class="line">                .channel(NioServerSocketChannel.class)</span><br><span class="line">                <span class="comment">// 用于对刚创建的channel进行初始化，</span></span><br><span class="line">                <span class="comment">// 将ChannelHandler添加到channel的ChannelPipeline处理链路中。</span></span><br><span class="line">                .childHandler(<span class="keyword">new</span> ChannelInitializer&lt;NioSocketChannel&gt;() &#123;</span><br><span class="line">                    <span class="comment">// 初始化channel的方法</span></span><br><span class="line">                    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">initChannel</span><span class="params">(NioSocketChannel ch)</span> </span>&#123;</span><br><span class="line">                        <span class="comment">//流水线车间，当组件从流水线头部进入，流水线上的工人按顺序对组件进行加工</span></span><br><span class="line">                        <span class="comment">//到达流水线尾部时商品组装完成。</span></span><br><span class="line">                        <span class="comment">// 流水线相当于ChannelPipeline，</span></span><br><span class="line">                        <span class="comment">// 流水线工人相当于ChannelHandler，源头的组件当做event。</span></span><br><span class="line">                        ch.pipeline().addLast(<span class="keyword">new</span> StringDecoder());</span><br><span class="line">                        ch.pipeline().addLast(<span class="keyword">new</span> SimpleChannelInboundHandler&lt;String&gt;() &#123;</span><br><span class="line">                            <span class="meta">@Override</span></span><br><span class="line">                            <span class="comment">//自己指定流水线工作可以干什么事</span></span><br><span class="line">                            <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">channelRead0</span><span class="params">(ChannelHandlerContext ctx, String msg)</span> </span>&#123;</span><br><span class="line">                                System.out.println(msg);</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;)</span><br><span class="line">                .bind(<span class="number">8000</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>客户端：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NettyClient</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">        Bootstrap bootstrap = <span class="keyword">new</span> Bootstrap();</span><br><span class="line">        NioEventLoopGroup group = <span class="keyword">new</span> NioEventLoopGroup();</span><br><span class="line"></span><br><span class="line">        bootstrap.group(group)</span><br><span class="line">                .channel(NioSocketChannel.class)</span><br><span class="line">                .handler(<span class="keyword">new</span> ChannelInitializer&lt;Channel&gt;() &#123;</span><br><span class="line">                    <span class="meta">@Override</span></span><br><span class="line">                    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">initChannel</span><span class="params">(Channel ch)</span> </span>&#123;</span><br><span class="line">                        ch.pipeline().addLast(<span class="keyword">new</span> StringEncoder());</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;);</span><br><span class="line"></span><br><span class="line">        Channel channel = bootstrap.connect(<span class="string">&quot;127.0.0.1&quot;</span>, <span class="number">8000</span>).channel();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">            channel.writeAndFlush(<span class="string">&quot;测试数据&quot;</span>);</span><br><span class="line">            Thread.sleep(<span class="number">2000</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Netty的事件驱动"><a href="#Netty的事件驱动" class="headerlink" title="Netty的事件驱动"></a>Netty的事件驱动</h2><p>Netty使用事件驱动的方式作为底层架构，包括：</p>
+<ul>
+<li>事件队列（event queue）：接收事件的入口。</li>
+<li>分发器（event mediator）：将不同的事件分发到不同的业务逻辑单元。</li>
+<li>事件通道（event channel）：分发器与处理器之间的联系渠道。</li>
+<li>事件处理器（event processor）：实现业务逻辑，处理完成后会发出事件，触发下一步操作。</li>
+</ul>
+<img src="/essay/1c6ba3e2/netty事件驱动.png" style="zoom:75%;">
+
+<h2 id="核心组件"><a href="#核心组件" class="headerlink" title="核心组件"></a>核心组件</h2><p>Netty 的功能特性图：</p>
+<img src="/essay/1c6ba3e2/netty功能特性图.png" style="zoom:75%;">
+
+<p>Netty 功能特性：</p>
+<ul>
+<li>传输服务，支持 BIO 和 NIO。</li>
+<li>容器集成：支持 OSGI、JBossMC、Spring、Guice 容器。</li>
+<li>协议支持：HTTP、Protobuf、二进制、文本、WebSocket 等，支持自定义协议。</li>
+</ul>
+<p>BIO和NIO的区别：</p>
+<table>
+<thead>
+<tr>
+<th align="center">场景</th>
+<th align="center">BIO</th>
+<th align="center">NIO</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">有新连接请求时</td>
+<td align="center">开一个新的线程处理</td>
+<td align="center">使用多路复用原理，一个线程处理</td>
+</tr>
+<tr>
+<td align="center">适用场景</td>
+<td align="center">连接数小且固定</td>
+<td align="center">连接数特别多，连接比较短（轻操作）的场景</td>
+</tr>
+</tbody></table>
+<p>Netty框架包含如下的组件：</p>
+<ul>
+<li>ServerBootstrap ：用于接受客户端的连接以及为已接受的连接创建子通道，一般用于服务端。</li>
+<li>Bootstrap：不接受新的连接，并且是在父通道类完成一些操作，一般用于客户端的。</li>
+<li>Channel：对网络套接字的I/O操作，例如读、写、连接、绑定等操作进行适配和封装的组件。</li>
+<li>EventLoop：处理所有注册其上的channel的I/O操作。通常情况一个</li>
+<li>EventLoop可为多个channel提供服务。</li>
+<li>EventLoopGroup：包含有多个EventLoop的实例，用来管理 event Loop 的组件，可以理解为一个线程池，内部维护了一组线程。</li>
+<li>ChannelHandler和ChannelPipeline：例如一个流水线车间，当组件从流水线头部进入，穿越流水线，流水线上的工人按顺序对组件进行加工，到达流水线尾部时商品组装完成。流水线相当于ChannelPipeline ，流水线工人相当于ChannelHandler ，源头的组件当做event。</li>
+<li>ChannelInitializer：用于对刚创建的channel进行初始化，将ChannelHandler<br>添加到channel的ChannelPipeline处理链路中。</li>
+<li>ChannelFuture：与jdk中线程的Future接口类似，即实现并行处理的效果。可<br>以在操作执行成功或失败时自动触发监听器中的事件处理方法。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>后端</category>
+      </categories>
+      <tags>
+        <tag>netty</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>next主题下中文标题跳转失效</title>
+    <url>/essay/80ff7aac.html</url>
+    <content><![CDATA[<p>next 7.8版本发布于2020年4月1日，很久没更新 </p>
+<p>该bug导致中文标题无法跳转，但是英文标题可以</p>
+<a id="more"></a>
+
+<h2 id="环境："><a href="#环境：" class="headerlink" title="环境："></a>环境：</h2><p>hexo 5.0</p>
+<p>next 7.8</p>
+<h2 id="原因"><a href="#原因" class="headerlink" title="原因:"></a>原因:</h2><p><img src="/essay/80ff7aac/title_bug.png"></p>
+<p>由上图可知，utils中的一行代码出了问题，导致后面的一系列出了问题</p>
+<p>于是我先是去搜索了一下这个问题，但是并没有人写过相关内容</p>
+<p>最终 在官方代码最新的commit中，我看到了这样的一个提交。</p>
+<p><img src="/essay/80ff7aac/utils.png"></p>
+<p>但是即使将此次提交变动的代码修改之后也不可以，会出现另一个错误。</p>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案:"></a>解决方案:</h2><p>将下面这个链接的整个代码全部复制，粘贴到<code>\themes\next\source\js\utils.js</code>中，问题完美解决</p>
+<p>访问官方的<a href="https://github.com/theme-next/hexo-theme-next/blob/master/source/js/utils.js">github仓库</a>获取最新的utils.js代码</p>
+]]></content>
+      <categories>
+        <category>next</category>
+        <category>bug</category>
+      </categories>
+      <tags>
+        <tag>next</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>nginx实现负载均衡</title>
+    <url>/essay/nginx-config.html</url>
+    <content><![CDATA[<p>Nginx可以配置代理多台服务器，当一台服务器宕机之后，仍能保持系统可用。记录一下nginx负载均衡的实现，配置文件如下：</p>
+<a id="more"></a>
+
+<ol>
+<li>在http节点下，添加upstream节点。</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">upstream abc &#123; </span><br><span class="line">   server localhost:7080; </span><br><span class="line">   server localhost:8980; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>将server节点下的location节点中的proxy_pass配置为：http:// + upstream名称，即</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">location &#x2F; &#123; </span><br><span class="line">    root  html; </span><br><span class="line">    &#x2F;&#x2F;http:&#x2F;&#x2F; + upstream名称</span><br><span class="line">    proxy_pass http:&#x2F;&#x2F;abc; </span><br><span class="line">    index  index.html index.htm; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>upstream按照轮询（默认）方式进行负载，每个请求按时间顺序逐一分配到不同的后端服务器，如果后端服务器down掉，能自动剔除。虽然这种方式简便、成本低廉。但缺点是：可靠性低和负载分配不均衡。适用于图片服务器集群和纯静态页面服务器集群。除此之外，upstream还有其它的分配策略，分别如下：</p>
+<ol>
+<li>weight（权重）</li>
+</ol>
+<p>指定轮询几率，weight和访问比率成正比，用于后端服务器性能不均的情况。如下所示，10.0.0.88的访问比率要比10.0.0.77的访问比率高一倍。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">upstream linuxidc&#123; </span><br><span class="line">      server 10.0.0.77 weight&#x3D;5; </span><br><span class="line">      server 10.0.0.88 weight&#x3D;10; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>ip_hash（访问ip）</li>
+</ol>
+<p>每个请求按访问ip的hash结果分配，这样每个访客固定访问一个后端服务器，可以解决session的问题。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">upstream favresin&#123; </span><br><span class="line">      ip_hash; </span><br><span class="line">      server 10.0.0.10:8080; </span><br><span class="line">      server 10.0.0.11:8080; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li><p>fair（第三方）</p>
+<p>按后端服务器的响应时间来分配请求，响应时间短的优先分配。与weight分配策略类似。</p>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"> upstream abc&#123;   </span><br><span class="line">   server 10.0.0.10:8080; </span><br><span class="line">   server 10.0.0.11:8080; </span><br><span class="line">   fair; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>url_hash（第三方）</li>
+</ol>
+<p>按访问url的hash结果来分配请求，使每个url定向到同一个后端服务器，后端服务器为缓存时比较有效。</p>
+<p>注意：在upstream中加入hash语句，server语句中不能写入weight等其他的参数，hash_method是使用的hash算法。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"> upstream abc&#123; </span><br><span class="line">   server 10.0.0.10:7777; </span><br><span class="line">   server 10.0.0.11:8888; </span><br><span class="line">   hash $request_uri; </span><br><span class="line">   hash_method crc32; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>upstream还可以为每个设备设置状态值，这些状态值的含义分别如下：</p>
+<p>down 表示单前的server暂时不参与负载.</p>
+<p>weight 默认为1.weight越大，负载的权重就越大。</p>
+<p>max_fails ：允许请求失败的次数默认为1.当超过最大次数时，返回proxy_next_upstream 模块定义的错误.</p>
+<p>fail_timeout : max_fails次失败后，暂停的时间。</p>
+<p>backup： 其它所有的非backup机器down或者忙的时候，请求backup机器。所以这台机器压力会最轻。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">upstream bakend&#123; #定义负载均衡设备的Ip及设备状态 </span><br><span class="line"> ip_hash; </span><br><span class="line">   server 10.0.0.11:9090 down; </span><br><span class="line">   server 10.0.0.11:8080 weight&#x3D;2; </span><br><span class="line">   server 10.0.0.11:6060; </span><br><span class="line">   server 10.0.0.11:7070 backup; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>后端</category>
+        <category>nginx</category>
+      </categories>
+      <tags>
+        <tag>nginx</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>valine改为本地加载</title>
     <url>/essay/802f7ce0.html</url>
     <content><![CDATA[<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>主题next7.8  valine 1.4.14</p>
@@ -847,7 +847,7 @@
 </ul>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@echo off </span><br><span class="line">java -jar github_host.jar</span><br><span class="line">ipconfig &#x2F;flushdns # 刷新DNS缓存，使用最新的IP访问Github</span><br></pre></td></tr></table></figure>
 <p>源码地址：<a href="https://github.com/sudatime/github_host">https://github.com/sudatime/github_host</a></p>
-<p>下载：<a href="https://github.com/sudatime/github_host/releases/tag/v1.0">https://github.com/sudatime/github_host/releases/tag/v1.0</a></p>
+<p>下载：<a href="https://github.com/sudatime/github_host/releases">https://github.com/sudatime/github_host/releases</a></p>
 ]]></content>
       <categories>
         <category>tool</category>
@@ -1034,61 +1034,6 @@
 ]]></content>
   </entry>
   <entry>
-    <title>新生代分区比例的思考</title>
-    <url>/essay/a12043e8.html</url>
-    <content><![CDATA[<h2 id="疑问"><a href="#疑问" class="headerlink" title="疑问"></a>疑问</h2><p>为什么年轻代中三个区（Eden，S0，S1）的比例是8:1:1呢？为什么不能是7:2:1？6:2:2？</p>
-<a id="more"></a>
-
-<h2 id="堆中区域分布"><a href="#堆中区域分布" class="headerlink" title="堆中区域分布"></a>堆中区域分布</h2><p><img src="/essay/a12043e8/%E5%A0%86%E5%88%86%E5%8C%BA.png"></p>
-<p>上图是不考虑细节而画出来的粗略的堆中的区域分布</p>
-<ul>
-<li><p>Eden：From：to ——&gt;  8:1:1</p>
-</li>
-<li><p>新生代：老年代  ——&gt;  1 : 2</p>
-</li>
-</ul>
-<h2 id="预备知识"><a href="#预备知识" class="headerlink" title="预备知识"></a>预备知识</h2><p>我们创建的对象，一般都是存放在Eden区的，当我们Eden区满了后，就会触发GC操作，一般被称为 YGC / Minor GC操作</p>
-<p>在这期间为了保证引用更新的正确性，Java将暂停所有其他的线程，这种情况被称为“Stop-The-World”</p>
-<p><img src="/essay/a12043e8/ygc1.png"></p>
-<p>当我们进行一次垃圾收集后，红色的将会被回收，而绿色的还会被占用着，存放在S0(Survivor From)区。同时我们给每个对象设置了一个年龄计数器，一次回收后就是1。</p>
-<p>同时Eden区继续存放对象，当Eden区再次存满的时候，又会触发一个MinorGC操作，此时GC将会把 Eden和Survivor From中的对象 进行一次收集，把存活的对象放到 Survivor To区，同时让年龄 + 1</p>
-<ul>
-<li>这里实际上使用的就是复制算法，将可触及的对象复制到to区，这样YGC会直接清空from区</li>
-</ul>
-<p><img src="/essay/a12043e8/ygc2.png" alt="ygc2"></p>
-<p>我们继续不断的进行对象生成 和 垃圾回收，当Survivor中的对象的年龄达到15的时候，将会触发一次 Promotion晋升的操作，也就是将年轻代中的对象  晋升到 老年代中</p>
-<p><img src="/essay/a12043e8/ygc3.png" alt="ygc3"></p>
-<p>特别注意，在Eden区满了的时候，才会触发MinorGC，而幸存者区满了后，不会触发MinorGC操作</p>
-<ul>
-<li><code>如果Survivor区满了后，将会触发一些特殊的规则，也就是可能直接晋升 老年代</code></li>
-</ul>
-<h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><p>那么回到最开始的问题，年轻代的比例为什么是8:1:1呢？我不能让Eden区大一点？或者S1或S2大一点？</p>
-<p>首先开始解答：</p>
-<p>由于S0 和 S1 区使用的是复制算法，则这两个区域的大小肯定是一样的</p>
-<blockquote>
-<p>假如Eden区域占比极大，假如说是占99%</p>
-</blockquote>
-<ol>
-<li>在YGC之后，会产生幸存对象存到S1区，但是此时s1区太小了，很容易就满了。</li>
-<li>而当幸存者区的区域满了之后，每次都有很多对象直接晋升到老年代区域中去。</li>
-<li>老年代很快被填满，触发Major GC（因为Major GC一般伴随着Minor GC，也可以看做触发了Full GC）。</li>
-<li>老年代的内存空间远大于新生代，进行一次Full GC消耗的时间比Minor GC长得多。频发的Full GC消耗的时间是非常可观的，这一点会影响大型程序的执行和响应速度，更不要说某些连接会因为超时发生连接错误了。</li>
-</ol>
-<blockquote>
-<p>假如Eden区域和幸存者区域占比为4:3:3 或者幸存者区占比更大一点</p>
-</blockquote>
-<ol>
-<li>由于Eden区域占据区域很小，当对象生成过快或者对象过大时。会在Eden区快满的时候YGC。</li>
-<li>注意：<code>Survivor区域并不会触发YGC，但是会在YGC时一并清理。</code></li>
-<li>空间变小，意味着YGC的频率更快了。则Stop-The-World的情况也会发生的频繁，影响效率。</li>
-<li>从复制算法的角度来讲：此算法对于G1这种分拆成为大量region的GC，复制而不是移动，意味着GC需要维护region之间对象引用关系，不管是内存占用或者时间开销也不小。所以复制算法需要复制的存活对象数量并不会太大，或者说非常低才行（老年代大量的对象存活，那么复制的对象将会有很多，效率会很低）。</li>
-</ol>
-]]></content>
-      <categories>
-        <category>jvm</category>
-      </categories>
-  </entry>
-  <entry>
     <title>垃圾回收算法</title>
     <url>/essay/ac7099b6.html</url>
     <content><![CDATA[<h1 id="垃圾回收相关算法"><a href="#垃圾回收相关算法" class="headerlink" title="垃圾回收相关算法"></a>垃圾回收相关算法</h1><blockquote>
@@ -1270,5 +1215,60 @@
       <tags>
         <tag>gc</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>新生代分区比例的思考</title>
+    <url>/essay/a12043e8.html</url>
+    <content><![CDATA[<h2 id="疑问"><a href="#疑问" class="headerlink" title="疑问"></a>疑问</h2><p>为什么年轻代中三个区（Eden，S0，S1）的比例是8:1:1呢？为什么不能是7:2:1？6:2:2？</p>
+<a id="more"></a>
+
+<h2 id="堆中区域分布"><a href="#堆中区域分布" class="headerlink" title="堆中区域分布"></a>堆中区域分布</h2><p><img src="/essay/a12043e8/%E5%A0%86%E5%88%86%E5%8C%BA.png"></p>
+<p>上图是不考虑细节而画出来的粗略的堆中的区域分布</p>
+<ul>
+<li><p>Eden：From：to ——&gt;  8:1:1</p>
+</li>
+<li><p>新生代：老年代  ——&gt;  1 : 2</p>
+</li>
+</ul>
+<h2 id="预备知识"><a href="#预备知识" class="headerlink" title="预备知识"></a>预备知识</h2><p>我们创建的对象，一般都是存放在Eden区的，当我们Eden区满了后，就会触发GC操作，一般被称为 YGC / Minor GC操作</p>
+<p>在这期间为了保证引用更新的正确性，Java将暂停所有其他的线程，这种情况被称为“Stop-The-World”</p>
+<p><img src="/essay/a12043e8/ygc1.png"></p>
+<p>当我们进行一次垃圾收集后，红色的将会被回收，而绿色的还会被占用着，存放在S0(Survivor From)区。同时我们给每个对象设置了一个年龄计数器，一次回收后就是1。</p>
+<p>同时Eden区继续存放对象，当Eden区再次存满的时候，又会触发一个MinorGC操作，此时GC将会把 Eden和Survivor From中的对象 进行一次收集，把存活的对象放到 Survivor To区，同时让年龄 + 1</p>
+<ul>
+<li>这里实际上使用的就是复制算法，将可触及的对象复制到to区，这样YGC会直接清空from区</li>
+</ul>
+<p><img src="/essay/a12043e8/ygc2.png" alt="ygc2"></p>
+<p>我们继续不断的进行对象生成 和 垃圾回收，当Survivor中的对象的年龄达到15的时候，将会触发一次 Promotion晋升的操作，也就是将年轻代中的对象  晋升到 老年代中</p>
+<p><img src="/essay/a12043e8/ygc3.png" alt="ygc3"></p>
+<p>特别注意，在Eden区满了的时候，才会触发MinorGC，而幸存者区满了后，不会触发MinorGC操作</p>
+<ul>
+<li><code>如果Survivor区满了后，将会触发一些特殊的规则，也就是可能直接晋升 老年代</code></li>
+</ul>
+<h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><p>那么回到最开始的问题，年轻代的比例为什么是8:1:1呢？我不能让Eden区大一点？或者S1或S2大一点？</p>
+<p>首先开始解答：</p>
+<p>由于S0 和 S1 区使用的是复制算法，则这两个区域的大小肯定是一样的</p>
+<blockquote>
+<p>假如Eden区域占比极大，假如说是占99%</p>
+</blockquote>
+<ol>
+<li>在YGC之后，会产生幸存对象存到S1区，但是此时s1区太小了，很容易就满了。</li>
+<li>而当幸存者区的区域满了之后，每次都有很多对象直接晋升到老年代区域中去。</li>
+<li>老年代很快被填满，触发Major GC（因为Major GC一般伴随着Minor GC，也可以看做触发了Full GC）。</li>
+<li>老年代的内存空间远大于新生代，进行一次Full GC消耗的时间比Minor GC长得多。频发的Full GC消耗的时间是非常可观的，这一点会影响大型程序的执行和响应速度，更不要说某些连接会因为超时发生连接错误了。</li>
+</ol>
+<blockquote>
+<p>假如Eden区域和幸存者区域占比为4:3:3 或者幸存者区占比更大一点</p>
+</blockquote>
+<ol>
+<li>由于Eden区域占据区域很小，当对象生成过快或者对象过大时。会在Eden区快满的时候YGC。</li>
+<li>注意：<code>Survivor区域并不会触发YGC，但是会在YGC时一并清理。</code></li>
+<li>空间变小，意味着YGC的频率更快了。则Stop-The-World的情况也会发生的频繁，影响效率。</li>
+<li>从复制算法的角度来讲：此算法对于G1这种分拆成为大量region的GC，复制而不是移动，意味着GC需要维护region之间对象引用关系，不管是内存占用或者时间开销也不小。所以复制算法需要复制的存活对象数量并不会太大，或者说非常低才行（老年代大量的对象存活，那么复制的对象将会有很多，效率会很低）。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>jvm</category>
+      </categories>
   </entry>
 </search>
