@@ -49,6 +49,131 @@
       </tags>
   </entry>
   <entry>
+    <title>Redis分布式锁</title>
+    <url>/essay/cc4d73b2.html</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>Redis和Memcached</title>
+    <url>/essay/1ed8e456.html</url>
+    <content><![CDATA[<ul>
+<li>Redis : Redis是一款内存高速缓存数据库。Redis全称为:Remote Dictionary Server (远程数据服务),使用C语言编写,Redis是一个key-value存储系统(键值存储系统),支持丰富的数据类型。</li>
+<li>Memcached：是一个免费开源的、高性能的、具有分布式内存对象的缓存系统，它通过减轻数据库负载加速动态Web应用；</li>
+</ul>
+<p>那么，同样是可以作为缓存服务，他们有什么区别呢？</p>
+<a id="more"></a>
+
+<h1 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h1><h2 id="Redis特性"><a href="#Redis特性" class="headerlink" title="Redis特性"></a>Redis特性</h2><ul>
+<li>单进程单线程模型</li>
+<li>丰富的数据类型</li>
+<li>操作具有原子性</li>
+<li>持久化</li>
+<li>高并发读写</li>
+<li>支持lua脚本</li>
+</ul>
+<h2 id="Memcached特性"><a href="#Memcached特性" class="headerlink" title="Memcached特性"></a>Memcached特性</h2><ul>
+<li>协议简单，使用的是基于文本行的协议</li>
+<li>不支持数据的持久化，服务器关闭之后数据全部丢失</li>
+<li>Memcached简洁而强大，便于快速开发，上手较为容易</li>
+<li>互不通信的Memcached之间具有分布特征 </li>
+<li>没有安全机制</li>
+</ul>
+<h1 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h1><h2 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h2><ul>
+<li>缓存系统（“热点”数据：高频读、低频写）</li>
+<li>计数器</li>
+<li>消息队列系统</li>
+<li>排行榜、社交网络和实时系统</li>
+<li>分布式锁等</li>
+</ul>
+<h2 id="Memcached"><a href="#Memcached" class="headerlink" title="Memcached"></a>Memcached</h2><ul>
+<li>变化频繁，查询频繁，重点是不需要入库（不支持持久化）</li>
+<li>变化不频繁，但查询频繁的数据</li>
+<li>读多写少</li>
+</ul>
+<h1 id="特性对比"><a href="#特性对比" class="headerlink" title="特性对比"></a>特性对比</h1><table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center">Redis</th>
+<th align="center">Memcached</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">线程模型</td>
+<td align="center">单进程单线程</td>
+<td align="center">单进程多线程</td>
+</tr>
+<tr>
+<td align="center">OPS/TPS</td>
+<td align="center">10w+/&lt;10w</td>
+<td align="center">10w+/10w+</td>
+</tr>
+<tr>
+<td align="center">数据支持类型</td>
+<td align="center">Key-value、set、hash、list、zset等</td>
+<td align="center">Key-value</td>
+</tr>
+<tr>
+<td align="center">持久化支持</td>
+<td align="center">支持</td>
+<td align="center">不支持</td>
+</tr>
+<tr>
+<td align="center">能否集群</td>
+<td align="center">能</td>
+<td align="center">能</td>
+</tr>
+<tr>
+<td align="center">支持数据备份</td>
+<td align="center">支持</td>
+<td align="center">不支持（但可用第三方工具）</td>
+</tr>
+<tr>
+<td align="center">数据一致性</td>
+<td align="center">支持事务</td>
+<td align="center">轻量级锁CAS机制</td>
+</tr>
+<tr>
+<td align="center">List排序支持</td>
+<td align="center">支持</td>
+<td align="center">不支持</td>
+</tr>
+<tr>
+<td align="center">缓存策略</td>
+<td align="center">LRU、FIFO、LFU</td>
+<td align="center">LRU</td>
+</tr>
+<tr>
+<td align="center">Jcache支持</td>
+<td align="center">支持</td>
+<td align="center">支持</td>
+</tr>
+<tr>
+<td align="center">单条数据约束</td>
+<td align="center">不同数据结构有不同的约束规则</td>
+<td align="center">默认值：key最大长度250个字符 Value容量&lt;=1M</td>
+</tr>
+</tbody></table>
+<h1 id="集群对比"><a href="#集群对比" class="headerlink" title="集群对比"></a>集群对比</h1><p>redis集群，不管是redis中的哨兵还是cluster集群，服务与服务直接是可以有数据的同步的，master的节点数据会通过slaveof的配置参数进行同步。</p>
+<p>memcached也是可以支持集群的，但他的集群仅仅体现再数据的分库中。虽然memcached内存有限制可以用多个memcached来存去解决。但是memcached节点之间是不会进行任何通信的，更别说什么master与slave机制了，他本身也不支持持久化，服务重启数据就丢了，所以不存在高可用。</p>
+<h1 id="另外一些对比"><a href="#另外一些对比" class="headerlink" title="另外一些对比"></a>另外一些对比</h1><ul>
+<li><p>memcached可缓存图片和视频。redis 支持除 k/v 更多的数据结构;</p>
+</li>
+<li><p>redis 可以使用虚拟内存，redis 可持久化和 aof 灾难恢复，redis 通过主从支持数据备份;</p>
+</li>
+<li><p>redis 可以做消息队列。</p>
+</li>
+</ul>
+<p>tips: 虽然redis是单线程的，但是高并发下redis的性能比memcached要高，原因是因为memcached多线程模型引入了缓存一致性和锁，加锁带来了性能损耗。</p>
+]]></content>
+      <categories>
+        <category>redis</category>
+      </categories>
+      <tags>
+        <tag>redis</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>intern详解</title>
     <url>/essay/792ee381.html</url>
     <content><![CDATA[<h1 id="深入解析String-intern"><a href="#深入解析String-intern" class="headerlink" title="深入解析String#intern"></a>深入解析String#intern</h1><p>在 JAVA 语言中有8中基本类型和一种比较特殊的类型<code>String</code>。这些类型为了使他们在运行过程中速度更快，更节省内存，都提供了一种常量池的概念。常量池就类似一个JAVA系统级别提供的缓存。</p>

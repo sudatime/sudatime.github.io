@@ -21,23 +21,20 @@
     var CONFIG = {"hostname":"blog.sodarain.cn","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true,"b2t":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="next 7.8版本发布于2020年4月1日，很久没更新  该bug导致中文标题无法跳转，但是英文标题可以">
+  <meta name="description" content="Redis : Redis是一款内存高速缓存数据库。Redis全称为:Remote Dictionary Server (远程数据服务),使用C语言编写,Redis是一个key-value存储系统(键值存储系统),支持丰富的数据类型。 Memcached：是一个免费开源的、高性能的、具有分布式内存对象的缓存系统，它通过减轻数据库负载加速动态Web应用；  那么，同样是可以作为缓存服务，他们有什么">
 <meta property="og:type" content="article">
-<meta property="og:title" content="next主题下中文标题跳转失效">
-<meta property="og:url" content="https://blog.sodarain.cn/essay/80ff7aac.html">
+<meta property="og:title" content="Redis和Memcached">
+<meta property="og:url" content="https://blog.sodarain.cn/essay/1ed8e456.html">
 <meta property="og:site_name" content="Rainbow">
-<meta property="og:description" content="next 7.8版本发布于2020年4月1日，很久没更新  该bug导致中文标题无法跳转，但是英文标题可以">
+<meta property="og:description" content="Redis : Redis是一款内存高速缓存数据库。Redis全称为:Remote Dictionary Server (远程数据服务),使用C语言编写,Redis是一个key-value存储系统(键值存储系统),支持丰富的数据类型。 Memcached：是一个免费开源的、高性能的、具有分布式内存对象的缓存系统，它通过减轻数据库负载加速动态Web应用；  那么，同样是可以作为缓存服务，他们有什么">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://blog.sodarain.cn/essay/80ff7aac/title_bug.png">
-<meta property="og:image" content="https://blog.sodarain.cn/essay/80ff7aac/utils.png">
-<meta property="article:published_time" content="2020-08-15T07:18:59.000Z">
-<meta property="article:modified_time" content="2020-08-15T07:52:52.708Z">
+<meta property="article:published_time" content="2022-02-23T07:29:40.000Z">
+<meta property="article:modified_time" content="2022-02-23T08:01:29.988Z">
 <meta property="article:author" content="sudatime">
-<meta property="article:tag" content="next">
+<meta property="article:tag" content="redis">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://blog.sodarain.cn/essay/80ff7aac/title_bug.png">
 
-<link rel="canonical" href="https://blog.sodarain.cn/essay/80ff7aac.html">
+<link rel="canonical" href="https://blog.sodarain.cn/essay/1ed8e456.html">
 
 
 <script id="page-configurations">
@@ -50,7 +47,7 @@
   };
 </script>
 
-  <title>next主题下中文标题跳转失效 | Rainbow</title>
+  <title>Redis和Memcached | Rainbow</title>
   
 
 
@@ -199,7 +196,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://blog.sodarain.cn/essay/80ff7aac.html">
+    <link itemprop="mainEntityOfPage" href="https://blog.sodarain.cn/essay/1ed8e456.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -212,7 +209,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          next主题下中文标题跳转失效
+          Redis和Memcached
         </h1>
 
         <div class="post-meta">
@@ -222,7 +219,7 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2020-08-15 15:18:59" itemprop="dateCreated datePublished" datetime="2020-08-15T15:18:59+08:00">2020-08-15</time>
+              <time title="创建时间：2022-02-23 15:29:40" itemprop="dateCreated datePublished" datetime="2022-02-23T15:29:40+08:00">2022-02-23</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -230,12 +227,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/next/" itemprop="url" rel="index"><span itemprop="name">next</span></a>
-                </span>
-                  <!--，-->
-                  >
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/next/bug/" itemprop="url" rel="index"><span itemprop="name">bug</span></a>
+                  <a href="/categories/redis/" itemprop="url" rel="index"><span itemprop="name">redis</span></a>
                 </span>
             </span>
 
@@ -250,20 +242,115 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>next 7.8版本发布于2020年4月1日，很久没更新 </p>
-<p>该bug导致中文标题无法跳转，但是英文标题可以</p>
+        <ul>
+<li>Redis : Redis是一款内存高速缓存数据库。Redis全称为:Remote Dictionary Server (远程数据服务),使用C语言编写,Redis是一个key-value存储系统(键值存储系统),支持丰富的数据类型。</li>
+<li>Memcached：是一个免费开源的、高性能的、具有分布式内存对象的缓存系统，它通过减轻数据库负载加速动态Web应用；</li>
+</ul>
+<p>那么，同样是可以作为缓存服务，他们有什么区别呢？</p>
 <a id="more"></a>
 
-<h2 id="环境："><a href="#环境：" class="headerlink" title="环境："></a>环境：</h2><p>hexo 5.0</p>
-<p>next 7.8</p>
-<h2 id="原因"><a href="#原因" class="headerlink" title="原因:"></a>原因:</h2><p><img src="/essay/80ff7aac/title_bug.png"></p>
-<p>由上图可知，utils中的一行代码出了问题，导致后面的一系列出了问题</p>
-<p>于是我先是去搜索了一下这个问题，但是并没有人写过相关内容</p>
-<p>最终 在官方代码最新的commit中，我看到了这样的一个提交。</p>
-<p><img src="/essay/80ff7aac/utils.png"></p>
-<p>但是即使将此次提交变动的代码修改之后也不可以，会出现另一个错误。</p>
-<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案:"></a>解决方案:</h2><p>将下面这个链接的整个代码全部复制，粘贴到<code>\themes\next\source\js\utils.js</code>中，问题完美解决</p>
-<p>访问官方的<a target="_blank" rel="noopener" href="https://github.com/theme-next/hexo-theme-next/blob/master/source/js/utils.js">github仓库</a>获取最新的utils.js代码</p>
+<h1 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h1><h2 id="Redis特性"><a href="#Redis特性" class="headerlink" title="Redis特性"></a>Redis特性</h2><ul>
+<li>单进程单线程模型</li>
+<li>丰富的数据类型</li>
+<li>操作具有原子性</li>
+<li>持久化</li>
+<li>高并发读写</li>
+<li>支持lua脚本</li>
+</ul>
+<h2 id="Memcached特性"><a href="#Memcached特性" class="headerlink" title="Memcached特性"></a>Memcached特性</h2><ul>
+<li>协议简单，使用的是基于文本行的协议</li>
+<li>不支持数据的持久化，服务器关闭之后数据全部丢失</li>
+<li>Memcached简洁而强大，便于快速开发，上手较为容易</li>
+<li>互不通信的Memcached之间具有分布特征 </li>
+<li>没有安全机制</li>
+</ul>
+<h1 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h1><h2 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h2><ul>
+<li>缓存系统（“热点”数据：高频读、低频写）</li>
+<li>计数器</li>
+<li>消息队列系统</li>
+<li>排行榜、社交网络和实时系统</li>
+<li>分布式锁等</li>
+</ul>
+<h2 id="Memcached"><a href="#Memcached" class="headerlink" title="Memcached"></a>Memcached</h2><ul>
+<li>变化频繁，查询频繁，重点是不需要入库（不支持持久化）</li>
+<li>变化不频繁，但查询频繁的数据</li>
+<li>读多写少</li>
+</ul>
+<h1 id="特性对比"><a href="#特性对比" class="headerlink" title="特性对比"></a>特性对比</h1><table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center">Redis</th>
+<th align="center">Memcached</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">线程模型</td>
+<td align="center">单进程单线程</td>
+<td align="center">单进程多线程</td>
+</tr>
+<tr>
+<td align="center">OPS/TPS</td>
+<td align="center">10w+/&lt;10w</td>
+<td align="center">10w+/10w+</td>
+</tr>
+<tr>
+<td align="center">数据支持类型</td>
+<td align="center">Key-value、set、hash、list、zset等</td>
+<td align="center">Key-value</td>
+</tr>
+<tr>
+<td align="center">持久化支持</td>
+<td align="center">支持</td>
+<td align="center">不支持</td>
+</tr>
+<tr>
+<td align="center">能否集群</td>
+<td align="center">能</td>
+<td align="center">能</td>
+</tr>
+<tr>
+<td align="center">支持数据备份</td>
+<td align="center">支持</td>
+<td align="center">不支持（但可用第三方工具）</td>
+</tr>
+<tr>
+<td align="center">数据一致性</td>
+<td align="center">支持事务</td>
+<td align="center">轻量级锁CAS机制</td>
+</tr>
+<tr>
+<td align="center">List排序支持</td>
+<td align="center">支持</td>
+<td align="center">不支持</td>
+</tr>
+<tr>
+<td align="center">缓存策略</td>
+<td align="center">LRU、FIFO、LFU</td>
+<td align="center">LRU</td>
+</tr>
+<tr>
+<td align="center">Jcache支持</td>
+<td align="center">支持</td>
+<td align="center">支持</td>
+</tr>
+<tr>
+<td align="center">单条数据约束</td>
+<td align="center">不同数据结构有不同的约束规则</td>
+<td align="center">默认值：key最大长度250个字符 Value容量&lt;=1M</td>
+</tr>
+</tbody></table>
+<h1 id="集群对比"><a href="#集群对比" class="headerlink" title="集群对比"></a>集群对比</h1><p>redis集群，不管是redis中的哨兵还是cluster集群，服务与服务直接是可以有数据的同步的，master的节点数据会通过slaveof的配置参数进行同步。</p>
+<p>memcached也是可以支持集群的，但他的集群仅仅体现再数据的分库中。虽然memcached内存有限制可以用多个memcached来存去解决。但是memcached节点之间是不会进行任何通信的，更别说什么master与slave机制了，他本身也不支持持久化，服务重启数据就丢了，所以不存在高可用。</p>
+<h1 id="另外一些对比"><a href="#另外一些对比" class="headerlink" title="另外一些对比"></a>另外一些对比</h1><ul>
+<li><p>memcached可缓存图片和视频。redis 支持除 k/v 更多的数据结构;</p>
+</li>
+<li><p>redis 可以使用虚拟内存，redis 可持久化和 aof 灾难恢复，redis 通过主从支持数据备份;</p>
+</li>
+<li><p>redis 可以做消息队列。</p>
+</li>
+</ul>
+<p>tips: 虽然redis是单线程的，但是高并发下redis的性能比memcached要高，原因是因为memcached多线程模型引入了缓存一致性和锁，加锁带来了性能损耗。</p>
 
     </div>
 
@@ -279,7 +366,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://blog.sodarain.cn/essay/80ff7aac.html" title="next主题下中文标题跳转失效">https://blog.sodarain.cn/essay/80ff7aac.html</a>
+    <a href="https://blog.sodarain.cn/essay/1ed8e456.html" title="Redis和Memcached">https://blog.sodarain.cn/essay/1ed8e456.html</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -291,7 +378,7 @@
       <footer class="post-footer">
           
           <div class="post-tags">
-              <a href="/tags/next/" rel="tag"><i class="fa fa-tag"></i> next</a>
+              <a href="/tags/redis/" rel="tag"><i class="fa fa-tag"></i> redis</a>
           </div>
 
         
@@ -300,13 +387,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/essay/802f7ce0.html" rel="prev" title="valine改为本地加载">
-      <i class="fa fa-chevron-left"></i> valine改为本地加载
+    <a href="/essay/cc4d73b2.html" rel="prev" title="Redis分布式锁">
+      <i class="fa fa-chevron-left"></i> Redis分布式锁
     </a></div>
-      <div class="post-nav-item">
-    <a href="/essay/vue-button.html" rel="next" title="vue与button的冲突">
-      vue与button的冲突 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -381,7 +465,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%EF%BC%9A"><span class="nav-number">1.</span> <span class="nav-text">环境：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8E%9F%E5%9B%A0"><span class="nav-number">2.</span> <span class="nav-text">原因:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-number">3.</span> <span class="nav-text">解决方案:</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%89%B9%E6%80%A7"><span class="nav-number">1.</span> <span class="nav-text">特性</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis%E7%89%B9%E6%80%A7"><span class="nav-number">1.1.</span> <span class="nav-text">Redis特性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Memcached%E7%89%B9%E6%80%A7"><span class="nav-number">1.2.</span> <span class="nav-text">Memcached特性</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-number">2.</span> <span class="nav-text">应用场景</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis"><span class="nav-number">2.1.</span> <span class="nav-text">Redis</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Memcached"><span class="nav-number">2.2.</span> <span class="nav-text">Memcached</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%89%B9%E6%80%A7%E5%AF%B9%E6%AF%94"><span class="nav-number">3.</span> <span class="nav-text">特性对比</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%9B%86%E7%BE%A4%E5%AF%B9%E6%AF%94"><span class="nav-number">4.</span> <span class="nav-text">集群对比</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%A6%E5%A4%96%E4%B8%80%E4%BA%9B%E5%AF%B9%E6%AF%94"><span class="nav-number">5.</span> <span class="nav-text">另外一些对比</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
