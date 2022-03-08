@@ -28,10 +28,16 @@
 <meta property="og:site_name" content="Rainbow">
 <meta property="og:description" content="使用docker来在同一主机搭建es集群">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blog.sodarain.cn/essay/85dd3af8/image-20220308195109647.png">
+<meta property="og:image" content="https://blog.sodarain.cn/essay/85dd3af8/image-20220308195208105.png">
+<meta property="og:image" content="https://blog.sodarain.cn/essay/85dd3af8/image-20220308195432533.png">
+<meta property="og:image" content="https://blog.sodarain.cn/essay/85dd3af8/image-20220308195737471.png">
+<meta property="og:image" content="https://blog.sodarain.cn/essay/85dd3af8/image-20220308200526445.png">
 <meta property="article:published_time" content="2022-03-08T04:34:23.000Z">
-<meta property="article:modified_time" content="2022-03-08T11:04:11.862Z">
+<meta property="article:modified_time" content="2022-03-08T12:05:44.355Z">
 <meta property="article:author" content="sudatime">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.sodarain.cn/essay/85dd3af8/image-20220308195109647.png">
 
 <link rel="canonical" href="https://blog.sodarain.cn/essay/85dd3af8.html">
 
@@ -296,14 +302,16 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -e ES_JAVA_OPTS=&quot;-Xms256m -Xmx256m&quot; --network elk -d -p 9202:9202 -p 9302:9302 -v /usr/local/developer/elasticsearch/config/es3.yml:/usr/share/elasticsearch/config/elasticsearch.yml -v /usr/local/developer/elasticsearch/node3/data:/usr/share/elasticsearch/data --name ES03 elasticsearch:7.3.0</span><br></pre></td></tr></table></figure>
 <h1 id="kibana安装"><a href="#kibana安装" class="headerlink" title="kibana安装"></a>kibana安装</h1><h2 id="创建绑定目录-1"><a href="#创建绑定目录-1" class="headerlink" title="创建绑定目录"></a>创建绑定目录</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 配置目录</span></span><br><span class="line">mkdir -p /usr/local/developer/kibana/config</span><br></pre></td></tr></table></figure>
 <h2 id="配置文件-kibana-yml"><a href="#配置文件-kibana-yml" class="headerlink" title="配置文件 kibana.yml"></a>配置文件 kibana.yml</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">vim /usr/local/developer/kibana/config/kibana.yml</span><br><span class="line">server.name: kibana</span><br><span class="line">server.host: &quot;0&quot;</span><br><span class="line">elasticsearch.hosts: [ &quot;http://ES01:9200&quot;,&quot;http://ES02:9201&quot;,&quot;http://ES03:9202&quot; ]</span><br><span class="line">xpack.monitoring.ui.container.elasticsearch.enabled: true</span><br><span class="line">elasticsearch.username: &quot;kibana&quot;</span><br><span class="line">elasticsearch.password: &quot;kibana&quot;</span><br><span class="line">xpack.security.enabled: true</span><br><span class="line">xpack.security.encryptionKey: &quot;c77effba756146d382ebc79b279fd694&quot;</span><br><span class="line">i18n.locale: &quot;zh-CN&quot;</span><br></pre></td></tr></table></figure>
-<h2 id="启动kibana"><a href="#启动kibana" class="headerlink" title="启动kibana"></a>启动kibana</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name kibana --network elk -p 5601:5601 -v /usr/local/developer/kibana/config/kibana.yml:/usr/share/kibana/config/kibana.yml kibana:7.10.1</span><br></pre></td></tr></table></figure>
+<h2 id="启动kibana"><a href="#启动kibana" class="headerlink" title="启动kibana"></a>启动kibana</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name kibana --network elk -p 5601:5601 -v /usr/local/developer/kibana/config/kibana.yml:/usr/share/kibana/config/kibana.yml kibana:7.3.0</span><br></pre></td></tr></table></figure>
 <h1 id="开启es安全认证"><a href="#开启es安全认证" class="headerlink" title="开启es安全认证"></a>开启es安全认证</h1><ul>
 <li>注意：这个操作只在node1进行</li>
 </ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it ES01 bash</span><br><span class="line">bin/elasticsearch-certutil ca</span><br><span class="line"><span class="meta">#</span><span class="bash"> 执行完此操作后会生成（这里会配置一个密码，执行下一步操作会用）</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it ES01 bash</span><br><span class="line">bin/elasticsearch-certutil ca</span><br></pre></td></tr></table></figure>
 <p>执行完会生成 <code>elastic-stack-ca.p12</code> 文件</p>
+<p><img src="/essay/85dd3af8/image-20220308195109647.png"></p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/elasticsearch-certutil cert --ca elastic-stack-ca.p12</span><br></pre></td></tr></table></figure>
 <p>执行完会生成 <code>elastic-certificates.p12</code> 文件</p>
+<p><img src="/essay/85dd3af8/image-20220308195208105.png"></p>
 <p>移动到config下面</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mv elastic-certificates.p12 config/</span><br></pre></td></tr></table></figure>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd config/</span><br></pre></td></tr></table></figure>
@@ -311,8 +319,13 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod 777 elastic-certificates.p12</span><br></pre></td></tr></table></figure>
 <p>分配用户组</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chown elasticsearch elastic-certificates.p12</span><br></pre></td></tr></table></figure>
-<p>从容器复制到本地</p>
+<p><img src="/essay/85dd3af8/image-20220308195432533.png"></p>
+<p>退出容器</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">exit</span><br></pre></td></tr></table></figure>
+<p>从容器复制CA证书到本地</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker cp ES01:/usr/share/elasticsearch/config/elastic-certificates.p12 /usr/local/developer/elasticsearch/</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;usr&#x2F;local&#x2F;developer&#x2F;elasticsearch&#x2F;</span><br></pre></td></tr></table></figure>
+<p><img src="/essay/85dd3af8/image-20220308195737471.png"></p>
 <p>复制到其他node的config中</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker cp elastic-certificates.p12 ES02:/usr/share/elasticsearch/config/</span><br></pre></td></tr></table></figure>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker cp elastic-certificates.p12 ES03:/usr/share/elasticsearch/config/</span><br></pre></td></tr></table></figure>
@@ -321,8 +334,10 @@
 <p>全部修改完了后重启es</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker restart ES01</span><br><span class="line">docker restart ES02</span><br><span class="line">docker restart ES03</span><br></pre></td></tr></table></figure>
 <p>重启es后要生成密码，进入es容器</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it ES01 bash</span><br><span class="line">bin/elasticsearch-setup-passwords interactive</span><br></pre></td></tr></table></figure>
-<p>这里会让配置好多密码，挨个配置，配置成功后</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it ES01 bash</span><br><span class="line"><span class="meta">#</span><span class="bash"> 指定master节点的ip</span></span><br><span class="line"> bin/elasticsearch-setup-passwords interactive -u &#x27;http://192.168.200.129:9200&#x27;</span><br></pre></td></tr></table></figure>
+<p>这里会让配置好多密码，挨个配置</p>
+<p><img src="/essay/85dd3af8/image-20220308200526445.png"></p>
+<p>配置成功后</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">exit</span><br></pre></td></tr></table></figure>
 
 
