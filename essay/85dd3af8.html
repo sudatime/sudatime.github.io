@@ -29,7 +29,7 @@
 <meta property="og:description" content="使用docker来在同一主机搭建es集群">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-03-08T04:34:23.000Z">
-<meta property="article:modified_time" content="2022-03-08T08:53:13.432Z">
+<meta property="article:modified_time" content="2022-03-08T11:00:15.665Z">
 <meta property="article:author" content="sudatime">
 <meta name="twitter:card" content="summary">
 
@@ -306,6 +306,7 @@
 <p>执行完会生成 <code>elastic-certificates.p12</code> 文件</p>
 <p>移动到config下面</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mv elastic-certificates.p12 config/</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd config/</span><br></pre></td></tr></table></figure>
 <p>配置权限</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod 777 elastic-certificates.p12</span><br></pre></td></tr></table></figure>
 <p>分配用户组</p>
