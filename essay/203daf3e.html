@@ -21,28 +21,38 @@
     var CONFIG = {"hostname":"blog.sodarain.cn","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true,"b2t":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Rainbow">
-<meta property="og:url" content="https://blog.sodarain.cn/index.html">
+  <meta name="description" content="环境123centos 8.5.2hadoop 3.1.3jdk 1.8.0_212 准备虚拟机hadoop100，hadoop101，hadoop102（hadoop101，hadoop102后续从hadoop100克隆出来） 系统设置关闭防火墙1systemctl stop firewalld 禁止自启防火墙1systemctl disable firewalld.service 创建用户12">
+<meta property="og:type" content="article">
+<meta property="og:title" content="虚拟机搭建hadoop集群">
+<meta property="og:url" content="https://blog.sodarain.cn/essay/203daf3e.html">
 <meta property="og:site_name" content="Rainbow">
+<meta property="og:description" content="环境123centos 8.5.2hadoop 3.1.3jdk 1.8.0_212 准备虚拟机hadoop100，hadoop101，hadoop102（hadoop101，hadoop102后续从hadoop100克隆出来） 系统设置关闭防火墙1systemctl stop firewalld 禁止自启防火墙1systemctl disable firewalld.service 创建用户12">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blog.sodarain.cn/essay/203daf3e/image-20220314160022827.png">
+<meta property="og:image" content="https://blog.sodarain.cn/essay/203daf3e/image-20220314160636200.png">
+<meta property="og:image" content="https://blog.sodarain.cn/essay/203daf3e/image-20220314161659576.png">
+<meta property="og:image" content="https://blog.sodarain.cn/essay/203daf3e/image-20220314162238885.png">
+<meta property="og:image" content="https://blog.sodarain.cn/essay/203daf3e/image-20220314162302197.png">
+<meta property="article:published_time" content="2022-03-14T07:41:06.000Z">
+<meta property="article:modified_time" content="2022-03-14T08:51:45.265Z">
 <meta property="article:author" content="sudatime">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.sodarain.cn/essay/203daf3e/image-20220314160022827.png">
 
-<link rel="canonical" href="https://blog.sodarain.cn/">
+<link rel="canonical" href="https://blog.sodarain.cn/essay/203daf3e.html">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome : true,
-    isPost : false,
+    isHome : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>Rainbow</title>
+  <title>虚拟机搭建hadoop集群 | Rainbow</title>
   
 
 
@@ -184,9 +194,10 @@
         <div class="content-wrap">
           
 
-          <div class="content index posts-expand">
+          <div class="content post posts-expand">
             
-      
+
+    
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
@@ -202,10 +213,9 @@
       <meta itemprop="name" content="Rainbow">
     </span>
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/essay/203daf3e.html" class="post-title-link" itemprop="url">虚拟机搭建hadoop集群</a>
-        </h2>
+        <h1 class="post-title" itemprop="name headline">
+          虚拟机搭建hadoop集群
+        </h1>
 
         <div class="post-meta">
             <span class="post-meta-item">
@@ -237,7 +247,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">centos 8.5.2</span><br><span class="line">hadoop 3.1.3</span><br><span class="line">jdk 1.8.0_212</span><br></pre></td></tr></table></figure>
+        <h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">centos 8.5.2</span><br><span class="line">hadoop 3.1.3</span><br><span class="line">jdk 1.8.0_212</span><br></pre></td></tr></table></figure>
 <p>准备虚拟机hadoop100，hadoop101，hadoop102（hadoop101，hadoop102后续从hadoop100克隆出来）</p>
 <h1 id="系统设置"><a href="#系统设置" class="headerlink" title="系统设置"></a>系统设置</h1><h3 id="关闭防火墙"><a href="#关闭防火墙" class="headerlink" title="关闭防火墙"></a>关闭防火墙</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl stop firewalld</span><br></pre></td></tr></table></figure>
 <h3 id="禁止自启防火墙"><a href="#禁止自启防火墙" class="headerlink" title="禁止自启防火墙"></a>禁止自启防火墙</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl disable firewalld.service</span><br></pre></td></tr></table></figure>
@@ -327,355 +337,55 @@
 <p>查看三台服务器 Java 进程脚本</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="keyword">for</span> host <span class="keyword">in</span> hadoop100 hadoop101 hadoop102</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line"> <span class="built_in">echo</span> =============== <span class="variable">$host</span> ===============</span><br><span class="line"> ssh <span class="variable">$host</span> <span class="string">&quot;source /etc/profile;jps&quot;</span></span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
 
-      
     </div>
 
     
     
     
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-	
-	
-	
-	<div>
-	
-	</div>
-
-
-
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://blog.sodarain.cn/essay/85dd3af8.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="sudatime">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Rainbow">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/essay/85dd3af8.html" class="post-title-link" itemprop="url">docker搭建es集群</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-03-08 12:34:23" itemprop="dateCreated datePublished" datetime="2022-03-08T12:34:23+08:00">2022-03-08</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/elasticsearch/" itemprop="url" rel="index"><span itemprop="name">elasticsearch</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>使用docker来在同一主机搭建es集群</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/essay/85dd3af8.html#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
         
-      
-    </div>
 
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-	
-	
-	
-	<div>
-	
-	</div>
-
-
-
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://blog.sodarain.cn/essay/f475ebb1.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="sudatime">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Rainbow">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/essay/f475ebb1.html" class="post-title-link" itemprop="url">redisTemplate操作lua脚本</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-03-04 15:16:36" itemprop="dateCreated datePublished" datetime="2022-03-04T15:16:36+08:00">2022-03-04</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/redis/" itemprop="url" rel="index"><span itemprop="name">redis</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>简单介绍使用RedisTemplate操作lua脚本对redis进行数据修改的操作</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/essay/f475ebb1.html#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-	
-	
-	
-	<div>
-	
-	</div>
-
-
-
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://blog.sodarain.cn/essay/119ed1dc.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="sudatime">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Rainbow">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/essay/119ed1dc.html" class="post-title-link" itemprop="url">Redis持久化</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-02-23 16:23:03" itemprop="dateCreated datePublished" datetime="2022-02-23T16:23:03+08:00">2022-02-23</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/redis/" itemprop="url" rel="index"><span itemprop="name">redis</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Redis支持两种持久化操作：分别是<strong>快照（snapshotting，RDB）</strong>和<strong>只追加文件（append-only file, AOF）</strong>。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/essay/119ed1dc.html#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-	
-	
-	
-	<div>
-	
-	</div>
-
-
-
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://blog.sodarain.cn/essay/1ed8e456.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="sudatime">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Rainbow">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/essay/1ed8e456.html" class="post-title-link" itemprop="url">Redis和Memcached</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-02-23 15:29:40" itemprop="dateCreated datePublished" datetime="2022-02-23T15:29:40+08:00">2022-02-23</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/redis/" itemprop="url" rel="index"><span itemprop="name">redis</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <ul>
-<li>Redis : Redis是一款内存高速缓存数据库。Redis全称为:Remote Dictionary Server (远程数据服务),使用C语言编写,Redis是一个key-value存储系统(键值存储系统),支持丰富的数据类型。</li>
-<li>Memcached：是一个免费开源的、高性能的、具有分布式内存对象的缓存系统，它通过减轻数据库负载加速动态Web应用；</li>
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>sudatime
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://blog.sodarain.cn/essay/203daf3e.html" title="虚拟机搭建hadoop集群">https://blog.sodarain.cn/essay/203daf3e.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
 </ul>
-<p>那么，同样是可以作为缓存服务，他们有什么区别呢？</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/essay/1ed8e456.html#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
+</div>
 
-    
-    
-    
+
       <footer class="post-footer">
-        <div class="post-eof"></div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/essay/85dd3af8.html" rel="prev" title="docker搭建es集群">
+      <i class="fa fa-chevron-left"></i> docker搭建es集群
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
       </footer>
+    
 	
 	
 	
 	<div>
+	
+		<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+
 	
 	</div>
 
@@ -685,441 +395,6 @@
   
   
   
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://blog.sodarain.cn/essay/cc4d73b2.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="sudatime">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Rainbow">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/essay/cc4d73b2.html" class="post-title-link" itemprop="url">Redis分布式锁</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-02-23 15:16:56" itemprop="dateCreated datePublished" datetime="2022-02-23T15:16:56+08:00">2022-02-23</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/redis/" itemprop="url" rel="index"><span itemprop="name">redis</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>随着业务发展的需要，原单体单机部署的系统被演化成分布式集群系统后，由于分布式系统多线程、多进程并且分布在不同机器上，这将使原单机部署情况下的并发控制锁策略失效，单纯的Java API并不能提供分布式锁的能力。为了解决这个问题就需要一种跨JVM的互斥机制来控制共享资源的访问，这就是分布式锁要解决的问题！</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/essay/cc4d73b2.html#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-	
-	
-	
-	<div>
-	
-	</div>
-
-
-
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://blog.sodarain.cn/essay/host-github.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="sudatime">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Rainbow">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/essay/host-github.html" class="post-title-link" itemprop="url">修改Hosts访问GitHub</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-02-22 08:23:46" itemprop="dateCreated datePublished" datetime="2022-02-22T08:23:46+08:00">2022-02-22</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/tool/" itemprop="url" rel="index"><span itemprop="name">tool</span></a>
-                </span>
-                  <!--，-->
-                  >
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/tool/host/" itemprop="url" rel="index"><span itemprop="name">host</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>国内访问GitHub总是会有连接慢、图片加载不出来等等问题，修改hosts即可解决这个问题，我提供的工具仅限于Windows平台。能够从<a target="_blank" rel="noopener" href="https://www.ipaddress.com/">IpAddress网站</a>中拿到最新的IP地址，配置到Host中。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/essay/host-github.html#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-	
-	
-	
-	<div>
-	
-	</div>
-
-
-
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://blog.sodarain.cn/essay/ac7099b6.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="sudatime">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Rainbow">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/essay/ac7099b6.html" class="post-title-link" itemprop="url">垃圾回收算法</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-03-25 10:14:01" itemprop="dateCreated datePublished" datetime="2021-03-25T10:14:01+08:00">2021-03-25</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/jvm/" itemprop="url" rel="index"><span itemprop="name">jvm</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="垃圾回收相关算法"><a href="#垃圾回收相关算法" class="headerlink" title="垃圾回收相关算法"></a>垃圾回收相关算法</h1><blockquote>
-<p>什么是垃圾？</p>
-</blockquote>
-<p>垃圾是指在运行程序中没有任何指针指向的对象，这个对象就是需要被回收的垃圾。</p>
-<p>如果不及时对内存中的垃圾进行清理，那么，这些垃圾对象所占的内存空间会一直保留到应用程序的结束，被保留的空间无法被其它对象使用，甚至可能导致内存溢出。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/essay/ac7099b6.html#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-	
-	
-	
-	<div>
-	
-	</div>
-
-
-
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://blog.sodarain.cn/essay/a12043e8.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="sudatime">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Rainbow">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/essay/a12043e8.html" class="post-title-link" itemprop="url">新生代分区比例的思考</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-03-24 20:39:46" itemprop="dateCreated datePublished" datetime="2021-03-24T20:39:46+08:00">2021-03-24</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/jvm/" itemprop="url" rel="index"><span itemprop="name">jvm</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="疑问"><a href="#疑问" class="headerlink" title="疑问"></a>疑问</h2><p>为什么年轻代中三个区（Eden，S0，S1）的比例是8:1:1呢？为什么不能是7:2:1？6:2:2？</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/essay/a12043e8.html#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-	
-	
-	
-	<div>
-	
-	</div>
-
-
-
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://blog.sodarain.cn/essay/792ee381.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="sudatime">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Rainbow">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/essay/792ee381.html" class="post-title-link" itemprop="url">intern详解</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-03-22 16:58:07" itemprop="dateCreated datePublished" datetime="2021-03-22T16:58:07+08:00">2021-03-22</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JVM/" itemprop="url" rel="index"><span itemprop="name">JVM</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="深入解析String-intern"><a href="#深入解析String-intern" class="headerlink" title="深入解析String#intern"></a>深入解析String#intern</h1><p>在 JAVA 语言中有8中基本类型和一种比较特殊的类型<code>String</code>。这些类型为了使他们在运行过程中速度更快，更节省内存，都提供了一种常量池的概念。常量池就类似一个JAVA系统级别提供的缓存。</p>
-<p>8种基本类型的常量池都是系统协调的，<code>String</code>类型的常量池比较特殊。它的主要使用方法有两种：</p>
-<ul>
-<li>直接使用双引号声明出来的<code>String</code>对象会直接存储在常量池中。</li>
-<li>如果不是用双引号声明的<code>String</code>对象，可以使用<code>String</code>提供的<code>intern</code>方法。intern 方法会从字符串常量池中查询当前字符串是否存在，若不存在就会将当前字符串放入常量池中</li>
-</ul>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/essay/792ee381.html#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-	
-	
-	
-	<div>
-	
-	</div>
-
-
-
-  </article>
-  
-  
-  
-
-
-  
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
-  </nav>
 
 
 
@@ -1171,6 +446,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83"><span class="nav-number">1.</span> <span class="nav-text">环境</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E8%AE%BE%E7%BD%AE"><span class="nav-number">2.</span> <span class="nav-text">系统设置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E9%97%AD%E9%98%B2%E7%81%AB%E5%A2%99"><span class="nav-number">2.0.1.</span> <span class="nav-text">关闭防火墙</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A6%81%E6%AD%A2%E8%87%AA%E5%90%AF%E9%98%B2%E7%81%AB%E5%A2%99"><span class="nav-number">2.0.2.</span> <span class="nav-text">禁止自启防火墙</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E7%94%A8%E6%88%B7"><span class="nav-number">2.0.3.</span> <span class="nav-text">创建用户</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE-sudatime%E7%94%A8%E6%88%B7"><span class="nav-number">2.0.4.</span> <span class="nav-text">配置 sudatime用户</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%AE%E5%BD%95%E9%85%8D%E7%BD%AE"><span class="nav-number">2.0.5.</span> <span class="nav-text">目录配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%B8%E8%BD%BD%E8%99%9A%E6%8B%9F%E6%9C%BA%E8%87%AA%E5%B8%A6%E7%9A%84-JDK"><span class="nav-number">2.0.6.</span> <span class="nav-text">卸载虚拟机自带的 JDK</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8A%E4%BC%A0%E8%B5%84%E6%BA%90%E5%8C%85"><span class="nav-number">2.0.7.</span> <span class="nav-text">上传资源包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E5%8E%8B%E8%B5%84%E6%BA%90"><span class="nav-number">2.0.8.</span> <span class="nav-text">解压资源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F"><span class="nav-number">2.0.9.</span> <span class="nav-text">配置环境变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E9%97%AD%E8%99%9A%E6%8B%9F%E6%9C%BA"><span class="nav-number">2.0.10.</span> <span class="nav-text">关闭虚拟机</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%8B%E9%9A%86%E8%99%9A%E6%8B%9F%E6%9C%BA"><span class="nav-number">3.</span> <span class="nav-text">克隆虚拟机</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E8%AE%BE%E7%BD%AE-1"><span class="nav-number">3.1.</span> <span class="nav-text">系统设置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9%E4%B8%BB%E6%9C%BA%E5%90%8D"><span class="nav-number">3.1.1.</span> <span class="nav-text">修改主机名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9%E9%9D%99%E6%80%81IP"><span class="nav-number">3.1.2.</span> <span class="nav-text">修改静态IP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9hosts%E8%A7%A3%E6%9E%90"><span class="nav-number">3.1.3.</span> <span class="nav-text">修改hosts解析</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA"><span class="nav-number">4.</span> <span class="nav-text">集群搭建</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%96%E5%86%99%E9%9B%86%E7%BE%A4%E5%88%86%E5%8F%91%E8%84%9A%E6%9C%AC"><span class="nav-number">4.1.</span> <span class="nav-text">编写集群分发脚本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9%E8%84%9A%E6%9C%AC-xsync-%E6%9D%83%E9%99%90"><span class="nav-number">4.2.</span> <span class="nav-text">修改脚本 xsync 权限</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SSH%E5%85%8D%E5%AF%86%E7%99%BB%E5%BD%95"><span class="nav-number">4.3.</span> <span class="nav-text">SSH免密登录</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE"><span class="nav-number">5.</span> <span class="nav-text">集群配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE-core-site-xml"><span class="nav-number">5.1.</span> <span class="nav-text">配置 core-site.xml</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE-hdfs-site-xml"><span class="nav-number">5.2.</span> <span class="nav-text">配置 hdfs-site.xml</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE-yarn-site-xml"><span class="nav-number">5.3.</span> <span class="nav-text">配置 yarn-site.xml</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE-workers"><span class="nav-number">5.4.</span> <span class="nav-text">配置 workers</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8%E9%9B%86%E7%BE%A4%E4%B8%8A%E5%88%86%E5%8F%91%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-number">5.5.</span> <span class="nav-text">在集群上分发配置文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8%E9%9B%86%E7%BE%A4"><span class="nav-number">5.6.</span> <span class="nav-text">启动集群</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8-HDFS"><span class="nav-number">5.7.</span> <span class="nav-text">启动 HDFS</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8%E8%84%9A%E6%9C%AC%E7%BC%96%E5%86%99"><span class="nav-number">6.</span> <span class="nav-text">启动脚本编写</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
