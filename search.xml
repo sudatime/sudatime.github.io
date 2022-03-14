@@ -482,26 +482,6 @@
       </tags>
   </entry>
   <entry>
-    <title>mybatisplus配置文件</title>
-    <url>/essay/mybatisplus-config.html</url>
-    <content><![CDATA[<p>mybatisplus3.0.5配置文件</p>
-<a id="more"></a>
-
-<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>mybatisplus 3.0.5</p>
-<h2 id="依赖"><a href="#依赖" class="headerlink" title="依赖"></a>依赖</h2><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.baomidou<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mybatis-plus-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.0.5<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.baomidou<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mybatis-plus<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.0.5<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-
-<h2 id="yml配置文件"><a href="#yml配置文件" class="headerlink" title="yml配置文件"></a>yml配置文件</h2><figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Mybatis-Plus 配置</span></span><br><span class="line"><span class="attr">mybatis-plus:</span></span><br><span class="line">  <span class="comment">#  mapper-locations: classpath:/mapper/*Mapper.xml</span></span><br><span class="line">  <span class="comment">#实体扫描，多个package用逗号或者分号分隔</span></span><br><span class="line">  <span class="attr">typeAliasesPackage:</span> <span class="string">com.mybatis.demo.domain</span></span><br><span class="line">  <span class="attr">global-config:</span></span><br><span class="line">    <span class="attr">db-config:</span></span><br><span class="line">      <span class="attr">id-type:</span> <span class="string">none</span></span><br><span class="line">      <span class="attr">table-underline:</span> <span class="literal">false</span></span><br><span class="line">    <span class="attr">refresh:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">configuration:</span></span><br><span class="line">    <span class="attr">map-underscore-to-camel-case:</span> <span class="literal">true</span></span><br><span class="line">    <span class="attr">cache-enabled:</span> <span class="literal">true</span> <span class="comment">#配置的缓存的全局开关</span></span><br><span class="line">    <span class="attr">lazyLoadingEnabled:</span> <span class="literal">true</span> <span class="comment">#延时加载的开关</span></span><br><span class="line">    <span class="attr">multipleResultSetsEnabled:</span> <span class="literal">true</span> <span class="comment">#开启延时加载，否则按需加载属性</span></span><br><span class="line">    <span class="attr">log-impl:</span> <span class="string">org.apache.ibatis.logging.stdout.StdOutImpl</span> <span class="comment">#打印sql语句,调试用</span></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>后端</category>
-        <category>mybatis</category>
-      </categories>
-      <tags>
-        <tag>mybatis</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>mysql性能优化</title>
     <url>/essay/d9f1b207.html</url>
     <content><![CDATA[<h1 id="MySQL性能优化"><a href="#MySQL性能优化" class="headerlink" title="MySQL性能优化"></a>MySQL性能优化</h1><p>优化有风险，涉足需谨慎！</p>
@@ -1113,6 +1093,26 @@
       </tags>
   </entry>
   <entry>
+    <title>mybatisplus配置文件</title>
+    <url>/essay/mybatisplus-config.html</url>
+    <content><![CDATA[<p>mybatisplus3.0.5配置文件</p>
+<a id="more"></a>
+
+<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>mybatisplus 3.0.5</p>
+<h2 id="依赖"><a href="#依赖" class="headerlink" title="依赖"></a>依赖</h2><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.baomidou<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mybatis-plus-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.0.5<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.baomidou<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mybatis-plus<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.0.5<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="yml配置文件"><a href="#yml配置文件" class="headerlink" title="yml配置文件"></a>yml配置文件</h2><figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Mybatis-Plus 配置</span></span><br><span class="line"><span class="attr">mybatis-plus:</span></span><br><span class="line">  <span class="comment">#  mapper-locations: classpath:/mapper/*Mapper.xml</span></span><br><span class="line">  <span class="comment">#实体扫描，多个package用逗号或者分号分隔</span></span><br><span class="line">  <span class="attr">typeAliasesPackage:</span> <span class="string">com.mybatis.demo.domain</span></span><br><span class="line">  <span class="attr">global-config:</span></span><br><span class="line">    <span class="attr">db-config:</span></span><br><span class="line">      <span class="attr">id-type:</span> <span class="string">none</span></span><br><span class="line">      <span class="attr">table-underline:</span> <span class="literal">false</span></span><br><span class="line">    <span class="attr">refresh:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">configuration:</span></span><br><span class="line">    <span class="attr">map-underscore-to-camel-case:</span> <span class="literal">true</span></span><br><span class="line">    <span class="attr">cache-enabled:</span> <span class="literal">true</span> <span class="comment">#配置的缓存的全局开关</span></span><br><span class="line">    <span class="attr">lazyLoadingEnabled:</span> <span class="literal">true</span> <span class="comment">#延时加载的开关</span></span><br><span class="line">    <span class="attr">multipleResultSetsEnabled:</span> <span class="literal">true</span> <span class="comment">#开启延时加载，否则按需加载属性</span></span><br><span class="line">    <span class="attr">log-impl:</span> <span class="string">org.apache.ibatis.logging.stdout.StdOutImpl</span> <span class="comment">#打印sql语句,调试用</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>后端</category>
+        <category>mybatis</category>
+      </categories>
+      <tags>
+        <tag>mybatis</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>redisTemplate操作lua脚本</title>
     <url>/essay/f475ebb1.html</url>
     <content><![CDATA[<p>简单介绍使用RedisTemplate操作lua脚本对redis进行数据修改的操作</p>
@@ -1625,6 +1625,8 @@
     <url>/essay/203daf3e.html</url>
     <content><![CDATA[<h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">centos 8.5.2</span><br><span class="line">hadoop 3.1.3</span><br><span class="line">jdk 1.8.0_212</span><br></pre></td></tr></table></figure>
 <p>准备虚拟机hadoop100，hadoop101，hadoop102（hadoop101，hadoop102后续从hadoop100克隆出来）</p>
+<a id="more"></a>
+
 <h1 id="系统设置"><a href="#系统设置" class="headerlink" title="系统设置"></a>系统设置</h1><h3 id="关闭防火墙"><a href="#关闭防火墙" class="headerlink" title="关闭防火墙"></a>关闭防火墙</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">systemctl stop firewalld</span><br></pre></td></tr></table></figure>
 <h3 id="禁止自启防火墙"><a href="#禁止自启防火墙" class="headerlink" title="禁止自启防火墙"></a>禁止自启防火墙</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">systemctl disable firewalld.service</span><br></pre></td></tr></table></figure>
 <h3 id="创建用户"><a href="#创建用户" class="headerlink" title="创建用户"></a>创建用户</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">useradd sudatime</span><br><span class="line">passwd sudatime</span><br></pre></td></tr></table></figure>
