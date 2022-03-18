@@ -401,7 +401,7 @@
 <p>hexo开发者的解决方案</p>
 <p>Tommy 指出，可以在 Hexo 目录下的 scripts 目录(若没有，则新建一个blog/scripts)中创建一个 JavaScript (openNewFile)脚本，监听 hexo new 这个动作。并在检测到 hexo new 之后，执行编辑器打开的命令。</p>
 <p>具体目录如下：</p>
-<p><img src="/essay/fecbe3e2/image-20220318114148065.png"></p>
+<p><img src="/essay/fecbe3e2/image-20220318114148065-16475755063071.png"></p>
 <p>注：如果没有这个目录可以新建一个</p>
 <p>Tommy 给出的js代码如下：</p>
 <figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> spawn = <span class="built_in">require</span>(<span class="string">&#x27;child_process&#x27;</span>).spawn;</span><br><span class="line"><span class="comment">// Hexo 2.x 版本号</span></span><br><span class="line">hexo.on(<span class="string">&#x27;new&#x27;</span>, <span class="function"><span class="keyword">function</span>(<span class="params">path</span>)</span>&#123; </span><br><span class="line"> spawn(<span class="string">&#x27;vi&#x27;</span>, [path]);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">// Hexo 3.x 版本号 hexo: 5.3.0 同样适用</span></span><br><span class="line">hexo.on(<span class="string">&#x27;new&#x27;</span>, <span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123; </span><br><span class="line"> spawn(<span class="string">&#x27;vi&#x27;</span>, [data.path]);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
