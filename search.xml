@@ -75,6 +75,18 @@
       </tags>
   </entry>
   <entry>
+    <title>Maven打包jar带上依赖</title>
+    <url>/essay/9e5f4284.html</url>
+    <content><![CDATA[<p>maven 插件，打包jar的时候能够带上依赖。</p>
+<a id="more"></a>
+
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">build</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">plugins</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>maven-assembly-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">appendAssemblyId</span>&gt;</span>false<span class="tag">&lt;/<span class="name">appendAssemblyId</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">descriptorRefs</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">descriptorRef</span>&gt;</span>jar-with-dependencies<span class="tag">&lt;/<span class="name">descriptorRef</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;/<span class="name">descriptorRefs</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">archive</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">manifest</span>&gt;</span></span><br><span class="line">                        <span class="comment">&lt;!-- 此处指定main方法入口的class --&gt;</span></span><br><span class="line">                        <span class="tag">&lt;<span class="name">mainClass</span>&gt;</span>com.teacher.Main<span class="tag">&lt;/<span class="name">mainClass</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;/<span class="name">manifest</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;/<span class="name">archive</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">executions</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">execution</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">id</span>&gt;</span>make-assembly<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">phase</span>&gt;</span>package<span class="tag">&lt;/<span class="name">phase</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">goals</span>&gt;</span></span><br><span class="line">                        <span class="tag">&lt;<span class="name">goal</span>&gt;</span>assembly<span class="tag">&lt;/<span class="name">goal</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;/<span class="name">goals</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;/<span class="name">execution</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">executions</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">build</span>&gt;</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>maven</category>
+      </categories>
+  </entry>
+  <entry>
     <title>Redis分布式锁</title>
     <url>/essay/cc4d73b2.html</url>
     <content><![CDATA[<p>随着业务发展的需要，原单体单机部署的系统被演化成分布式集群系统后，由于分布式系统多线程、多进程并且分布在不同机器上，这将使原单机部署情况下的并发控制锁策略失效，单纯的Java API并不能提供分布式锁的能力。为了解决这个问题就需要一种跨JVM的互斥机制来控制共享资源的访问，这就是分布式锁要解决的问题！</p>
@@ -1034,6 +1046,32 @@
       </tags>
   </entry>
   <entry>
+    <title>next主题下中文标题跳转失效</title>
+    <url>/essay/80ff7aac.html</url>
+    <content><![CDATA[<p>next 7.8版本发布于2020年4月1日，很久没更新 </p>
+<p>该bug导致中文标题无法跳转，但是英文标题可以</p>
+<a id="more"></a>
+
+<h2 id="环境："><a href="#环境：" class="headerlink" title="环境："></a>环境：</h2><p>hexo 5.0</p>
+<p>next 7.8</p>
+<h2 id="原因"><a href="#原因" class="headerlink" title="原因:"></a>原因:</h2><p><img src="/essay/80ff7aac/title_bug.png"></p>
+<p>由上图可知，utils中的一行代码出了问题，导致后面的一系列出了问题</p>
+<p>于是我先是去搜索了一下这个问题，但是并没有人写过相关内容</p>
+<p>最终 在官方代码最新的commit中，我看到了这样的一个提交。</p>
+<p><img src="/essay/80ff7aac/utils.png"></p>
+<p>但是即使将此次提交变动的代码修改之后也不可以，会出现另一个错误。</p>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案:"></a>解决方案:</h2><p>将下面这个链接的整个代码全部复制，粘贴到<code>\themes\next\source\js\utils.js</code>中，问题完美解决</p>
+<p>访问官方的<a href="https://github.com/theme-next/hexo-theme-next/blob/master/source/js/utils.js">github仓库</a>获取最新的utils.js代码</p>
+]]></content>
+      <categories>
+        <category>next</category>
+        <category>bug</category>
+      </categories>
+      <tags>
+        <tag>next</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>nginx实现负载均衡</title>
     <url>/essay/nginx-config.html</url>
     <content><![CDATA[<p>Nginx可以配置代理多台服务器，当一台服务器宕机之后，仍能保持系统可用。记录一下nginx负载均衡的实现，配置文件如下：</p>
@@ -1084,32 +1122,6 @@
       </categories>
       <tags>
         <tag>nginx</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>next主题下中文标题跳转失效</title>
-    <url>/essay/80ff7aac.html</url>
-    <content><![CDATA[<p>next 7.8版本发布于2020年4月1日，很久没更新 </p>
-<p>该bug导致中文标题无法跳转，但是英文标题可以</p>
-<a id="more"></a>
-
-<h2 id="环境："><a href="#环境：" class="headerlink" title="环境："></a>环境：</h2><p>hexo 5.0</p>
-<p>next 7.8</p>
-<h2 id="原因"><a href="#原因" class="headerlink" title="原因:"></a>原因:</h2><p><img src="/essay/80ff7aac/title_bug.png"></p>
-<p>由上图可知，utils中的一行代码出了问题，导致后面的一系列出了问题</p>
-<p>于是我先是去搜索了一下这个问题，但是并没有人写过相关内容</p>
-<p>最终 在官方代码最新的commit中，我看到了这样的一个提交。</p>
-<p><img src="/essay/80ff7aac/utils.png"></p>
-<p>但是即使将此次提交变动的代码修改之后也不可以，会出现另一个错误。</p>
-<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案:"></a>解决方案:</h2><p>将下面这个链接的整个代码全部复制，粘贴到<code>\themes\next\source\js\utils.js</code>中，问题完美解决</p>
-<p>访问官方的<a href="https://github.com/theme-next/hexo-theme-next/blob/master/source/js/utils.js">github仓库</a>获取最新的utils.js代码</p>
-]]></content>
-      <categories>
-        <category>next</category>
-        <category>bug</category>
-      </categories>
-      <tags>
-        <tag>next</tag>
       </tags>
   </entry>
   <entry>
