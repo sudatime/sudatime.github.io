@@ -75,7 +75,7 @@
       </tags>
   </entry>
   <entry>
-    <title>Java的\&lt;init\&gt;方法与\&lt;clinit\&gt;方法</title>
+    <title>Java的&amp;lt;init&amp;gt;方法与&amp;lt;clinit&amp;gt;方法</title>
     <url>/essay/22253a35.html</url>
     <content><![CDATA[<p>在JVM的类的加载过程中，初始化阶段会调用&lt;clinit&gt;()方法在JVM第一次加载class文件时调用，包括静态变量初始化语句和静态块的执行。那么&lt;init&gt;()方法又是什么呢？</p>
 <a id="more"></a>
