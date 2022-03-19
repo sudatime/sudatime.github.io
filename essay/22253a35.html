@@ -21,17 +21,19 @@
     var CONFIG = {"hostname":"blog.sodarain.cn","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true,"b2t":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="yourdiy">
-<meta property="og:url" content="https://blog.sodarain.cn/yourdiy/index.html">
+  <meta name="description" content="在JVM的类的加载过程中，初始化阶段会调用&lt;clinit&gt;()方法在JVM第一次加载class文件时调用，包括静态变量初始化语句和静态块的执行。那么&lt;init&gt;()方法又是什么呢？">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java的&lt;init&gt;方法与&lt;clinit&gt;方法">
+<meta property="og:url" content="https://blog.sodarain.cn/essay/22253a35.html">
 <meta property="og:site_name" content="Rainbow">
+<meta property="og:description" content="在JVM的类的加载过程中，初始化阶段会调用&lt;clinit&gt;()方法在JVM第一次加载class文件时调用，包括静态变量初始化语句和静态块的执行。那么&lt;init&gt;()方法又是什么呢？">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-08-09T12:29:08.000Z">
-<meta property="article:modified_time" content="2020-08-13T08:36:55.482Z">
+<meta property="article:published_time" content="2022-03-19T05:57:45.000Z">
+<meta property="article:modified_time" content="2022-03-19T06:07:21.525Z">
 <meta property="article:author" content="sudatime">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://blog.sodarain.cn/yourdiy/">
+<link rel="canonical" href="https://blog.sodarain.cn/essay/22253a35.html">
 
 
 <script id="page-configurations">
@@ -39,13 +41,12 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>yourdiy | Rainbow
-</title>
+  <title>Java的<init>方法与<clinit>方法 | Rainbow</title>
   
 
 
@@ -186,43 +187,137 @@
       <div class="main-inner">
         <div class="content-wrap">
           
-  
-  
 
-          <div class="content page posts-expand">
+          <div class="content post posts-expand">
             
 
     
-    
-    
-    <div class="post-block" lang="zh-CN">
-      <header class="post-header">
-
-<h1 class="post-title" itemprop="name headline">yourdiy
-</h1>
-
-<div class="post-meta">
   
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.sodarain.cn/essay/22253a35.html">
 
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="sudatime">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Rainbow">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Java的<init>方法与<clinit>方法
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-03-19 13:57:45" itemprop="dateCreated datePublished" datetime="2022-03-19T13:57:45+08:00">2022-03-19</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/jvm/" itemprop="url" rel="index"><span itemprop="name">jvm</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>在JVM的类的加载过程中，初始化阶段会调用&lt;clinit&gt;()方法在JVM第一次加载class文件时调用，包括静态变量初始化语句和静态块的执行。那么&lt;init&gt;()方法又是什么呢？</p>
+<a id="more"></a>
+
+<p>&lt;clinit&gt;：在jvm第一次加载class文件时调用，包括静态变量初始化语句和静态块的执行</p>
+<p>&lt;init&gt;:在实例创建出来的时候调用，包括调用new操作符；调用Class或java.lang.reflect.Constructor对象的newInstance()方法；调用任何现有对象的clone()方法；通过java.io.ObjectInputStream类的getObject()方法反序列化。</p>
+<p>init和clinit区别：</p>
+<blockquote>
+<p>init和clinit方法执行时机不同</p>
+</blockquote>
+<p>init是对象构造器方法，也就是说在程序执行 new 一个对象调用该对象类的 constructor 方法时才会执行init方法，而clinit是类构造器方法，也就是在jvm进行类加载—–验证—-解析—–初始化，中的初始化阶段jvm会调用clinit方法。</p>
+<blockquote>
+<p>init和clinit方法执行目的不同</p>
+</blockquote>
+<p>init is the (or one of the) constructor(s) for the instance, and non-static field initialization. </p>
+<p>clinit are the static initialization blocks for the class, and static field initialization. </p>
+<p>上面这两句是Stack Overflow上的解析，很清楚init是instance实例构造器，对非静态变量解析初始化，而clinit是class类构造器对静态变量，静态代码块进行初始化。看看下面的这段程序就很清楚了。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">X</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> Log log = LogFactory.getLog(); <span class="comment">// &lt;clinit</span></span><br><span class="line"> </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> x = <span class="number">1</span>;   <span class="comment">// &lt;init&gt;</span></span><br><span class="line">  </span><br><span class="line">    X()&#123;</span><br><span class="line">       <span class="comment">// &lt;init&gt;</span></span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">       <span class="comment">// &lt;clinit&gt;</span></span><br><span class="line">    &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>sudatime
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://blog.sodarain.cn/essay/22253a35.html" title="Java的&lt;init&gt;方法与&lt;clinit&gt;方法">https://blog.sodarain.cn/essay/22253a35.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
 </div>
 
-</header>
 
-      
-      
-      
-      <div class="post-body">
-          
-      </div>
-      
-      
-      
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/essay/fecbe3e2.html" rel="prev" title="hexo新建之后打开文档">
+      <i class="fa fa-chevron-left"></i> hexo新建之后打开文档
+    </a></div>
+      <div class="post-nav-item"></div>
     </div>
+      </footer>
     
+	
+	
+	
+	<div>
+	
+		<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
 
-    
-    
-    
+	
+	</div>
+
+
+
+  </article>
+  
+  
+  
+
 
 
           </div>
