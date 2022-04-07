@@ -550,6 +550,18 @@
       </tags>
   </entry>
   <entry>
+    <title>mongoTemplate更新</title>
+    <url>/essay/d6e969fe.html</url>
+    <content><![CDATA[<p>由于业务需要，实体类里面有某些字段不需要更新的，可以使用下面这种方式来更新：</p>
+<a id="more"></a>
+
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">update</span><span class="params">(T t)</span> </span>&#123;</span><br><span class="line">    Update update = <span class="keyword">new</span> Update();</span><br><span class="line">    Field[] fields = t.getClass().getDeclaredFields();</span><br><span class="line">    <span class="keyword">for</span> (Field field : fields) &#123;</span><br><span class="line">        field.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 这里排除不需要更新的字段</span></span><br><span class="line">            <span class="keyword">if</span> (<span class="string">&quot;serialVersionUID&quot;</span>.equals(field.getName())</span><br><span class="line">                    || <span class="string">&quot;id&quot;</span>.equals(field.getName())) &#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (field.get(t) != <span class="keyword">null</span>) &#123;</span><br><span class="line">                update.set(field.getName(), field.get(t));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    mongoTemplate.updateFirst(<span class="keyword">new</span> Query(Criteria.where(<span class="string">&quot;_id&quot;</span>).is(t.getId())), update, t.getClass());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>mongo</category>
+      </categories>
+  </entry>
+  <entry>
     <title>mybatisplus配置文件</title>
     <url>/essay/mybatisplus-config.html</url>
     <content><![CDATA[<p>mybatisplus3.0.5配置文件</p>
