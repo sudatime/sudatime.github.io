@@ -37,7 +37,7 @@
 <meta property="og:image" content="https://blog.sodarain.cn/essay/a04ea965/image-20220418095206553.png">
 <meta property="og:image" content="https://blog.sodarain.cn/essay/a04ea965/image-20220418095409676.png">
 <meta property="article:published_time" content="2022-04-18T00:54:34.000Z">
-<meta property="article:modified_time" content="2022-04-18T01:55:54.389Z">
+<meta property="article:modified_time" content="2022-04-18T01:59:44.610Z">
 <meta property="article:author" content="sudatime">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://blog.sodarain.cn/essay/a04ea965/image-20220418091511830.png">
@@ -266,7 +266,7 @@
 <img src="/essay/a04ea965/image-20220418091322576.png">
 
 <h3 id="安装Ubuntu18-04LTS"><a href="#安装Ubuntu18-04LTS" class="headerlink" title="安装Ubuntu18.04LTS"></a>安装Ubuntu18.04LTS</h3><p>打开Microsoft Store</p>
-<p><img src="/essay/a04ea965/image-20220418091745082.png" alt="image-20220418091745082"></p>
+<p><img src="/essay/a04ea965/image-20220418091745082.png"></p>
 <p>搜索Ubuntu</p>
 <p>选择这款组件安装，我已经安装过了，所以显示的是打开</p>
 <p><img src="/essay/a04ea965/image-20220418091831240.png"></p>
@@ -285,7 +285,7 @@
 <p>下载完成之后使用下面的命令安装</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt; .\wsl2host.exe install</span><br><span class="line">Windows Username: &lt;username-you-use-to-login-to-windows&gt;</span><br><span class="line">Windows Password: &lt;password-for-this-user&gt;</span><br></pre></td></tr></table></figure>
 <p>可能出现安装之后无法运行的问题，并且service中的WSL2 host<strong>不是</strong>正在运行的状态</p>
-<p><img src="/essay/a04ea965/image-20220418093328272.png" alt="image-20220418093328272"></p>
+<p><img src="/essay/a04ea965/image-20220418093328272.png"></p>
 <p>如果提示“登录失败，服务无法启动”那么命令行输入 <code>secpol.msc</code> 进入本地安全策略-本地策略-用户分配权限 ,找到“作为服务登录”把当前电脑登录用户名加入进去,再次重新启动服务即可</p>
 <p><img src="/essay/a04ea965/1629180-20220113111023487-1123964593.png"></p>
 <p>服务成功运行之后重启WSL即可在host看见</p>
@@ -307,10 +307,10 @@
 <p>实际使用的Nginx容器</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">docker run -d \</span><br><span class="line">	--name nginx-AriaNg \</span><br><span class="line">	--restart unless-stopped \</span><br><span class="line">	-v $PWD/conf/nginx:/etc/nginx \</span><br><span class="line">    -v $PWD/logs:/var/log/nginx \</span><br><span class="line">    -v $PWD/html:/usr/share/nginx/html \</span><br><span class="line">	-p 80:80 \</span><br><span class="line">	nginx</span><br></pre></td></tr></table></figure>
 <p>将下载解压的AriaNg的静态网页文件放在<code>$PWD</code>下的html文件内即可</p>
-<p><img src="/essay/a04ea965/image-20220418095206553.png" alt="image-20220418095206553"></p>
+<p><img src="/essay/a04ea965/image-20220418095206553.png"></p>
 <p>打开浏览器，访问wsl的host映射的域名<code>ubuntu1804.wsl</code></p>
 <p>配置地址为127.0.0.1，端口为6801，密钥为自定义密钥，如果没有更改过创建容器的<code>RPC_SECRET</code>参数，那么密钥就是<code>UNjFk4ZQcV</code></p>
-<p><img src="/essay/a04ea965/image-20220418095409676.png" alt="image-20220418095409676"></p>
+<p><img src="/essay/a04ea965/image-20220418095409676.png"></p>
 <p>Aria2状态为已连接时即可开始使用</p>
 
     </div>
