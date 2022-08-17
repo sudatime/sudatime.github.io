@@ -75,6 +75,31 @@
       </tags>
   </entry>
   <entry>
+    <title>Java的&amp;lt;init&amp;gt;方法与&amp;lt;clinit&amp;gt;方法</title>
+    <url>/essay/22253a35.html</url>
+    <content><![CDATA[<p>在JVM的类的加载过程中，初始化阶段会调用&lt;clinit&gt;()方法在JVM第一次加载class文件时调用，包括静态变量初始化语句和静态块的执行。那么&lt;init&gt;()方法又是什么呢？</p>
+<a id="more"></a>
+
+<p>&lt;clinit&gt;：在jvm第一次加载class文件时调用，包括静态变量初始化语句和静态块的执行</p>
+<p>&lt;init&gt;:在实例创建出来的时候调用，包括调用new操作符；调用Class或java.lang.reflect.Constructor对象的newInstance()方法；调用任何现有对象的clone()方法；通过java.io.ObjectInputStream类的getObject()方法反序列化。</p>
+<p>init和clinit区别：</p>
+<blockquote>
+<p>init和clinit方法执行时机不同</p>
+</blockquote>
+<p>init是对象构造器方法，也就是说在程序执行 new 一个对象调用该对象类的 constructor 方法时才会执行init方法，而clinit是类构造器方法，也就是在jvm进行类加载—–验证—-解析—–初始化，中的初始化阶段jvm会调用clinit方法。</p>
+<blockquote>
+<p>init和clinit方法执行目的不同</p>
+</blockquote>
+<p>init is the (or one of the) constructor(s) for the instance, and non-static field initialization. </p>
+<p>clinit are the static initialization blocks for the class, and static field initialization. </p>
+<p>上面这两句是Stack Overflow上的解析，很清楚init是instance实例构造器，对非静态变量解析初始化，而clinit是class类构造器对静态变量，静态代码块进行初始化。看看下面的这段程序就很清楚了。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">X</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> Log log = LogFactory.getLog(); <span class="comment">// &lt;clinit</span></span><br><span class="line"> </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> x = <span class="number">1</span>;   <span class="comment">// &lt;init&gt;</span></span><br><span class="line">  </span><br><span class="line">    X()&#123;</span><br><span class="line">       <span class="comment">// &lt;init&gt;</span></span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">       <span class="comment">// &lt;clinit&gt;</span></span><br><span class="line">    &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>jvm</category>
+      </categories>
+  </entry>
+  <entry>
     <title>Java中的语法糖</title>
     <url>/essay/244d567b.html</url>
     <content><![CDATA[<h3 id="语法糖"><a href="#语法糖" class="headerlink" title="语法糖"></a><strong>语法糖</strong></h3><p>语法糖（Syntactic Sugar），也称糖衣语法，是由英国计算机学家 Peter.J.Landin 发明的一个术语，指在计算机语言中添加的某种语法，这种语法对语言的功能并没有影响，但是更方便程序员使用。简而言之，语法糖让程序更加简洁，有更高的可读性。</p>
@@ -230,31 +255,6 @@
 ]]></content>
       <categories>
         <category>Java</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>Java的&amp;lt;init&amp;gt;方法与&amp;lt;clinit&amp;gt;方法</title>
-    <url>/essay/22253a35.html</url>
-    <content><![CDATA[<p>在JVM的类的加载过程中，初始化阶段会调用&lt;clinit&gt;()方法在JVM第一次加载class文件时调用，包括静态变量初始化语句和静态块的执行。那么&lt;init&gt;()方法又是什么呢？</p>
-<a id="more"></a>
-
-<p>&lt;clinit&gt;：在jvm第一次加载class文件时调用，包括静态变量初始化语句和静态块的执行</p>
-<p>&lt;init&gt;:在实例创建出来的时候调用，包括调用new操作符；调用Class或java.lang.reflect.Constructor对象的newInstance()方法；调用任何现有对象的clone()方法；通过java.io.ObjectInputStream类的getObject()方法反序列化。</p>
-<p>init和clinit区别：</p>
-<blockquote>
-<p>init和clinit方法执行时机不同</p>
-</blockquote>
-<p>init是对象构造器方法，也就是说在程序执行 new 一个对象调用该对象类的 constructor 方法时才会执行init方法，而clinit是类构造器方法，也就是在jvm进行类加载—–验证—-解析—–初始化，中的初始化阶段jvm会调用clinit方法。</p>
-<blockquote>
-<p>init和clinit方法执行目的不同</p>
-</blockquote>
-<p>init is the (or one of the) constructor(s) for the instance, and non-static field initialization. </p>
-<p>clinit are the static initialization blocks for the class, and static field initialization. </p>
-<p>上面这两句是Stack Overflow上的解析，很清楚init是instance实例构造器，对非静态变量解析初始化，而clinit是class类构造器对静态变量，静态代码块进行初始化。看看下面的这段程序就很清楚了。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">X</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> Log log = LogFactory.getLog(); <span class="comment">// &lt;clinit</span></span><br><span class="line"> </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> x = <span class="number">1</span>;   <span class="comment">// &lt;init&gt;</span></span><br><span class="line">  </span><br><span class="line">    X()&#123;</span><br><span class="line">       <span class="comment">// &lt;init&gt;</span></span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">       <span class="comment">// &lt;clinit&gt;</span></span><br><span class="line">    &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>jvm</category>
       </categories>
   </entry>
   <entry>
