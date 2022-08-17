@@ -222,7 +222,7 @@
 <p>会抛出ConcurrentModificationException异常。</p>
 <p>Iterator是工作在一个独立的线程中，并且拥有一个 mutex 锁。Iterator被创建之后会建立一个指向原来对象的单链索引表，当原来的对象数量发生变化时，这个索引表的内容不会同步改变，所以当索引指针往后移动的时候就找不到要迭代的对象，所以按照 fail-fast 原则 Iterator 会马上抛出java.util.ConcurrentModificationException异常。参考：<a href="http://mp.weixin.qq.com/s?__biz=MzI3NzE0NjcwMg==&mid=2650123769&idx=2&sn=87d070e0a1a5e66a87eed4e22a99aa63&chksm=f36bb0d8c41c39ce80af4ff385a75f762a7f73850589517cb1ba28a42e9eb09eeb3bd81d4201&scene=21#wechat_redirect">一不小心就让Java开发者踩坑的fail-fast是个什么鬼？</a></p>
 <p>所以 Iterator 在工作的时候是不允许被迭代的对象被改变的。但你可以使用 Iterator 本身的方法remove()来删除对象，Iterator.remove() 方法会在删除当前迭代对象的同时维护索引的一致性。</p>
-<p><img src="/essay/244d567b/640.png" alt="Image"></p>
+<p><img src="/essay/244d567b/640.png"></p>
 <h3 id="-15"><a href="#-15" class="headerlink" title></a></h3><h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a><strong>总结</strong></h3><p>前面介绍了12种Java中常用的语法糖。由于篇幅问题，其他还有一些常见的语法糖比如字符串拼接其实基于 StringBuilder，Java10 里面的 var 关键字声明局部变量采用的是智能类型推断这里就不提了。</p>
 <p>所谓语法糖就是提供给开发人员便于开发的一种语法而已。但是这种语法只有开发人员认识。要想被执行，需要进行解糖，即转成JVM认识的语法。</p>
 <p>当我们把语法糖解糖之后，你就会发现其实我们日常使用的这些方便的语法，其实都是一些其他更简单的语法构成的。</p>
