@@ -630,18 +630,6 @@
       </categories>
   </entry>
   <entry>
-    <title>mongoTemplate更新</title>
-    <url>/essay/d6e969fe.html</url>
-    <content><![CDATA[<p>由于业务需要，实体类里面有某些字段不需要更新的，可以使用下面这种方式来更新：</p>
-<a id="more"></a>
-
-<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">update</span><span class="params">(T t)</span> </span>&#123;</span><br><span class="line">    Update update = <span class="keyword">new</span> Update();</span><br><span class="line">    Field[] fields = t.getClass().getDeclaredFields();</span><br><span class="line">    <span class="keyword">for</span> (Field field : fields) &#123;</span><br><span class="line">        field.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 这里排除不需要更新的字段</span></span><br><span class="line">            <span class="keyword">if</span> (<span class="string">&quot;serialVersionUID&quot;</span>.equals(field.getName())</span><br><span class="line">                    || <span class="string">&quot;id&quot;</span>.equals(field.getName())) &#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (field.get(t) != <span class="keyword">null</span>) &#123;</span><br><span class="line">                update.set(field.getName(), field.get(t));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    mongoTemplate.updateFirst(<span class="keyword">new</span> Query(Criteria.where(<span class="string">&quot;_id&quot;</span>).is(t.getId())), update, t.getClass());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>mongo</category>
-      </categories>
-  </entry>
-  <entry>
     <title>intern详解</title>
     <url>/essay/792ee381.html</url>
     <content><![CDATA[<h1 id="深入解析String-intern"><a href="#深入解析String-intern" class="headerlink" title="深入解析String#intern"></a>深入解析String#intern</h1><p>在 JAVA 语言中有8中基本类型和一种比较特殊的类型<code>String</code>。这些类型为了使他们在运行过程中速度更快，更节省内存，都提供了一种常量池的概念。常量池就类似一个JAVA系统级别提供的缓存。</p>
@@ -742,6 +730,18 @@
       <tags>
         <tag>String</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>mongoTemplate更新</title>
+    <url>/essay/d6e969fe.html</url>
+    <content><![CDATA[<p>由于业务需要，实体类里面有某些字段不需要更新的，可以使用下面这种方式来更新：</p>
+<a id="more"></a>
+
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">update</span><span class="params">(T t)</span> </span>&#123;</span><br><span class="line">    Update update = <span class="keyword">new</span> Update();</span><br><span class="line">    Field[] fields = t.getClass().getDeclaredFields();</span><br><span class="line">    <span class="keyword">for</span> (Field field : fields) &#123;</span><br><span class="line">        field.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 这里排除不需要更新的字段</span></span><br><span class="line">            <span class="keyword">if</span> (<span class="string">&quot;serialVersionUID&quot;</span>.equals(field.getName())</span><br><span class="line">                    || <span class="string">&quot;id&quot;</span>.equals(field.getName())) &#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (field.get(t) != <span class="keyword">null</span>) &#123;</span><br><span class="line">                update.set(field.getName(), field.get(t));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    mongoTemplate.updateFirst(<span class="keyword">new</span> Query(Criteria.where(<span class="string">&quot;_id&quot;</span>).is(t.getId())), update, t.getClass());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>mongo</category>
+      </categories>
   </entry>
   <entry>
     <title>mybatisplus配置文件</title>
@@ -1296,32 +1296,6 @@
       </tags>
   </entry>
   <entry>
-    <title>next主题下中文标题跳转失效</title>
-    <url>/essay/80ff7aac.html</url>
-    <content><![CDATA[<p>next 7.8版本发布于2020年4月1日，很久没更新 </p>
-<p>该bug导致中文标题无法跳转，但是英文标题可以</p>
-<a id="more"></a>
-
-<h2 id="环境："><a href="#环境：" class="headerlink" title="环境："></a>环境：</h2><p>hexo 5.0</p>
-<p>next 7.8</p>
-<h2 id="原因"><a href="#原因" class="headerlink" title="原因:"></a>原因:</h2><p><img src="/essay/80ff7aac/title_bug.png"></p>
-<p>由上图可知，utils中的一行代码出了问题，导致后面的一系列出了问题</p>
-<p>于是我先是去搜索了一下这个问题，但是并没有人写过相关内容</p>
-<p>最终 在官方代码最新的commit中，我看到了这样的一个提交。</p>
-<p><img src="/essay/80ff7aac/utils.png"></p>
-<p>但是即使将此次提交变动的代码修改之后也不可以，会出现另一个错误。</p>
-<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案:"></a>解决方案:</h2><p>将下面这个链接的整个代码全部复制，粘贴到<code>\themes\next\source\js\utils.js</code>中，问题完美解决</p>
-<p>访问官方的<a href="https://github.com/theme-next/hexo-theme-next/blob/master/source/js/utils.js">github仓库</a>获取最新的utils.js代码</p>
-]]></content>
-      <categories>
-        <category>next</category>
-        <category>bug</category>
-      </categories>
-      <tags>
-        <tag>next</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>nginx实现负载均衡</title>
     <url>/essay/nginx-config.html</url>
     <content><![CDATA[<p>Nginx可以配置代理多台服务器，当一台服务器宕机之后，仍能保持系统可用。记录一下nginx负载均衡的实现，配置文件如下：</p>
@@ -1372,6 +1346,32 @@
       </categories>
       <tags>
         <tag>nginx</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>next主题下中文标题跳转失效</title>
+    <url>/essay/80ff7aac.html</url>
+    <content><![CDATA[<p>next 7.8版本发布于2020年4月1日，很久没更新 </p>
+<p>该bug导致中文标题无法跳转，但是英文标题可以</p>
+<a id="more"></a>
+
+<h2 id="环境："><a href="#环境：" class="headerlink" title="环境："></a>环境：</h2><p>hexo 5.0</p>
+<p>next 7.8</p>
+<h2 id="原因"><a href="#原因" class="headerlink" title="原因:"></a>原因:</h2><p><img src="/essay/80ff7aac/title_bug.png"></p>
+<p>由上图可知，utils中的一行代码出了问题，导致后面的一系列出了问题</p>
+<p>于是我先是去搜索了一下这个问题，但是并没有人写过相关内容</p>
+<p>最终 在官方代码最新的commit中，我看到了这样的一个提交。</p>
+<p><img src="/essay/80ff7aac/utils.png"></p>
+<p>但是即使将此次提交变动的代码修改之后也不可以，会出现另一个错误。</p>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案:"></a>解决方案:</h2><p>将下面这个链接的整个代码全部复制，粘贴到<code>\themes\next\source\js\utils.js</code>中，问题完美解决</p>
+<p>访问官方的<a href="https://github.com/theme-next/hexo-theme-next/blob/master/source/js/utils.js">github仓库</a>获取最新的utils.js代码</p>
+]]></content>
+      <categories>
+        <category>next</category>
+        <category>bug</category>
+      </categories>
+      <tags>
+        <tag>next</tag>
       </tags>
   </entry>
   <entry>
