@@ -99,31 +99,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Java的&amp;lt;init&amp;gt;方法与&amp;lt;clinit&amp;gt;方法</title>
-    <url>/essay/22253a35.html</url>
-    <content><![CDATA[<p>在JVM的类的加载过程中，初始化阶段会调用&lt;clinit&gt;()方法在JVM第一次加载class文件时调用，包括静态变量初始化语句和静态块的执行。那么&lt;init&gt;()方法又是什么呢？</p>
-<a id="more"></a>
-
-<p>&lt;clinit&gt;：在jvm第一次加载class文件时调用，包括静态变量初始化语句和静态块的执行</p>
-<p>&lt;init&gt;:在实例创建出来的时候调用，包括调用new操作符；调用Class或java.lang.reflect.Constructor对象的newInstance()方法；调用任何现有对象的clone()方法；通过java.io.ObjectInputStream类的getObject()方法反序列化。</p>
-<p>init和clinit区别：</p>
-<blockquote>
-<p>init和clinit方法执行时机不同</p>
-</blockquote>
-<p>init是对象构造器方法，也就是说在程序执行 new 一个对象调用该对象类的 constructor 方法时才会执行init方法，而clinit是类构造器方法，也就是在jvm进行类加载—–验证—-解析—–初始化，中的初始化阶段jvm会调用clinit方法。</p>
-<blockquote>
-<p>init和clinit方法执行目的不同</p>
-</blockquote>
-<p>init is the (or one of the) constructor(s) for the instance, and non-static field initialization. </p>
-<p>clinit are the static initialization blocks for the class, and static field initialization. </p>
-<p>上面这两句是Stack Overflow上的解析，很清楚init是instance实例构造器，对非静态变量解析初始化，而clinit是class类构造器对静态变量，静态代码块进行初始化。看看下面的这段程序就很清楚了。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">X</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> Log log = LogFactory.getLog(); <span class="comment">// &lt;clinit</span></span><br><span class="line"> </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> x = <span class="number">1</span>;   <span class="comment">// &lt;init&gt;</span></span><br><span class="line">  </span><br><span class="line">    X()&#123;</span><br><span class="line">       <span class="comment">// &lt;init&gt;</span></span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">       <span class="comment">// &lt;clinit&gt;</span></span><br><span class="line">    &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>jvm</category>
-      </categories>
-  </entry>
-  <entry>
     <title>Java中的语法糖</title>
     <url>/essay/244d567b.html</url>
     <content><![CDATA[<h3 id="语法糖"><a href="#语法糖" class="headerlink" title="语法糖"></a><strong>语法糖</strong></h3><p>语法糖（Syntactic Sugar），也称糖衣语法，是由英国计算机学家 Peter.J.Landin 发明的一个术语，指在计算机语言中添加的某种语法，这种语法对语言的功能并没有影响，但是更方便程序员使用。简而言之，语法糖让程序更加简洁，有更高的可读性。</p>
@@ -279,6 +254,31 @@
 ]]></content>
       <categories>
         <category>Java</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>Java的&amp;lt;init&amp;gt;方法与&amp;lt;clinit&amp;gt;方法</title>
+    <url>/essay/22253a35.html</url>
+    <content><![CDATA[<p>在JVM的类的加载过程中，初始化阶段会调用&lt;clinit&gt;()方法在JVM第一次加载class文件时调用，包括静态变量初始化语句和静态块的执行。那么&lt;init&gt;()方法又是什么呢？</p>
+<a id="more"></a>
+
+<p>&lt;clinit&gt;：在jvm第一次加载class文件时调用，包括静态变量初始化语句和静态块的执行</p>
+<p>&lt;init&gt;:在实例创建出来的时候调用，包括调用new操作符；调用Class或java.lang.reflect.Constructor对象的newInstance()方法；调用任何现有对象的clone()方法；通过java.io.ObjectInputStream类的getObject()方法反序列化。</p>
+<p>init和clinit区别：</p>
+<blockquote>
+<p>init和clinit方法执行时机不同</p>
+</blockquote>
+<p>init是对象构造器方法，也就是说在程序执行 new 一个对象调用该对象类的 constructor 方法时才会执行init方法，而clinit是类构造器方法，也就是在jvm进行类加载—–验证—-解析—–初始化，中的初始化阶段jvm会调用clinit方法。</p>
+<blockquote>
+<p>init和clinit方法执行目的不同</p>
+</blockquote>
+<p>init is the (or one of the) constructor(s) for the instance, and non-static field initialization. </p>
+<p>clinit are the static initialization blocks for the class, and static field initialization. </p>
+<p>上面这两句是Stack Overflow上的解析，很清楚init是instance实例构造器，对非静态变量解析初始化，而clinit是class类构造器对静态变量，静态代码块进行初始化。看看下面的这段程序就很清楚了。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">X</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> Log log = LogFactory.getLog(); <span class="comment">// &lt;clinit</span></span><br><span class="line"> </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> x = <span class="number">1</span>;   <span class="comment">// &lt;init&gt;</span></span><br><span class="line">  </span><br><span class="line">    X()&#123;</span><br><span class="line">       <span class="comment">// &lt;init&gt;</span></span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">       <span class="comment">// &lt;clinit&gt;</span></span><br><span class="line">    &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>jvm</category>
       </categories>
   </entry>
   <entry>
@@ -630,6 +630,18 @@
       </categories>
   </entry>
   <entry>
+    <title>mongoTemplate更新</title>
+    <url>/essay/d6e969fe.html</url>
+    <content><![CDATA[<p>由于业务需要，实体类里面有某些字段不需要更新的，可以使用下面这种方式来更新：</p>
+<a id="more"></a>
+
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">update</span><span class="params">(T t)</span> </span>&#123;</span><br><span class="line">    Update update = <span class="keyword">new</span> Update();</span><br><span class="line">    Field[] fields = t.getClass().getDeclaredFields();</span><br><span class="line">    <span class="keyword">for</span> (Field field : fields) &#123;</span><br><span class="line">        field.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 这里排除不需要更新的字段</span></span><br><span class="line">            <span class="keyword">if</span> (<span class="string">&quot;serialVersionUID&quot;</span>.equals(field.getName())</span><br><span class="line">                    || <span class="string">&quot;id&quot;</span>.equals(field.getName())) &#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (field.get(t) != <span class="keyword">null</span>) &#123;</span><br><span class="line">                update.set(field.getName(), field.get(t));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    mongoTemplate.updateFirst(<span class="keyword">new</span> Query(Criteria.where(<span class="string">&quot;_id&quot;</span>).is(t.getId())), update, t.getClass());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>mongo</category>
+      </categories>
+  </entry>
+  <entry>
     <title>intern详解</title>
     <url>/essay/792ee381.html</url>
     <content><![CDATA[<h1 id="深入解析String-intern"><a href="#深入解析String-intern" class="headerlink" title="深入解析String#intern"></a>深入解析String#intern</h1><p>在 JAVA 语言中有8中基本类型和一种比较特殊的类型<code>String</code>。这些类型为了使他们在运行过程中速度更快，更节省内存，都提供了一种常量池的概念。常量池就类似一个JAVA系统级别提供的缓存。</p>
@@ -730,18 +742,6 @@
       <tags>
         <tag>String</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>mongoTemplate更新</title>
-    <url>/essay/d6e969fe.html</url>
-    <content><![CDATA[<p>由于业务需要，实体类里面有某些字段不需要更新的，可以使用下面这种方式来更新：</p>
-<a id="more"></a>
-
-<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">update</span><span class="params">(T t)</span> </span>&#123;</span><br><span class="line">    Update update = <span class="keyword">new</span> Update();</span><br><span class="line">    Field[] fields = t.getClass().getDeclaredFields();</span><br><span class="line">    <span class="keyword">for</span> (Field field : fields) &#123;</span><br><span class="line">        field.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 这里排除不需要更新的字段</span></span><br><span class="line">            <span class="keyword">if</span> (<span class="string">&quot;serialVersionUID&quot;</span>.equals(field.getName())</span><br><span class="line">                    || <span class="string">&quot;id&quot;</span>.equals(field.getName())) &#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (field.get(t) != <span class="keyword">null</span>) &#123;</span><br><span class="line">                update.set(field.getName(), field.get(t));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    mongoTemplate.updateFirst(<span class="keyword">new</span> Query(Criteria.where(<span class="string">&quot;_id&quot;</span>).is(t.getId())), update, t.getClass());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>mongo</category>
-      </categories>
   </entry>
   <entry>
     <title>mybatisplus配置文件</title>
@@ -1322,24 +1322,6 @@
       </tags>
   </entry>
   <entry>
-    <title>redisTemplate操作lua脚本</title>
-    <url>/essay/f475ebb1.html</url>
-    <content><![CDATA[<p>简单介绍使用RedisTemplate操作lua脚本对redis进行数据修改的操作</p>
-<a id="more"></a>
-
-<h1 id="lua脚本"><a href="#lua脚本" class="headerlink" title="lua脚本"></a>lua脚本</h1><figure class="highlight lua"><table><tr><td class="code"><pre><span class="line"><span class="keyword">local</span> userId = KEYS[<span class="number">1</span>];</span><br><span class="line"><span class="keyword">local</span> prodId = KEYS[<span class="number">2</span>];</span><br><span class="line"><span class="keyword">local</span> qtKey = <span class="string">&quot;sk:&quot;</span> .. prodId .. <span class="string">&quot;:qt&quot;</span>;</span><br><span class="line"><span class="keyword">local</span> usersKey = <span class="string">&quot;sk:&quot;</span> .. prodId .. <span class="string">&quot;:user&quot;</span>;</span><br><span class="line"><span class="keyword">local</span> userExists = redis.call(<span class="string">&quot;sismember&quot;</span>, usersKey, userId);</span><br><span class="line"><span class="keyword">if</span> <span class="built_in">tonumber</span>(userExists) == <span class="number">1</span> <span class="keyword">then</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">2</span>; <span class="comment">---自行约定返回值结果</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="keyword">local</span> num = redis.call(<span class="string">&quot;get&quot;</span>, qtKey);</span><br><span class="line"><span class="keyword">if</span> <span class="built_in">tonumber</span>(num) &lt;= <span class="number">0</span> <span class="keyword">then</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    redis.call(<span class="string">&quot;decr&quot;</span>, qtKey);</span><br><span class="line">    redis.call(<span class="string">&quot;sadd&quot;</span>, usersKey, userId);</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="keyword">return</span> <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
-<h1 id="Service层"><a href="#Service层" class="headerlink" title="Service层"></a>Service层</h1><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Autowired</span></span><br><span class="line">   <span class="keyword">private</span> RedisTemplate redisTemplate;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">private</span> DefaultRedisScript&lt;Long&gt; script;</span><br><span class="line"></span><br><span class="line">   <span class="meta">@PostConstruct</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> </span>&#123;</span><br><span class="line">       script = <span class="keyword">new</span> DefaultRedisScript&lt;&gt;();</span><br><span class="line">       <span class="comment">//返回值为Long</span></span><br><span class="line">       script.setResultType(Long.class);</span><br><span class="line">       script.setScriptSource(</span><br><span class="line">           <span class="comment">// 从resource目录下面加载</span></span><br><span class="line">           <span class="keyword">new</span> ResourceScriptSource(<span class="keyword">new</span> ClassPathResource(<span class="string">&quot;lua/skill.lua&quot;</span>))</span><br><span class="line">       );</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="meta">@Transactional</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">doSeckillByScript</span><span class="params">(String uid, String proId)</span> </span>&#123;</span><br><span class="line">       List&lt;String&gt; keys = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">       keys.add(uid);</span><br><span class="line">       keys.add(proId);</span><br><span class="line">       <span class="comment">//KEYS[1] KEYS[2]，是要操作的键，可以指定多个，在lua脚本中通过KEYS[1], KEYS[2]获取</span></span><br><span class="line">       <span class="comment">//ARGV[1] ARGV[2]，参数，在lua脚本中通过ARGV[1], ARGV[2]获取</span></span><br><span class="line">       <span class="comment">// 第三个参数给ARGV[1] ARGV[2]... 取值的</span></span><br><span class="line">       Long result = (Long) redisTemplate.execute(script, keys);</span><br><span class="line">       <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
-<h1 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h1><p><code>DefaultRedisScript</code>的返回值须是Long类型的，如果换成Integer类型的会报错。</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">java.lang.IllegalStateException: null</span><br><span class="line">at io.lettuce.core.output.CommandOutput.set(CommandOutput.java:85) ~[lettuce-core-5.1.8.RELEASE.jar:na]</span><br><span class="line">	at io.lettuce.core.protocol.RedisStateMachine.safeSet(RedisStateMachine.java:357) ~[lettuce-core-5.1.8.RELEASE.jar:na]</span><br><span class="line">	at io.lettuce.core.protocol.RedisStateMachine.decode(RedisStateMachine.java:138) ~[lettuce-core-5.1.8.RELEASE.jar:na]</span><br><span class="line">	at io.lettuce.core.protocol.CommandHandler.decode(CommandHandler.java:708) ~[lettuce-core-5.1.8.RELEASE.jar:na]</span><br><span class="line">	at io.lettuce.core.protocol.CommandHandler.decode0(CommandHandler.java:672) ~[lettuce-core-5.1.8.RELEASE.jar:na]</span><br><span class="line">	at io.lettuce.core.protocol.CommandHandler.decode(CommandHandler.java:667) ~[lettuce-core-5.1.8.RELEASE.jar:na]</span><br><span class="line">	at io.lettuce.core.protocol.CommandHandler.decode(CommandHandler.java:587) ~[lettuce-core-5.1.8.RELEASE.jar:na]</span><br><span class="line">	at io.lettuce.core.protocol.CommandHandler.channelRead(CommandHandler.java:556</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>redis</category>
-      </categories>
-      <tags>
-        <tag>lua</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>nginx实现负载均衡</title>
     <url>/essay/nginx-config.html</url>
     <content><![CDATA[<p>Nginx可以配置代理多台服务器，当一台服务器宕机之后，仍能保持系统可用。记录一下nginx负载均衡的实现，配置文件如下：</p>
@@ -1390,6 +1372,24 @@
       </categories>
       <tags>
         <tag>nginx</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>redisTemplate操作lua脚本</title>
+    <url>/essay/f475ebb1.html</url>
+    <content><![CDATA[<p>简单介绍使用RedisTemplate操作lua脚本对redis进行数据修改的操作</p>
+<a id="more"></a>
+
+<h1 id="lua脚本"><a href="#lua脚本" class="headerlink" title="lua脚本"></a>lua脚本</h1><figure class="highlight lua"><table><tr><td class="code"><pre><span class="line"><span class="keyword">local</span> userId = KEYS[<span class="number">1</span>];</span><br><span class="line"><span class="keyword">local</span> prodId = KEYS[<span class="number">2</span>];</span><br><span class="line"><span class="keyword">local</span> qtKey = <span class="string">&quot;sk:&quot;</span> .. prodId .. <span class="string">&quot;:qt&quot;</span>;</span><br><span class="line"><span class="keyword">local</span> usersKey = <span class="string">&quot;sk:&quot;</span> .. prodId .. <span class="string">&quot;:user&quot;</span>;</span><br><span class="line"><span class="keyword">local</span> userExists = redis.call(<span class="string">&quot;sismember&quot;</span>, usersKey, userId);</span><br><span class="line"><span class="keyword">if</span> <span class="built_in">tonumber</span>(userExists) == <span class="number">1</span> <span class="keyword">then</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">2</span>; <span class="comment">---自行约定返回值结果</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="keyword">local</span> num = redis.call(<span class="string">&quot;get&quot;</span>, qtKey);</span><br><span class="line"><span class="keyword">if</span> <span class="built_in">tonumber</span>(num) &lt;= <span class="number">0</span> <span class="keyword">then</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    redis.call(<span class="string">&quot;decr&quot;</span>, qtKey);</span><br><span class="line">    redis.call(<span class="string">&quot;sadd&quot;</span>, usersKey, userId);</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="keyword">return</span> <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+<h1 id="Service层"><a href="#Service层" class="headerlink" title="Service层"></a>Service层</h1><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Autowired</span></span><br><span class="line">   <span class="keyword">private</span> RedisTemplate redisTemplate;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">private</span> DefaultRedisScript&lt;Long&gt; script;</span><br><span class="line"></span><br><span class="line">   <span class="meta">@PostConstruct</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> </span>&#123;</span><br><span class="line">       script = <span class="keyword">new</span> DefaultRedisScript&lt;&gt;();</span><br><span class="line">       <span class="comment">//返回值为Long</span></span><br><span class="line">       script.setResultType(Long.class);</span><br><span class="line">       script.setScriptSource(</span><br><span class="line">           <span class="comment">// 从resource目录下面加载</span></span><br><span class="line">           <span class="keyword">new</span> ResourceScriptSource(<span class="keyword">new</span> ClassPathResource(<span class="string">&quot;lua/skill.lua&quot;</span>))</span><br><span class="line">       );</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="meta">@Transactional</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">doSeckillByScript</span><span class="params">(String uid, String proId)</span> </span>&#123;</span><br><span class="line">       List&lt;String&gt; keys = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">       keys.add(uid);</span><br><span class="line">       keys.add(proId);</span><br><span class="line">       <span class="comment">//KEYS[1] KEYS[2]，是要操作的键，可以指定多个，在lua脚本中通过KEYS[1], KEYS[2]获取</span></span><br><span class="line">       <span class="comment">//ARGV[1] ARGV[2]，参数，在lua脚本中通过ARGV[1], ARGV[2]获取</span></span><br><span class="line">       <span class="comment">// 第三个参数给ARGV[1] ARGV[2]... 取值的</span></span><br><span class="line">       Long result = (Long) redisTemplate.execute(script, keys);</span><br><span class="line">       <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<h1 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h1><p><code>DefaultRedisScript</code>的返回值须是Long类型的，如果换成Integer类型的会报错。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">java.lang.IllegalStateException: null</span><br><span class="line">at io.lettuce.core.output.CommandOutput.set(CommandOutput.java:85) ~[lettuce-core-5.1.8.RELEASE.jar:na]</span><br><span class="line">	at io.lettuce.core.protocol.RedisStateMachine.safeSet(RedisStateMachine.java:357) ~[lettuce-core-5.1.8.RELEASE.jar:na]</span><br><span class="line">	at io.lettuce.core.protocol.RedisStateMachine.decode(RedisStateMachine.java:138) ~[lettuce-core-5.1.8.RELEASE.jar:na]</span><br><span class="line">	at io.lettuce.core.protocol.CommandHandler.decode(CommandHandler.java:708) ~[lettuce-core-5.1.8.RELEASE.jar:na]</span><br><span class="line">	at io.lettuce.core.protocol.CommandHandler.decode0(CommandHandler.java:672) ~[lettuce-core-5.1.8.RELEASE.jar:na]</span><br><span class="line">	at io.lettuce.core.protocol.CommandHandler.decode(CommandHandler.java:667) ~[lettuce-core-5.1.8.RELEASE.jar:na]</span><br><span class="line">	at io.lettuce.core.protocol.CommandHandler.decode(CommandHandler.java:587) ~[lettuce-core-5.1.8.RELEASE.jar:na]</span><br><span class="line">	at io.lettuce.core.protocol.CommandHandler.channelRead(CommandHandler.java:556</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>redis</category>
+      </categories>
+      <tags>
+        <tag>lua</tag>
       </tags>
   </entry>
   <entry>
@@ -1586,6 +1586,135 @@
       </tags>
   </entry>
   <entry>
+    <title>地址栏输入url之后经历的过程</title>
+    <url>/essay/cf97c711.html</url>
+    <content><![CDATA[<h1 id="在地址栏输入URL后，经历了那些过程"><a href="#在地址栏输入URL后，经历了那些过程" class="headerlink" title="在地址栏输入URL后，经历了那些过程"></a>在地址栏输入URL后，经历了那些过程</h1><h2 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h2><ol>
+<li>DNS域名解析；</li>
+<li>建立TCP连接；</li>
+<li>发送HTTP请求；</li>
+<li>服务器处理请求；</li>
+<li>返回响应结果；</li>
+<li>关闭TCP连接；</li>
+<li>浏览器解析HTML；</li>
+<li>浏览器布局渲染；</li>
+</ol>
+<a id="more"></a>
+
+<h2 id="DNS域名解析"><a href="#DNS域名解析" class="headerlink" title="DNS域名解析"></a>DNS域名解析</h2><p>DNS是应用层协议，用于将用户提供的主机名解析为ip地址</p>
+<p>我们在浏览器输入网址，其实就是要向服务器请求我们想要的页面内容，所以浏览器首先要确认的是域名所对应的服务器在哪里。将域名解析成对应的服务器IP地址这项工作，是由DNS服务器来完成的。</p>
+<p>客户端收到你输入的域名地址后，它首先去找本地的hosts文件，检查在该文件中是否有相应的域名、IP对应关系，如果有，则向其IP地址发送请求，如果没有，再去找DNS服务器。一般用户很少去编辑修改hosts文件。</p>
+<p>解析过程：</p>
+<ol>
+<li><p>首先搜索浏览器自身的DNS缓存（缓存命中），如果有，解析结束。浏览器自身的缓存时间比较短，可以通过TTL来进行设置，大概能存储1000条缓存。</p>
+</li>
+<li><p>浏览器自身缓存没有（缓存未命中）就去操作系统的缓存中查找</p>
+</li>
+<li><p>当浏览器及系统缓存中均无域名对应IP则进入路由器缓存中检查 host文件</p>
+<p><strong>以上三步均为客服端的DNS缓存，都没有找的话就递归地去域名服务器去查找</strong></p>
+</li>
+<li><p>请求本地域名服务器（LDNS）解析域名</p>
+</li>
+<li><p>LDNS仍然没有命中，就直接跳到Root Server 域名服务器请求解析</p>
+</li>
+<li><p>根域名服务器返回给LDNS一个所查询域的主域名服务器（gTLD Server，例如 .com .cn等）</p>
+</li>
+<li><p>LDNS再发送请求给上一步返回的gTLD</p>
+</li>
+<li><p>接受请求的gTLD查找并返回这个域名对应的Name Server（网站注册的域名服务器）的地址</p>
+</li>
+<li><p>Name Server根据映射关系表找到目标ip，返回给LDNS</p>
+</li>
+<li><p>LDNS缓存这个域名和对应的ip并把解析的结果返回给用户，解析结束！</p>
+</li>
+</ol>
+<p><img src="/essay/cf97c711/dns1.png" alt="dns1"></p>
+<p><img src="/essay/cf97c711/dnschax.png" alt="dnschax"></p>
+<h2 id="TCP-IP三握四挥"><a href="#TCP-IP三握四挥" class="headerlink" title="TCP/IP三握四挥"></a>TCP/IP三握四挥</h2><p><code>三次握手的目的</code><br>三次握手的最主要目的是保证连接是双工的，可靠更多的是通过重传机制来保证的。<br><code>为什么是三次握手</code><br>为了保证服务端能收接受到客户端的信息并能做出正确的应答而进行前两次(第一次和第二次)握手，为了保证客户端能够接收到服务端的信息并能做出正确的应答而进行后两次(第二次和第三次)握手。<br><code>三次握手的过程（建立连接）</code></p>
+<ul>
+<li>客户端发送SYN请求，进入SYN_SEND状态</li>
+<li>服务端收到SYN请求，并返回一个ACK应答，并发送一个SYN其请求，服务器进入SYN_RECV状态</li>
+<li>客户端收到服务端的SYN请求和ACK应答，发送ACK应答，客户端进入ESTABLISH状态，服务端收到应答后进入ESTABLISH。</li>
+<li>如果没有收到ACK，数据包根据TCP重传机制进行重传</li>
+</ul>
+<p><img src="/essay/cf97c711/%E5%BB%BA%E7%AB%8Btcp%E9%93%BE%E6%8E%A5.png" alt="建立tcp链接"></p>
+<p><code>四次挥手（断开连接）</code></p>
+<ul>
+<li>客户端发送FIN包，请求断开连接，客户端进入FIN_WAIT1状态</li>
+<li>服务端收到FIN包后返回应答，进入CLOSE_WAIT状态</li>
+<li>客户端收到FIN的应答后进入FIN_WAIT2状态</li>
+<li>服务端发送FIN请求包，进入LAST_ACK状态</li>
+<li>客户端收到FIN请求包后，发送应答进入TIME_WAIT状态</li>
+<li>服务器收到ACK应答后，进入close状态</li>
+</ul>
+<p><img src="/essay/cf97c711/%E5%85%B3%E9%97%ADtcp%E8%BF%9E%E6%8E%A5.png" alt="关闭tcp连接"></p>
+<p><code>为什么连接三次就够了，断开为什么需要四次</code></p>
+<p>因为连接时，调用socket的connect函数发送SYN包，而服务器端只是accept一下，就一次发送了SYN和ACK标志位，而断开连接时我们都要调用各自的close函数结束这段socket，所以两次close分别触发了两次FIN包，导致没有和ACK合并为一个包，所以断开要4次握手。<br><code>请求头 Connection作用</code><br>请求头 Connection，Connection设置为 keep-alive用于说明 客户端这边设置的是，本次HTTP请求之后并不需要关闭TCP连接，这样可以使下次HTTP请求使用相同的TCP通道，节省TCP建立连接的时间</p>
+<h2 id="发起http请求"><a href="#发起http请求" class="headerlink" title="发起http请求"></a>发起http请求</h2><p><code>HTTP请求报文的三个部分</code></p>
+<ul>
+<li>请求行：用于描述客户端的请求方式，请求的资源名称以及使用的HTTP协议的版本号（例：GET/books/java.html HTTP/1.1）</li>
+<li>请求头：用于描述客户端请求哪台主机，以及客户端的一些环境信息等</li>
+<li>请求正文：当使用POST, PUT等方法时，通常需要客户端向服务器传递数据</li>
+</ul>
+<p><img src="/essay/cf97c711/%E6%8A%A5%E6%96%87%E7%BB%93%E6%9E%84.png" alt="报文结构"></p>
+<p><code>GET和POST区别</code></p>
+<ul>
+<li>GET在浏览器回退时是无害的，POST会再次提交请求</li>
+<li>GET产生的URL地址可以被BookMark，而POST不可以</li>
+<li>GET请求会被浏览器主动cache，POST不会，除非主动设置</li>
+<li>GET请求只能进行URL编码，而POST支持多种编码方式</li>
+<li>GET请求参数会被完整的保留在浏览器历史记录中，POST参数不会保留</li>
+<li>GET请求在URL中传递的参数是有长度限制的，POST没有</li>
+<li>GET只接受ASCII字符，POST没有限制</li>
+<li>GET比POST更不安全，GET参数都暴露在了URL上</li>
+<li>GET参数通过URL传递，POST参数放在Request Body中</li>
+<li><strong><em>GET产生一个TCP数据包，POST产生两个TCP数据包</em></strong>（重大区别）</li>
+</ul>
+<p>GET：浏览器会把http header 和data一并发出去 服务器响应200 ok<br>POST：浏览器先发送header，服务器响应100 继续 浏览器再发送data，服务器响应 200 ok（Firefox只发一次）</p>
+<blockquote>
+<p>本质上是没有区别的，GET和POST是HTTP协议中的两种发送请求的方法。HTTP是基于TCP/IP的关于数据<br>如何在万维网中如何通信的协议。HTTP的底层是TCP/IP。所以GET和POST的底层也是TCP/IP，也就是说，<br>GET/POST都是TCP链接。GET和POST能做的事情是一样一样的。给GET加上request body，给POST带上<br>url参数，技术上是完全行的通的。 </p>
+</blockquote>
+<h2 id="服务器响应http请求，浏览器得到html代码"><a href="#服务器响应http请求，浏览器得到html代码" class="headerlink" title="服务器响应http请求，浏览器得到html代码"></a>服务器响应http请求，浏览器得到html代码</h2><p><code>HTTP响应也由三部分组成</code>：</p>
+<ul>
+<li><p>状态码：表示服务器对请求的处理结果</p>
+<p>1xx：信息，请求收到，继续处理</p>
+<p>2xx：成功，行为被成功地接受、理解和采纳</p>
+<p>3xx：重定向，为完成请求，必须进一步执行的动作</p>
+<p>4xx：客户端错误，请求包含语法错误或者请求无法实现</p>
+<p>5xx：服务器错误，服务器不能实现一种明显无效的请求</p>
+</li>
+<li><p>响应头：响应头用于描述服务器的基本信息，以及客户端如何处理数据</p>
+</li>
+<li><p>实体内容：服务器返回给客户端的数据</p>
+</li>
+</ul>
+<h2 id="浏览器解析html代码，并请求代码中所需的资源"><a href="#浏览器解析html代码，并请求代码中所需的资源" class="headerlink" title="浏览器解析html代码，并请求代码中所需的资源"></a>浏览器解析html代码，并请求代码中所需的资源</h2><ul>
+<li>浏览器开始载入html代码，发现<code>&lt;head&gt;</code>标签内有一个<code>&lt;link&gt;</code>标签引用外部CSS文件</li>
+<li>浏览器又发出CSS文件的请求，服务器返回这个CSS文件</li>
+<li>浏览器继续载入html中<code>&lt;body&gt;</code>部分的代码，并且CSS文件已经拿到手了，可以开始渲染页面了</li>
+<li>浏览器在代码中发现一个<code>&lt;img&gt;</code>标签引用了一张图片，向服务器发出请求。此时浏览器不会等到图片下载完，而是继续渲染后面的代码（Connection设置为 keep-alive）</li>
+<li>服务器返回图片文件，由于图片占用了一定面积，影响了后面段落的排布，因此浏览器需要回过头来重新渲染这部分代码</li>
+<li>浏览器发现了一个包含一行Javascript代码<code>&lt;script&gt;</code>的标签，赶快运行它</li>
+<li>Javascript脚本执行（style.display=”none”）这条语句，它命令浏览器隐藏掉代码中的某个<code>&lt;div&gt;</code>，少了一个元素，浏览器不得不重新渲染这部分代码</li>
+<li>终于执行到了的到来并没有结束，用户点了一下界面中的“换肤”按钮，Javascript让浏览器换了一下标签的CSS路径；</li>
+<li>浏览器召集了在座的各位<code>&lt;div&gt;&lt;span&gt;&lt;ul&gt;&lt;li&gt;</code>们，“大伙儿收拾收拾行李，咱得重新来过……”，浏览器向服务器请求了新的CSS文件，重新渲染页面。</li>
+</ul>
+<h2 id="浏览器渲染页面"><a href="#浏览器渲染页面" class="headerlink" title="浏览器渲染页面"></a>浏览器渲染页面</h2><ul>
+<li>解析html文件构成 DOM树</li>
+<li>解析CSS文件构成渲染树</li>
+<li>边解析，边渲染</li>
+<li>JS 单线程运行，JS有可能修改DOM结构，意味着JS执行完成前，后续所有资源的下载是没有必要的，所以JS是单线程，会阻塞后续资源下载</li>
+</ul>
+<p><code>JS加载</code></p>
+<ul>
+<li>不能并行下载和解析（阻塞下载）</li>
+<li>当引用了JS的时候，浏览器发送1个js request就会一直等待该request的返回。因为浏览器需要1个稳定的DOM树结构，而JS中很有可能有代码直接改变了DOM树结构，比如使用 document.write 或 appendChild,甚至是直接使用的location.href进行跳转，浏览器为了防止出现JS修改DOM树，需要重新构建DOM树的情况，所以 就会阻塞其他的下载和呈现。</li>
+</ul>
+<p>参考链接：</p>
+<p><a href="https://blog.csdn.net/lc13571525583/article/details/90732553">https://blog.csdn.net/lc13571525583/article/details/90732553</a></p>
+<p><a href="https://www.cnblogs.com/xiaoxin-test/p/13559905.html">https://www.cnblogs.com/xiaoxin-test/p/13559905.html</a></p>
+]]></content>
+  </entry>
+  <entry>
     <title>垃圾回收算法</title>
     <url>/essay/ac7099b6.html</url>
     <content><![CDATA[<h1 id="垃圾回收相关算法"><a href="#垃圾回收相关算法" class="headerlink" title="垃圾回收相关算法"></a>垃圾回收相关算法</h1><blockquote>
@@ -1767,135 +1896,6 @@
       <tags>
         <tag>gc</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>地址栏输入url之后经历的过程</title>
-    <url>/essay/cf97c711.html</url>
-    <content><![CDATA[<h1 id="在地址栏输入URL后，经历了那些过程"><a href="#在地址栏输入URL后，经历了那些过程" class="headerlink" title="在地址栏输入URL后，经历了那些过程"></a>在地址栏输入URL后，经历了那些过程</h1><h2 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h2><ol>
-<li>DNS域名解析；</li>
-<li>建立TCP连接；</li>
-<li>发送HTTP请求；</li>
-<li>服务器处理请求；</li>
-<li>返回响应结果；</li>
-<li>关闭TCP连接；</li>
-<li>浏览器解析HTML；</li>
-<li>浏览器布局渲染；</li>
-</ol>
-<a id="more"></a>
-
-<h2 id="DNS域名解析"><a href="#DNS域名解析" class="headerlink" title="DNS域名解析"></a>DNS域名解析</h2><p>DNS是应用层协议，用于将用户提供的主机名解析为ip地址</p>
-<p>我们在浏览器输入网址，其实就是要向服务器请求我们想要的页面内容，所以浏览器首先要确认的是域名所对应的服务器在哪里。将域名解析成对应的服务器IP地址这项工作，是由DNS服务器来完成的。</p>
-<p>客户端收到你输入的域名地址后，它首先去找本地的hosts文件，检查在该文件中是否有相应的域名、IP对应关系，如果有，则向其IP地址发送请求，如果没有，再去找DNS服务器。一般用户很少去编辑修改hosts文件。</p>
-<p>解析过程：</p>
-<ol>
-<li><p>首先搜索浏览器自身的DNS缓存（缓存命中），如果有，解析结束。浏览器自身的缓存时间比较短，可以通过TTL来进行设置，大概能存储1000条缓存。</p>
-</li>
-<li><p>浏览器自身缓存没有（缓存未命中）就去操作系统的缓存中查找</p>
-</li>
-<li><p>当浏览器及系统缓存中均无域名对应IP则进入路由器缓存中检查 host文件</p>
-<p><strong>以上三步均为客服端的DNS缓存，都没有找的话就递归地去域名服务器去查找</strong></p>
-</li>
-<li><p>请求本地域名服务器（LDNS）解析域名</p>
-</li>
-<li><p>LDNS仍然没有命中，就直接跳到Root Server 域名服务器请求解析</p>
-</li>
-<li><p>根域名服务器返回给LDNS一个所查询域的主域名服务器（gTLD Server，例如 .com .cn等）</p>
-</li>
-<li><p>LDNS再发送请求给上一步返回的gTLD</p>
-</li>
-<li><p>接受请求的gTLD查找并返回这个域名对应的Name Server（网站注册的域名服务器）的地址</p>
-</li>
-<li><p>Name Server根据映射关系表找到目标ip，返回给LDNS</p>
-</li>
-<li><p>LDNS缓存这个域名和对应的ip并把解析的结果返回给用户，解析结束！</p>
-</li>
-</ol>
-<p><img src="/essay/cf97c711/dns1.png" alt="dns1"></p>
-<p><img src="/essay/cf97c711/dnschax.png" alt="dnschax"></p>
-<h2 id="TCP-IP三握四挥"><a href="#TCP-IP三握四挥" class="headerlink" title="TCP/IP三握四挥"></a>TCP/IP三握四挥</h2><p><code>三次握手的目的</code><br>三次握手的最主要目的是保证连接是双工的，可靠更多的是通过重传机制来保证的。<br><code>为什么是三次握手</code><br>为了保证服务端能收接受到客户端的信息并能做出正确的应答而进行前两次(第一次和第二次)握手，为了保证客户端能够接收到服务端的信息并能做出正确的应答而进行后两次(第二次和第三次)握手。<br><code>三次握手的过程（建立连接）</code></p>
-<ul>
-<li>客户端发送SYN请求，进入SYN_SEND状态</li>
-<li>服务端收到SYN请求，并返回一个ACK应答，并发送一个SYN其请求，服务器进入SYN_RECV状态</li>
-<li>客户端收到服务端的SYN请求和ACK应答，发送ACK应答，客户端进入ESTABLISH状态，服务端收到应答后进入ESTABLISH。</li>
-<li>如果没有收到ACK，数据包根据TCP重传机制进行重传</li>
-</ul>
-<p><img src="/essay/cf97c711/%E5%BB%BA%E7%AB%8Btcp%E9%93%BE%E6%8E%A5.png" alt="建立tcp链接"></p>
-<p><code>四次挥手（断开连接）</code></p>
-<ul>
-<li>客户端发送FIN包，请求断开连接，客户端进入FIN_WAIT1状态</li>
-<li>服务端收到FIN包后返回应答，进入CLOSE_WAIT状态</li>
-<li>客户端收到FIN的应答后进入FIN_WAIT2状态</li>
-<li>服务端发送FIN请求包，进入LAST_ACK状态</li>
-<li>客户端收到FIN请求包后，发送应答进入TIME_WAIT状态</li>
-<li>服务器收到ACK应答后，进入close状态</li>
-</ul>
-<p><img src="/essay/cf97c711/%E5%85%B3%E9%97%ADtcp%E8%BF%9E%E6%8E%A5.png" alt="关闭tcp连接"></p>
-<p><code>为什么连接三次就够了，断开为什么需要四次</code></p>
-<p>因为连接时，调用socket的connect函数发送SYN包，而服务器端只是accept一下，就一次发送了SYN和ACK标志位，而断开连接时我们都要调用各自的close函数结束这段socket，所以两次close分别触发了两次FIN包，导致没有和ACK合并为一个包，所以断开要4次握手。<br><code>请求头 Connection作用</code><br>请求头 Connection，Connection设置为 keep-alive用于说明 客户端这边设置的是，本次HTTP请求之后并不需要关闭TCP连接，这样可以使下次HTTP请求使用相同的TCP通道，节省TCP建立连接的时间</p>
-<h2 id="发起http请求"><a href="#发起http请求" class="headerlink" title="发起http请求"></a>发起http请求</h2><p><code>HTTP请求报文的三个部分</code></p>
-<ul>
-<li>请求行：用于描述客户端的请求方式，请求的资源名称以及使用的HTTP协议的版本号（例：GET/books/java.html HTTP/1.1）</li>
-<li>请求头：用于描述客户端请求哪台主机，以及客户端的一些环境信息等</li>
-<li>请求正文：当使用POST, PUT等方法时，通常需要客户端向服务器传递数据</li>
-</ul>
-<p><img src="/essay/cf97c711/%E6%8A%A5%E6%96%87%E7%BB%93%E6%9E%84.png" alt="报文结构"></p>
-<p><code>GET和POST区别</code></p>
-<ul>
-<li>GET在浏览器回退时是无害的，POST会再次提交请求</li>
-<li>GET产生的URL地址可以被BookMark，而POST不可以</li>
-<li>GET请求会被浏览器主动cache，POST不会，除非主动设置</li>
-<li>GET请求只能进行URL编码，而POST支持多种编码方式</li>
-<li>GET请求参数会被完整的保留在浏览器历史记录中，POST参数不会保留</li>
-<li>GET请求在URL中传递的参数是有长度限制的，POST没有</li>
-<li>GET只接受ASCII字符，POST没有限制</li>
-<li>GET比POST更不安全，GET参数都暴露在了URL上</li>
-<li>GET参数通过URL传递，POST参数放在Request Body中</li>
-<li><strong><em>GET产生一个TCP数据包，POST产生两个TCP数据包</em></strong>（重大区别）</li>
-</ul>
-<p>GET：浏览器会把http header 和data一并发出去 服务器响应200 ok<br>POST：浏览器先发送header，服务器响应100 继续 浏览器再发送data，服务器响应 200 ok（Firefox只发一次）</p>
-<blockquote>
-<p>本质上是没有区别的，GET和POST是HTTP协议中的两种发送请求的方法。HTTP是基于TCP/IP的关于数据<br>如何在万维网中如何通信的协议。HTTP的底层是TCP/IP。所以GET和POST的底层也是TCP/IP，也就是说，<br>GET/POST都是TCP链接。GET和POST能做的事情是一样一样的。给GET加上request body，给POST带上<br>url参数，技术上是完全行的通的。 </p>
-</blockquote>
-<h2 id="服务器响应http请求，浏览器得到html代码"><a href="#服务器响应http请求，浏览器得到html代码" class="headerlink" title="服务器响应http请求，浏览器得到html代码"></a>服务器响应http请求，浏览器得到html代码</h2><p><code>HTTP响应也由三部分组成</code>：</p>
-<ul>
-<li><p>状态码：表示服务器对请求的处理结果</p>
-<p>1xx：信息，请求收到，继续处理</p>
-<p>2xx：成功，行为被成功地接受、理解和采纳</p>
-<p>3xx：重定向，为完成请求，必须进一步执行的动作</p>
-<p>4xx：客户端错误，请求包含语法错误或者请求无法实现</p>
-<p>5xx：服务器错误，服务器不能实现一种明显无效的请求</p>
-</li>
-<li><p>响应头：响应头用于描述服务器的基本信息，以及客户端如何处理数据</p>
-</li>
-<li><p>实体内容：服务器返回给客户端的数据</p>
-</li>
-</ul>
-<h2 id="浏览器解析html代码，并请求代码中所需的资源"><a href="#浏览器解析html代码，并请求代码中所需的资源" class="headerlink" title="浏览器解析html代码，并请求代码中所需的资源"></a>浏览器解析html代码，并请求代码中所需的资源</h2><ul>
-<li>浏览器开始载入html代码，发现<code>&lt;head&gt;</code>标签内有一个<code>&lt;link&gt;</code>标签引用外部CSS文件</li>
-<li>浏览器又发出CSS文件的请求，服务器返回这个CSS文件</li>
-<li>浏览器继续载入html中<code>&lt;body&gt;</code>部分的代码，并且CSS文件已经拿到手了，可以开始渲染页面了</li>
-<li>浏览器在代码中发现一个<code>&lt;img&gt;</code>标签引用了一张图片，向服务器发出请求。此时浏览器不会等到图片下载完，而是继续渲染后面的代码（Connection设置为 keep-alive）</li>
-<li>服务器返回图片文件，由于图片占用了一定面积，影响了后面段落的排布，因此浏览器需要回过头来重新渲染这部分代码</li>
-<li>浏览器发现了一个包含一行Javascript代码<code>&lt;script&gt;</code>的标签，赶快运行它</li>
-<li>Javascript脚本执行（style.display=”none”）这条语句，它命令浏览器隐藏掉代码中的某个<code>&lt;div&gt;</code>，少了一个元素，浏览器不得不重新渲染这部分代码</li>
-<li>终于执行到了的到来并没有结束，用户点了一下界面中的“换肤”按钮，Javascript让浏览器换了一下标签的CSS路径；</li>
-<li>浏览器召集了在座的各位<code>&lt;div&gt;&lt;span&gt;&lt;ul&gt;&lt;li&gt;</code>们，“大伙儿收拾收拾行李，咱得重新来过……”，浏览器向服务器请求了新的CSS文件，重新渲染页面。</li>
-</ul>
-<h2 id="浏览器渲染页面"><a href="#浏览器渲染页面" class="headerlink" title="浏览器渲染页面"></a>浏览器渲染页面</h2><ul>
-<li>解析html文件构成 DOM树</li>
-<li>解析CSS文件构成渲染树</li>
-<li>边解析，边渲染</li>
-<li>JS 单线程运行，JS有可能修改DOM结构，意味着JS执行完成前，后续所有资源的下载是没有必要的，所以JS是单线程，会阻塞后续资源下载</li>
-</ul>
-<p><code>JS加载</code></p>
-<ul>
-<li>不能并行下载和解析（阻塞下载）</li>
-<li>当引用了JS的时候，浏览器发送1个js request就会一直等待该request的返回。因为浏览器需要1个稳定的DOM树结构，而JS中很有可能有代码直接改变了DOM树结构，比如使用 document.write 或 appendChild,甚至是直接使用的location.href进行跳转，浏览器为了防止出现JS修改DOM树，需要重新构建DOM树的情况，所以 就会阻塞其他的下载和呈现。</li>
-</ul>
-<p>参考链接：</p>
-<p><a href="https://blog.csdn.net/lc13571525583/article/details/90732553">https://blog.csdn.net/lc13571525583/article/details/90732553</a></p>
-<p><a href="https://www.cnblogs.com/xiaoxin-test/p/13559905.html">https://www.cnblogs.com/xiaoxin-test/p/13559905.html</a></p>
-]]></content>
   </entry>
   <entry>
     <title>常用反射工具类</title>
